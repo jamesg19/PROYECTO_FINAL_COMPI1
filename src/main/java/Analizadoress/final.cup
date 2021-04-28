@@ -1,0 +1,470 @@
+/*JAMES GRAMAJO COMPILADORES1 201731172*/
+package Analizadoress;
+import java_cup.runtime.Symbol;
+import java_cup.runtime.XMLElement;
+import java.util.ArrayList;
+
+parser code
+{:
+	//constructor
+	private Symbol sym;
+	public parser( LexerCup lex){
+	 super(lex);
+	}
+	public void report_error(String message, Object info){
+		System.out.println("\nREPORT ERROR");
+	}
+	public void report_fatal_error(String message, Object info){
+		System.out.println("\nREPORT FATAL");
+	}
+	public void syntax_error(Symbol curl_token){
+		System.out.println("\nSE ESPERABA: "+symbl_name_from_id(expected_token_ids().get(0)));
+        System.out.println("syntaxerr: " + symbl_name_from_id(cur_token.sym) +" Columna: "+cur_token.right+" Linea: "+cur_token.left+" Valor:"+cur_token.value);
+	}
+	public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        	System.out.println("Error síntactico  " +  (s.left)+ " columna "+(s.right)+". palabra " + s.value ); 
+    	}
+		protected int error_sync_size() {
+        return 1;
+    }
+
+:};
+//terminal de C_GCIC
+terminal C_GCIC, C_HEAD, C_H1, C_LINK, C_BODY, C_SPAM, C_INPUT, C_TEXTAREA, C_SELECT, C_OPTION, C_DIV, C_IMG, C_BR, C_BUTTON;
+
+//terminal de colores
+terminal  COLOR;
+
+terminal HREF, BACKGROUND, FONT_SIZE;
+
+terminal TEXTO, TEXTO_ID, ALL;
+
+//terminal tipos de letra 
+terminal TIPOS_LETRA;
+
+//LINEACION DE TEXTO terminal
+terminal TEXT_ALIGN, LEFT, RIGH, CENTER, JUSTIFY;
+
+terminal
+TYPE, TIPOS_DE_INPUT, ID, NAME, COLS, ROWS, CLASS,  ROW, COLUMN, SRC, WIDTH, HEIGHT, ALT, ONCLICK, C_SCRIPTING, PROCESS_, ON_LOAD;
+
+terminal RGB_COLOR, CTE_COLOR, INTEGER, DECIMAL, BOOLEAN, TRUE, FALSE, CHAR, STRING, IGUALDAD, IGUAL, DIFERENCIACION, MENOR_QUE, MENOR_IGUAL, MAYOR_QUE, MAYOR_IGUAK, MAYOR_IGUAL, 
+OR, AND, NOT, ASC, DESC, LETPAR_NUM, LETIMPAR_NUM, REVERSE, CARACTER_ALEATORIO, NUM_ALEATORIO, ALERT_INFO, EXIT, MODO, GETELEMENBYID, INIT, END, 
+IF, ELSE, THEN, REPEAT, HUNTIL, INSERT, WHILE, THENWHILE, ABRE_INIT, CIERRA_INIT, PARENTESIS_ABRE, PARENTESIS_CIERRA, CORCHETE_ABRE, CORCHETE_CIERRA, COMILLA, TI, TD;
+
+//operadores ARITMETICOS
+terminal SUMA, RESTA, MULTIPLICACION, DIVISION, NUMERO;
+
+terminal FONT_FAMILY, ALINEACION, SIZE;
+terminal ABRE_C_H1, CIERRA_C_H1, ABRE_C_SPAM, CIERRA_C_SPAM, ABRE_C_P, CIERRA_C_P, ABRE_INPUT, CIERRA_INPUT, ABRE_TEXT_AREA, CIERRA_TEXT_AREA;
+
+/* No terminales */
+non terminal etiqueta_gcic, parametro_c_gcic, parametros_head, parametros_head1, parametros_head2, paramHeadUno, titulo, head, link, href, title, id, name;
+non terminal body, background,parametros_body, br;	 
+/*No terminales de C_H1*/
+non terminal parametros_h1, etiquetas_h1, id_h1, color_h1, font_size_h1, font_family_h1, text_align_h1;
+non terminal parametros_spam, etiquetas_spam, id_spam, color_spam, font_size_spam, font_family_spam, text_align_spam;
+non terminal parametros_cp, etiquetas_cp, id_cp, color_cp, font_size_cp, font_family_cp, text_align_cp;
+non terminal parametros_area, etiquetas_area, id_area, font_size_area, font_family_area, text_align_area, rows_area, cols_area;
+non terminal tipos_input, parametros_input, etiquetas_input, id_input, color_input, font_size_input, font_family_input, text_align_input;
+non terminal estado_inicial, bloque_INIT_END, instrucciones, sentencias_control, pametros_elseif, pametro_els, if;
+non terminal sentencias;
+//precedence left Suma, Resta;
+
+start with estado_inicial;
+
+estado_inicial ::=
+	
+	etiqueta_gcic
+	
+	//sentencias
+;
+
+//etiquetas HTML C_GCIC
+etiqueta_gcic::=
+	MENOR_QUE C_GCIC parametro_c_gcic MAYOR_QUE
+	head
+	body
+	MENOR_QUE DIVISION C_GCIC MAYOR_QUE
+	
+	| MENOR_QUE C_GCIC  MAYOR_QUE
+	head
+	body
+	MENOR_QUE DIVISION C_GCIC MAYOR_QUE
+	
+
+;
+parametro_c_gcic::=
+	CORCHETE_ABRE id CORCHETE_CIERRA CORCHETE_ABRE name CORCHETE_CIERRA
+	| CORCHETE_ABRE name CORCHETE_CIERRA CORCHETE_ABRE id CORCHETE_CIERRA
+	| CORCHETE_ABRE name CORCHETE_CIERRA
+	| CORCHETE_ABRE id CORCHETE_CIERRA
+;
+id::=
+	 ID IGUAL COMILLA TEXTO_ID:ts COMILLA 		{: System.out.println(" ID "+ts.toString());:}	
+;
+
+name::=
+	NAME IGUAL COMILLA TEXTO:es COMILLA	{: System.out.println(" NAME "+es.toString());:}
+;
+head::=
+	MENOR_QUE C_HEAD MAYOR_QUE
+	parametros_head 
+	MENOR_QUE DIVISION C_HEAD MAYOR_QUE
+
+	| MENOR_QUE C_HEAD MAYOR_QUE 
+	titulo
+	MENOR_QUE DIVISION C_HEAD MAYOR_QUE
+
+	| MENOR_QUE C_HEAD MAYOR_QUE 
+	
+	MENOR_QUE DIVISION C_HEAD MAYOR_QUE
+	
+
+;
+parametros_head::=
+	  link parametros_head2
+	| titulo  parametros_head1
+	| parametros_head1
+;
+parametros_head1::=
+	 link
+;
+parametros_head2::=
+	titulo
+;
+
+link::=
+	MENOR_QUE C_LINK  CORCHETE_ABRE href CORCHETE_CIERRA MAYOR_QUE
+	MENOR_QUE DIVISION C_LINK MAYOR_QUE
+	| MENOR_QUE C_LINK  CORCHETE_ABRE  CORCHETE_CIERRA MAYOR_QUE
+	MENOR_QUE DIVISION C_LINK MAYOR_QUE
+;
+
+titulo::=
+	TI TEXTO:a 	TD  {:System.out.println(" Titulo: "+a.toString()); :}
+	| TI TD
+;
+
+href::=
+	HREF IGUAL COMILLA TEXTO:linkk COMILLA	{:System.out.println(" LINK "+linkk.toString());:} 	
+;
+
+body::=
+	MENOR_QUE C_BODY CORCHETE_ABRE background CORCHETE_CIERRA MAYOR_QUE
+	parametros_body
+	MENOR_QUE DIVISION C_BODY MAYOR_QUE
+	| MENOR_QUE C_BODY CORCHETE_ABRE CORCHETE_CIERRA MAYOR_QUE
+	parametros_body
+	MENOR_QUE DIVISION C_BODY MAYOR_QUE
+;
+background::=
+	BACKGROUND IGUAL COMILLA RGB_COLOR:back COMILLA		{: System.out.println(" BACKGROUND RGB "+back.toString());:}
+	| BACKGROUND IGUAL COMILLA CTE_COLOR:ba COMILLA		{: System.out.println(" BACKGROUND constante de color: "+ba.toString());:}
+;
+//AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+//AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+parametros_body::=
+	parametros_body etiquetas_h1 
+	| etiquetas_h1
+	| parametros_body br 
+	| br
+	| parametros_body etiquetas_spam
+	| etiquetas_spam
+	| parametros_body etiquetas_cp
+	| etiquetas_cp
+	| parametros_body etiquetas_input
+	| etiquetas_input
+	| parametros_body etiquetas_area
+	| etiquetas_area
+;
+
+etiquetas_h1::=
+	ABRE_C_H1 parametros_h1 MAYOR_QUE TEXTO:txt CIERRA_C_H1
+	{: System.out.println(" TEXTO EN H1:  "+txt.toString());:}
+
+	| ABRE_C_H1 parametros_h1 MAYOR_QUE  CIERRA_C_H1 
+
+	| ABRE_C_H1  MAYOR_QUE TEXTO:txt CIERRA_C_H1
+	{: System.out.println(" TEXTO EN H1:  "+txt.toString());:}
+	| ABRE_C_H1  MAYOR_QUE  CIERRA_C_H1
+	
+;
+parametros_h1::=
+	CORCHETE_ABRE id_h1 CORCHETE_CIERRA parametros_h1
+	| CORCHETE_ABRE color_h1 CORCHETE_CIERRA parametros_h1
+	| CORCHETE_ABRE font_size_h1 CORCHETE_CIERRA parametros_h1
+	| CORCHETE_ABRE font_family_h1 CORCHETE_CIERRA parametros_h1
+	| CORCHETE_ABRE text_align_h1 CORCHETE_CIERRA parametros_h1
+	| CORCHETE_ABRE id_h1 CORCHETE_CIERRA 
+	| CORCHETE_ABRE color_h1 CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_size_h1 CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_family_h1 CORCHETE_CIERRA 
+	| CORCHETE_ABRE text_align_h1 CORCHETE_CIERRA
+	//| error:er {: System.out.println("Se esperaba aparametro de H1: "+er.toString());:}
+	
+;
+font_size_h1::=
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 		{: System.out.println(" FONT SIZE H1 "+s.toString());:}
+;
+font_family_h1::=
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY H1 "+s.toString());:}
+;
+text_align_h1::=
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 		{: System.out.println(" TEXT ALIGN H1 "+s.toString());:}	
+;
+id_h1::=
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 		{: System.out.println(" ID H1 "+s.toString());:}	
+;
+color_h1::=
+	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 		{: System.out.println(" CTE Color H1 "+s.toString());:}
+	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 		{: System.out.println(" RGB H1 "+s.toString());:}
+;
+br::=
+	MENOR_QUE C_BR MAYOR_QUE
+;
+
+//PARAMETROS DE LA ETIQUETA SPAM
+etiquetas_spam::=
+	ABRE_C_SPAM parametros_spam MAYOR_QUE TEXTO:txt CIERRA_C_SPAM
+	{: System.out.println(" TEXTO EN SPAM:  "+txt.toString());:}
+
+	| ABRE_C_SPAM parametros_spam MAYOR_QUE  CIERRA_C_SPAM 
+
+	| ABRE_C_SPAM  MAYOR_QUE TEXTO:txt CIERRA_C_SPAM
+	{: System.out.println(" TEXTO EN SPAM:  "+txt.toString());:}
+
+	| ABRE_C_SPAM  MAYOR_QUE  CIERRA_C_SPAM
+	
+;
+parametros_spam::=
+	CORCHETE_ABRE id_spam CORCHETE_CIERRA parametros_spam
+	| CORCHETE_ABRE color_spam CORCHETE_CIERRA parametros_spam
+	| CORCHETE_ABRE font_size_spam CORCHETE_CIERRA parametros_spam
+	| CORCHETE_ABRE font_family_spam CORCHETE_CIERRA parametros_spam
+	| CORCHETE_ABRE text_align_spam CORCHETE_CIERRA parametros_spam
+	| CORCHETE_ABRE id_spam CORCHETE_CIERRA 
+	| CORCHETE_ABRE color_spam CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_size_spam CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_family_spam CORCHETE_CIERRA 
+	| CORCHETE_ABRE text_align_spam CORCHETE_CIERRA
+	//| error:er {: System.out.println("Se esperaba aparametro de SPAM: "+er.toString());:}
+	
+;
+font_size_spam::=
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 		{: System.out.println(" FONT SIZE SPAM "+s.toString());:}
+;
+font_family_spam::=
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY SPAM "+s.toString());:}
+;
+text_align_spam::=
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 		{: System.out.println(" TEXT ALIGN SPAM "+s.toString());:}	
+;
+id_spam::=
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 		{: System.out.println(" ID SPAM "+s.toString());:}	
+;
+color_spam::=
+	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 		{: System.out.println(" CTE Color SPAM "+s.toString());:}
+	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 		{: System.out.println(" RGB SPAM "+s.toString());:}
+;
+
+//PARAMETROS DE LA ETIQUETA C_P
+etiquetas_cp::=
+	ABRE_C_P parametros_cp MAYOR_QUE TEXTO:txt CIERRA_C_P
+	{: System.out.println(" TEXTO EN CP:  "+txt.toString());:}
+	| ABRE_C_P parametros_cp MAYOR_QUE  CIERRA_C_P 
+	| ABRE_C_P  MAYOR_QUE TEXTO:txt CIERRA_C_P
+	{: System.out.println(" TEXTO EN CP:  "+txt.toString());:}
+	| ABRE_C_P  MAYOR_QUE  CIERRA_C_P
+;
+
+parametros_cp::=
+	CORCHETE_ABRE id_cp CORCHETE_CIERRA parametros_cp
+	| CORCHETE_ABRE color_cp CORCHETE_CIERRA parametros_cp
+	| CORCHETE_ABRE font_size_cp CORCHETE_CIERRA parametros_cp
+	| CORCHETE_ABRE font_family_cp CORCHETE_CIERRA parametros_cp
+	| CORCHETE_ABRE text_align_cp CORCHETE_CIERRA parametros_cp
+	| CORCHETE_ABRE id_cp CORCHETE_CIERRA 
+	| CORCHETE_ABRE color_cp CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_size_cp CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_family_cp CORCHETE_CIERRA 
+	| CORCHETE_ABRE text_align_cp CORCHETE_CIERRA
+	//| error:er {: System.out.println("Se esperaba parametro de CP: "+er.toString());:}	
+;
+font_size_cp::=
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 		{: System.out.println(" FONT SIZE CP "+s.toString());:}
+;
+font_family_cp::=
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY CP "+s.toString());:}
+;
+text_align_cp::=
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 		{: System.out.println(" TEXT ALIGN CP "+s.toString());:}	
+;
+id_cp::=
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 		{: System.out.println(" ID CP "+s.toString());:}	
+;
+color_cp::=
+	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 		{: System.out.println(" CTE Color CP "+s.toString());:}
+	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 		{: System.out.println(" RGB CP "+s.toString());:}
+;
+
+//PARAMETROS DE LA ETIQUETA INPUT
+etiquetas_input::=
+	ABRE_INPUT parametros_input MAYOR_QUE TEXTO:txt CIERRA_INPUT
+	{: System.out.println(" TEXTO EN INPUT:  "+txt.toString());:}
+
+	| ABRE_INPUT parametros_input MAYOR_QUE  CIERRA_INPUT
+
+	| ABRE_INPUT  MAYOR_QUE TEXTO:txt CIERRA_INPUT
+	{: System.out.println(" TEXTO EN INPUT:  "+txt.toString());:}
+
+	| ABRE_INPUT  MAYOR_QUE  CIERRA_INPUT
+	
+;
+
+
+parametros_input::=
+	CORCHETE_ABRE id_input CORCHETE_CIERRA parametros_input
+	| CORCHETE_ABRE color_input CORCHETE_CIERRA parametros_input
+	| CORCHETE_ABRE font_size_input CORCHETE_CIERRA parametros_input
+	| CORCHETE_ABRE font_family_input CORCHETE_CIERRA parametros_input
+	| CORCHETE_ABRE text_align_input CORCHETE_CIERRA parametros_input
+	| CORCHETE_ABRE tipos_input CORCHETE_CIERRA parametros_input
+	| CORCHETE_ABRE id_input CORCHETE_CIERRA 
+	| CORCHETE_ABRE color_input CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_size_input CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_family_input CORCHETE_CIERRA 
+	| CORCHETE_ABRE text_align_input CORCHETE_CIERRA
+	| CORCHETE_ABRE tipos_input CORCHETE_CIERRA
+	//| error:er {: System.out.println("Se esperaba parametro de INPUT: "+er.toString());:}
+;
+
+font_size_input::=
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 					{: System.out.println(" FONT SIZE INPUT "+s.toString());:}
+;
+font_family_input::=
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY INPUT "+s.toString());:}
+;
+text_align_input::=
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 			{: System.out.println(" TEXT ALIGN INPUT "+s.toString());:}	
+;
+id_input::=
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: System.out.println(" ID INPUT "+s.toString());:}	
+;
+color_input::=
+	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 				{: System.out.println(" CTE Color INPUT "+s.toString());:}
+	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 				{: System.out.println(" RGB INPUT "+s.toString());:}
+;
+tipos_input::=
+	TYPE IGUAL COMILLA TIPOS_DE_INPUT:input COMILLA			{: System.out.println(" TIPOS DE INPUT "+input.toString());:}
+;
+//PARAMETROS DEL TEXT AREA 
+etiquetas_area::=
+	ABRE_TEXT_AREA parametros_area MAYOR_QUE TEXTO:txt CIERRA_TEXT_AREA
+	{: System.out.println(" TEXTO EN TEXT AREA:  "+txt.toString());:}
+
+	| ABRE_TEXT_AREA parametros_area MAYOR_QUE  CIERRA_TEXT_AREA
+
+	| ABRE_TEXT_AREA  MAYOR_QUE TEXTO:txt CIERRA_TEXT_AREA
+	{: System.out.println(" TEXTO EN TEXT AREA:  "+txt.toString());:}
+
+	| ABRE_TEXT_AREA  MAYOR_QUE  CIERRA_TEXT_AREA
+	
+;
+
+
+parametros_area::=
+	CORCHETE_ABRE id_area CORCHETE_CIERRA parametros_area
+	| CORCHETE_ABRE font_size_area CORCHETE_CIERRA parametros_area
+	| CORCHETE_ABRE font_family_area CORCHETE_CIERRA parametros_area
+	| CORCHETE_ABRE text_align_area CORCHETE_CIERRA parametros_area
+	| CORCHETE_ABRE cols_area CORCHETE_CIERRA parametros_area
+	| CORCHETE_ABRE rows_area CORCHETE_CIERRA parametros_area
+	| CORCHETE_ABRE id_area CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_size_area CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_family_area CORCHETE_CIERRA 
+	| CORCHETE_ABRE text_align_area CORCHETE_CIERRA
+	| CORCHETE_ABRE cols_area CORCHETE_CIERRA
+	| CORCHETE_ABRE rows_area CORCHETE_CIERRA
+
+	//| error:er {: System.out.println("Se esperaba parametro de INPUT: "+er.toString());:}
+;
+
+font_size_area::=
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 					{: System.out.println(" FONT SIZE TEXT  AREA: "+s.toString());:}
+;
+font_family_area::=
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY TEXT AREA: "+s.toString());:}
+;
+text_align_area::=
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 			{: System.out.println(" TEXT ALIGN TEXT AREA: "+s.toString());:}	
+;
+id_area::=
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: System.out.println(" ID TEXT AREA: "+s.toString());:}	
+;
+cols_area::=
+	COLS IGUAL COMILLA NUMERO:s COMILLA 					{: System.out.println(" NUMERO COLS TEXT AREA "+s.toString());:}	
+;
+rows_area::=
+	ROWS IGUAL COMILLA NUMERO:s COMILLA 					{: System.out.println(" NUMERO ROWS TEXT AREA "+s.toString());:}	
+;
+
+
+
+
+
+
+
+
+
+sentencias::=
+	sentencias_control sentencias
+	| sentencias_control
+;
+sentencias_control::=
+    //primera forma
+   	if
+    bloque_INIT_END
+
+    //segunda forma--------------
+    | if 
+    bloque_INIT_END 
+    pametro_els
+
+    //tercera forma
+    | if   
+    bloque_INIT_END
+    pametros_elseif 
+    pametro_els
+
+;
+if::=
+	IF PARENTESIS_ABRE  PARENTESIS_CIERRA THEN
+;
+
+pametro_els::=
+    ELSE   
+    bloque_INIT_END
+;
+pametros_elseif::=
+    ELSE IF PARENTESIS_ABRE  PARENTESIS_CIERRA THEN
+    bloque_INIT_END {:System.out.println("aqui 1");:}
+
+    | pametros_elseif ELSE IF PARENTESIS_ABRE  PARENTESIS_CIERRA THEN
+    bloque_INIT_END  {:System.out.println("aqui 2");:}
+
+;
+bloque_INIT_END::=
+    INIT ABRE_INIT
+    //instrucciones
+    CIERRA_INIT END
+;
+instrucciones::=
+
+
+;
+
+
+
+
+/*ALGUN DIA SERE INGE :')*/
