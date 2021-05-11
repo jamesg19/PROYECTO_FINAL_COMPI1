@@ -8,120 +8,138 @@ package Analizadoress;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int TD = 95;
-  public static final int LEFT = 25;
-  public static final int CIERRA_TEXT_AREA = 113;
-  public static final int DIVISION = 99;
-  public static final int MENOR_IGUAL = 59;
-  public static final int MENOR_QUE = 58;
-  public static final int PARENTESIS_ABRE = 89;
-  public static final int COLUMN = 37;
-  public static final int TYPE = 29;
-  public static final int MODO = 75;
-  public static final int ROWS = 34;
-  public static final int CIERRA_C_H1 = 105;
-  public static final int PARENTESIS_CIERRA = 90;
-  public static final int ASC = 66;
-  public static final int NAME = 32;
-  public static final int ROW = 36;
-  public static final int TEXTO = 20;
-  public static final int INIT = 77;
+  public static final int TD = 97;
+  public static final int CIERRA_TEXT_AREA = 119;
+  public static final int DIVISION = 103;
+  public static final int MENOR_IGUAL = 60;
+  public static final int MENOR_QUE = 59;
+  public static final int PARENTESIS_ABRE = 90;
+  public static final int COLUMN = 35;
+  public static final int TYPE = 26;
+  public static final int ABRE_C_SCRIPTING = 130;
+  public static final int MODO = 76;
+  public static final int CIERRA_IMG = 123;
+  public static final int ROWS = 31;
+  public static final int CIERRA_C_H1 = 111;
+  public static final int PARENTESIS_CIERRA = 91;
+  public static final int TRUE_O_FALSE = 52;
+  public static final int ASC = 67;
+  public static final int NAME = 29;
+  public static final int ROW = 34;
+  public static final int TEXTO = 22;
+  public static final int NUMERO_ENTERO = 104;
+  public static final int INIT = 78;
   public static final int C_GCIC = 2;
-  public static final int ALT = 41;
-  public static final int TEXT_ALIGN = 24;
-  public static final int LETIMPAR_NUM = 69;
-  public static final int ALL = 22;
-  public static final int NUMERO = 100;
-  public static final int INTEGER = 48;
-  public static final int MAYOR_QUE = 60;
-  public static final int CORCHETE_ABRE = 91;
+  public static final int ALT = 39;
+  public static final int TEXT_ALIGN = 25;
+  public static final int COMILLA_SIMPLE = 95;
+  public static final int LETIMPAR_NUM = 70;
+  public static final int INTEGER = 49;
+  public static final int MAYOR_QUE = 61;
+  public static final int NUMERO_DECIMAL = 105;
+  public static final int CORCHETE_ABRE = 92;
   public static final int C_LINK = 5;
+  public static final int CIERRA_BUTTON = 121;
   public static final int C_OPTION = 11;
-  public static final int FALSE = 52;
-  public static final int BACKGROUND = 18;
-  public static final int NOT = 65;
-  public static final int CENTER = 27;
-  public static final int CIERRA_C_P = 109;
-  public static final int THENWHILE = 86;
+  public static final int BACKGROUND = 20;
+  public static final int NOT = 66;
+  public static final int CIERRA_C_P = 115;
+  public static final int THENWHILE = 87;
   public static final int C_SPAM = 7;
-  public static final int THEN = 81;
-  public static final int TIPOS_LETRA = 23;
-  public static final int ABRE_C_H1 = 104;
+  public static final int THEN = 82;
+  public static final int TIPOS_LETRA = 24;
+  public static final int ABRE_C_OPTION = 126;
+  public static final int ABRE_C_H1 = 110;
   public static final int C_BODY = 6;
-  public static final int WIDTH = 39;
+  public static final int WIDTH = 37;
+  public static final int REVERSE = 71;
   public static final int C_TEXTAREA = 9;
-  public static final int REVERSE = 70;
-  public static final int RGB_COLOR = 46;
-  public static final int IGUALDAD = 55;
-  public static final int CLASS = 35;
-  public static final int ALERT_INFO = 73;
+  public static final int RGB_COLOR = 45;
+  public static final int NOMBRE_VARIABLE = 47;
+  public static final int PUNTO_COMA = 98;
+  public static final int IGUALDAD = 56;
+  public static final int CLASS = 32;
+  public static final int ALERT_INFO = 74;
   public static final int C_DIV = 12;
   public static final int C_HEAD = 3;
-  public static final int GETELEMENBYID = 76;
-  public static final int NUM_ALEATORIO = 72;
-  public static final int HUNTIL = 83;
-  public static final int C_SCRIPTING = 43;
+  public static final int COMA = 99;
+  public static final int GETELEMENBYID = 77;
+  public static final int NUM_ALEATORIO = 73;
+  public static final int HUNTIL = 84;
+  public static final int C_SCRIPTING = 42;
   public static final int C_INPUT = 8;
-  public static final int CIERRA_INIT = 88;
-  public static final int TRUE = 51;
-  public static final int IGUAL = 56;
-  public static final int ABRE_TEXT_AREA = 112;
-  public static final int WHILE = 85;
-  public static final int COLS = 33;
-  public static final int DECIMAL = 49;
-  public static final int CHAR = 53;
-  public static final int BOOLEAN = 50;
-  public static final int JUSTIFY = 28;
-  public static final int ABRE_C_SPAM = 106;
-  public static final int ELSE = 80;
+  public static final int CIERRA_INIT = 89;
+  public static final int IGUAL = 57;
+  public static final int NOMBRE_METODO = 41;
+  public static final int ABRE_TEXT_AREA = 118;
+  public static final int WHILE = 86;
+  public static final int COLS = 30;
+  public static final int CIERRA_C_SELECT = 125;
+  public static final int DECIMAL = 50;
+  public static final int CHAR = 54;
+  public static final int BOOLEAN = 51;
+  public static final int ABRE_C_SPAM = 112;
+  public static final int ABRE_C_DIV = 128;
+  public static final int OR_O_AND = 53;
+  public static final int ELSE = 81;
+  public static final int URL = 17;
+  public static final int TIPOS_CLASE = 33;
   public static final int C_BR = 14;
+  public static final int ABRE_IMG = 122;
+  public static final int LINK = 19;
   public static final int EOF = 0;
-  public static final int SUMA = 96;
-  public static final int ABRE_INPUT = 110;
-  public static final int PROCESS_ = 44;
-  public static final int REPEAT = 82;
+  public static final int SUMA = 100;
+  public static final int CIERRA_C_DIV = 129;
+  public static final int ABRE_INPUT = 116;
+  public static final int PROCESS_ = 43;
+  public static final int REPEAT = 83;
   public static final int C_IMG = 13;
-  public static final int ABRE_INIT = 87;
-  public static final int DIFERENCIACION = 57;
-  public static final int TEXTO_ID = 21;
-  public static final int SRC = 38;
-  public static final int HREF = 17;
-  public static final int COMILLA = 93;
-  public static final int OR = 63;
-  public static final int EXIT = 74;
+  public static final int ABRE_INIT = 88;
+  public static final int DIFERENCIACION = 58;
+  public static final int TEXTO_ID = 23;
+  public static final int CIERRA_C_SCRIPTING = 131;
+  public static final int SRC = 36;
+  public static final int HREF = 18;
+  public static final int COMILLA = 94;
+  public static final int OR = 64;
+  public static final int EXIT = 75;
   public static final int error = 1;
-  public static final int RESTA = 97;
-  public static final int CIERRA_INPUT = 111;
-  public static final int IF = 79;
-  public static final int DESC = 67;
-  public static final int ID = 31;
+  public static final int RESTA = 101;
+  public static final int CIERRA_INPUT = 117;
+  public static final int IF = 80;
+  public static final int DESC = 68;
+  public static final int ID = 28;
   public static final int COLOR = 16;
-  public static final int ON_LOAD = 45;
+  public static final int ON_LOAD = 44;
   public static final int C_SELECT = 10;
-  public static final int END = 78;
+  public static final int END = 79;
+  public static final int UMENOS = 106;
   public static final int C_H1 = 4;
-  public static final int MULTIPLICACION = 98;
-  public static final int TIPOS_DE_INPUT = 30;
-  public static final int HEIGHT = 40;
-  public static final int ABRE_C_P = 108;
-  public static final int CARACTER_ALEATORIO = 71;
-  public static final int FONT_FAMILY = 101;
-  public static final int FONT_SIZE = 19;
-  public static final int INSERT = 84;
-  public static final int SIZE = 103;
-  public static final int ALINEACION = 102;
-  public static final int STRING = 54;
-  public static final int ONCLICK = 42;
-  public static final int CIERRA_C_SPAM = 107;
-  public static final int CTE_COLOR = 47;
-  public static final int AND = 64;
+  public static final int MULTIPLICACION = 102;
+  public static final int TIPOS_DE_INPUT = 27;
+  public static final int HEIGHT = 38;
+  public static final int ABRE_C_P = 114;
+  public static final int GLOBAL = 48;
+  public static final int CARACTER_ALEATORIO = 72;
+  public static final int FONT_FAMILY = 107;
+  public static final int FONT_SIZE = 21;
+  public static final int ABRE_C_SELECT = 124;
+  public static final int ABRE_BUTTON = 120;
+  public static final int INSERT = 85;
+  public static final int SIZE = 109;
+  public static final int ALINEACION = 108;
+  public static final int STRING = 55;
+  public static final int ONCLICK = 40;
+  public static final int CIERRA_C_SPAM = 113;
+  public static final int CTE_COLOR = 46;
+  public static final int AND = 65;
   public static final int C_BUTTON = 15;
-  public static final int RIGH = 26;
-  public static final int LETPAR_NUM = 68;
-  public static final int CORCHETE_CIERRA = 92;
-  public static final int MAYOR_IGUAL = 62;
-  public static final int TI = 94;
-  public static final int MAYOR_IGUAK = 61;
+  public static final int LETPAR_NUM = 69;
+  public static final int CORCHETE_CIERRA = 93;
+  public static final int CIERRA_C_OPTION = 127;
+  public static final int MAYOR_IGUAL = 63;
+  public static final int TI = 96;
+  public static final int MAYOR_IGUAK = 62;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -140,18 +158,15 @@ public class sym {
   "C_BR",
   "C_BUTTON",
   "COLOR",
+  "URL",
   "HREF",
+  "LINK",
   "BACKGROUND",
   "FONT_SIZE",
   "TEXTO",
   "TEXTO_ID",
-  "ALL",
   "TIPOS_LETRA",
   "TEXT_ALIGN",
-  "LEFT",
-  "RIGH",
-  "CENTER",
-  "JUSTIFY",
   "TYPE",
   "TIPOS_DE_INPUT",
   "ID",
@@ -159,6 +174,7 @@ public class sym {
   "COLS",
   "ROWS",
   "CLASS",
+  "TIPOS_CLASE",
   "ROW",
   "COLUMN",
   "SRC",
@@ -166,16 +182,19 @@ public class sym {
   "HEIGHT",
   "ALT",
   "ONCLICK",
+  "NOMBRE_METODO",
   "C_SCRIPTING",
   "PROCESS_",
   "ON_LOAD",
   "RGB_COLOR",
   "CTE_COLOR",
+  "NOMBRE_VARIABLE",
+  "GLOBAL",
   "INTEGER",
   "DECIMAL",
   "BOOLEAN",
-  "TRUE",
-  "FALSE",
+  "TRUE_O_FALSE",
+  "OR_O_AND",
   "CHAR",
   "STRING",
   "IGUALDAD",
@@ -217,13 +236,18 @@ public class sym {
   "CORCHETE_ABRE",
   "CORCHETE_CIERRA",
   "COMILLA",
+  "COMILLA_SIMPLE",
   "TI",
   "TD",
+  "PUNTO_COMA",
+  "COMA",
   "SUMA",
   "RESTA",
   "MULTIPLICACION",
   "DIVISION",
-  "NUMERO",
+  "NUMERO_ENTERO",
+  "NUMERO_DECIMAL",
+  "UMENOS",
   "FONT_FAMILY",
   "ALINEACION",
   "SIZE",
@@ -236,7 +260,19 @@ public class sym {
   "ABRE_INPUT",
   "CIERRA_INPUT",
   "ABRE_TEXT_AREA",
-  "CIERRA_TEXT_AREA"
+  "CIERRA_TEXT_AREA",
+  "ABRE_BUTTON",
+  "CIERRA_BUTTON",
+  "ABRE_IMG",
+  "CIERRA_IMG",
+  "ABRE_C_SELECT",
+  "CIERRA_C_SELECT",
+  "ABRE_C_OPTION",
+  "CIERRA_C_OPTION",
+  "ABRE_C_DIV",
+  "CIERRA_C_DIV",
+  "ABRE_C_SCRIPTING",
+  "CIERRA_C_SCRIPTING"
   };
 }
 

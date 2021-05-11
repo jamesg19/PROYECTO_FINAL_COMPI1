@@ -1,0 +1,65 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : April 29, 2021, 5:23:44 AM
+    Author     : James Gramajo 
+*/
+
+#source_code {
+            background-image:
+                                     -webkit-linear-gradient(left, white 10px, transparent 10px),
+                                     -webkit-linear-gradient(right, white 10px, transparent 10px),
+                                     -webkit-linear-gradient(white 30px, lightgray 30px, lightgray 31px, white 31px);
+            background-image:
+                                     -moz-linear-gradient(left, white 10px, transparent 10px),
+                                     -moz-linear-gradient(right, white 10px, transparent 10px),
+                                     -moz-linear-gradient(white 30px, lightgray 30px, lightgray 31px, white 31px);
+            background-image:
+                                     linear-gradient(left, white 10px, transparent 10px),
+                                     linear-gradient(right, white 10px, transparent 10px),
+                                     linear-gradient(white 30px, lightgray 30px, lightgray 31px, white 31px);
+            background-size:         100% 100%, 100% 100%, 100% 31px;
+            border:                  1px solid #000;
+            border-radius:           9px;
+            box-shadow:              inset -14em 0 99px 0 rgba(9, 99, 99, 0.5);
+            color:                   #000;
+            font-family:             monospace !important;
+            height:                  480px;
+            line-height:             31px;
+            margin-left:             55px;
+            resize:                  none; /* vertical; */
+            width:                   800px;
+        }
+        #source_code::selection {
+            background:              #aaa;
+            color:                   #002B36;
+        }
+        .source_code_lines {
+            background-blend-mode:   screen;
+            background:
+                                     linear-gradient(gray, transparent),
+                                     linear-gradient(90deg, rgb(64, 196, 255), transparent),
+                                     linear-gradient(-90deg, rgb(99, 99, 99), transparent);
+            border:                  1px solid #666;
+            border-right:            none;
+            color:                   #002B36;
+            display:                 block;
+            line-height:             31px;
+            margin:                  0;
+        }
+        .source_code_lines a {
+            border-radius:           5px;
+            color:                   #002B36;
+            line-height:             31px;
+            padding-left:            .5em;
+            text-decoration:         none;
+        }
+        .source_code_lines a:hover {
+            -webkit-box-shadow:      9px 0 50px 9px white;
+            -moz-box-shadow:         9px 0 50px 9px white;
+            background-color:        white;
+            box-shadow:              9px 0 50px 9px white;
+        }

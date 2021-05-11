@@ -3,11 +3,17 @@ package Analizadoress;
 import java_cup.runtime.Symbol;
 import java_cup.runtime.XMLElement;
 import java.util.ArrayList;
+import Variables.*;
 
 parser code
 {:
-	//constructor
+	
 	private Symbol sym;
+	ArrayList<Variable> lstVariable = new ArrayList();
+	IntegerV integ= new IntegerV();
+	ArrayList<String> Variables = new ArrayList<String>();
+
+	//constructor
 	public parser( LexerCup lex){
 	 super(lex);
 	}
@@ -21,42 +27,62 @@ parser code
 		System.out.println("\nSE ESPERABA: "+symbl_name_from_id(expected_token_ids().get(0)));
         System.out.println("syntaxerr: " + symbl_name_from_id(cur_token.sym) +" Columna: "+cur_token.right+" Linea: "+cur_token.left+" Valor:"+cur_token.value);
 	}
+	public void prueba(Symbol curl_token){
+		System.out.println("----HEYYYY :"+cur_token.right);
+	}
 	public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
         	System.out.println("Error síntactico  " +  (s.left)+ " columna "+(s.right)+". palabra " + s.value ); 
     	}
 		protected int error_sync_size() {
         return 1;
     }
+	public float obtenerValorNum(Object object){
+		return Float.valueOf(String.valueOf(object));
+	}
+	public int obtenerValorNumInt(Object object){
+		return Integer.valueOf(String.valueOf(object));
+	}
+	public void addNameVar(String var){
+		Variables.add(var);
+	}
+
 
 :};
 //terminal de C_GCIC
 terminal C_GCIC, C_HEAD, C_H1, C_LINK, C_BODY, C_SPAM, C_INPUT, C_TEXTAREA, C_SELECT, C_OPTION, C_DIV, C_IMG, C_BR, C_BUTTON;
 
 //terminal de colores
-terminal  COLOR;
+terminal  COLOR, URL;
 
-terminal HREF, BACKGROUND, FONT_SIZE;
+terminal HREF, LINK, BACKGROUND, FONT_SIZE;
 
-terminal TEXTO, TEXTO_ID, ALL;
+terminal TEXTO, TEXTO_ID;
 
 //terminal tipos de letra 
 terminal TIPOS_LETRA;
 
 //LINEACION DE TEXTO terminal
-terminal TEXT_ALIGN, LEFT, RIGH, CENTER, JUSTIFY;
+terminal TEXT_ALIGN;
 
 terminal
-TYPE, TIPOS_DE_INPUT, ID, NAME, COLS, ROWS, CLASS,  ROW, COLUMN, SRC, WIDTH, HEIGHT, ALT, ONCLICK, C_SCRIPTING, PROCESS_, ON_LOAD;
+TYPE, TIPOS_DE_INPUT, ID, NAME, COLS, ROWS, CLASS, TIPOS_CLASE, ROW, COLUMN, SRC, WIDTH, HEIGHT, ALT, ONCLICK, NOMBRE_METODO, C_SCRIPTING, PROCESS_, ON_LOAD;
 
-terminal RGB_COLOR, CTE_COLOR, INTEGER, DECIMAL, BOOLEAN, TRUE, FALSE, CHAR, STRING, IGUALDAD, IGUAL, DIFERENCIACION, MENOR_QUE, MENOR_IGUAL, MAYOR_QUE, MAYOR_IGUAK, MAYOR_IGUAL, 
+terminal RGB_COLOR, CTE_COLOR, NOMBRE_VARIABLE, GLOBAL, INTEGER, DECIMAL, BOOLEAN, TRUE_O_FALSE, OR_O_AND, CHAR, STRING, IGUALDAD, IGUAL, DIFERENCIACION, MENOR_QUE, MENOR_IGUAL, MAYOR_QUE, MAYOR_IGUAK, MAYOR_IGUAL, 
 OR, AND, NOT, ASC, DESC, LETPAR_NUM, LETIMPAR_NUM, REVERSE, CARACTER_ALEATORIO, NUM_ALEATORIO, ALERT_INFO, EXIT, MODO, GETELEMENBYID, INIT, END, 
-IF, ELSE, THEN, REPEAT, HUNTIL, INSERT, WHILE, THENWHILE, ABRE_INIT, CIERRA_INIT, PARENTESIS_ABRE, PARENTESIS_CIERRA, CORCHETE_ABRE, CORCHETE_CIERRA, COMILLA, TI, TD;
+IF, ELSE, THEN, REPEAT, HUNTIL, INSERT, WHILE, THENWHILE, ABRE_INIT, CIERRA_INIT, PARENTESIS_ABRE, PARENTESIS_CIERRA, CORCHETE_ABRE, CORCHETE_CIERRA, COMILLA, COMILLA_SIMPLE, TI, TD;
 
-//operadores ARITMETICOS
-terminal SUMA, RESTA, MULTIPLICACION, DIVISION, NUMERO;
+//SIMBOLOSSS  
+terminal PUNTO_COMA, COMA;
+
+//operadores ARITMETICOS y CALCULADORA
+terminal SUMA, RESTA, MULTIPLICACION, DIVISION, NUMERO_ENTERO, NUMERO_DECIMAL;
+terminal UMENOS;
+
 
 terminal FONT_FAMILY, ALINEACION, SIZE;
-terminal ABRE_C_H1, CIERRA_C_H1, ABRE_C_SPAM, CIERRA_C_SPAM, ABRE_C_P, CIERRA_C_P, ABRE_INPUT, CIERRA_INPUT, ABRE_TEXT_AREA, CIERRA_TEXT_AREA;
+terminal ABRE_C_H1, CIERRA_C_H1, ABRE_C_SPAM, CIERRA_C_SPAM, ABRE_C_P, CIERRA_C_P, ABRE_INPUT, CIERRA_INPUT, ABRE_TEXT_AREA, CIERRA_TEXT_AREA, 
+ABRE_BUTTON, CIERRA_BUTTON, ABRE_IMG, CIERRA_IMG, ABRE_C_SELECT, CIERRA_C_SELECT, ABRE_C_OPTION, CIERRA_C_OPTION, ABRE_C_DIV, CIERRA_C_DIV, 
+ABRE_C_SCRIPTING, CIERRA_C_SCRIPTING;
 
 /* No terminales */
 non terminal etiqueta_gcic, parametro_c_gcic, parametros_head, parametros_head1, parametros_head2, paramHeadUno, titulo, head, link, href, title, id, name;
@@ -66,17 +92,31 @@ non terminal parametros_h1, etiquetas_h1, id_h1, color_h1, font_size_h1, font_fa
 non terminal parametros_spam, etiquetas_spam, id_spam, color_spam, font_size_spam, font_family_spam, text_align_spam;
 non terminal parametros_cp, etiquetas_cp, id_cp, color_cp, font_size_cp, font_family_cp, text_align_cp;
 non terminal parametros_area, etiquetas_area, id_area, font_size_area, font_family_area, text_align_area, rows_area, cols_area;
+non terminal parametros_img, etiquetas_img, id_img, src_img, width_img, height_img, alt_img;
+non terminal parametros_button, etiquetas_button, id_button, font_size_button, font_family_button, text_align_button, color_button, background_button, onclick_button;
 non terminal tipos_input, parametros_input, etiquetas_input, id_input, color_input, font_size_input, font_family_input, text_align_input;
-non terminal estado_inicial, bloque_INIT_END, instrucciones, sentencias_control, pametros_elseif, pametro_els, if;
+non terminal parametros_select, etiquetas_select, id_select, color_select, font_size_select, font_family_select, text_align_select, etiquetas_option;
+non terminal parametros_div, etiquetas_div, id_div, color_div, background_div, font_size_div, font_family_div, text_align_div, class_div;
+
+
+non terminal etiquetas_scripting, parametros_proces,parametros_scripting, proces, adentro_process, onload;
+non terminal estado_inicial, metodos_especiales, parametro, bloque_INIT_END, instruccion, sentencias_control, pametros_elseif, pametro_els, if;
 non terminal sentencias;
-//precedence left Suma, Resta;
+//NO TERMINALES DE VARIABLES EN SCRIPTING 
+non terminal definicion_variables,integer ,nombre_variables,valor_integer, valor_decimal, expr;
+non terminal asig, asig2, string, get_element, valor_string, decimal, char, valor_char, boolean, valor_boolean, operador_logico_boolean;
+
+
+/* PRECEDENCIA DE OPERADORES */
+precedence left SUMA, RESTA;
+precedence left MULTIPLICACION, DIVISION;
+precedence left OR_O_AND;
+precedence left UMENOS;
 
 start with estado_inicial;
 
 estado_inicial ::=
-	
 	etiqueta_gcic
-	
 	//sentencias
 ;
 
@@ -177,6 +217,16 @@ parametros_body::=
 	| etiquetas_input
 	| parametros_body etiquetas_area
 	| etiquetas_area
+	| parametros_body etiquetas_button
+	| etiquetas_button
+	| parametros_body etiquetas_img
+	| etiquetas_img
+	| parametros_body etiquetas_select
+	| etiquetas_select
+	| parametros_body etiquetas_div
+	| etiquetas_div
+	| parametros_body etiquetas_scripting
+	| etiquetas_scripting
 ;
 
 etiquetas_h1::=
@@ -221,7 +271,7 @@ color_h1::=
 	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 		{: System.out.println(" RGB H1 "+s.toString());:}
 ;
 br::=
-	MENOR_QUE C_BR MAYOR_QUE
+	MENOR_QUE C_BR MAYOR_QUE {:System.out.println(" BR Salto de Linea \n");:}
 ;
 
 //PARAMETROS DE LA ETIQUETA SPAM
@@ -319,7 +369,6 @@ etiquetas_input::=
 	{: System.out.println(" TEXTO EN INPUT:  "+txt.toString());:}
 
 	| ABRE_INPUT  MAYOR_QUE  CIERRA_INPUT
-	
 ;
 
 
@@ -403,18 +452,415 @@ id_area::=
 	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: System.out.println(" ID TEXT AREA: "+s.toString());:}	
 ;
 cols_area::=
-	COLS IGUAL COMILLA NUMERO:s COMILLA 					{: System.out.println(" NUMERO COLS TEXT AREA "+s.toString());:}	
+	COLS IGUAL COMILLA NUMERO_ENTERO:s COMILLA 					{: System.out.println(" NUMERO COLS TEXT AREA "+s.toString());:}	
 ;
 rows_area::=
-	ROWS IGUAL COMILLA NUMERO:s COMILLA 					{: System.out.println(" NUMERO ROWS TEXT AREA "+s.toString());:}	
+	ROWS IGUAL COMILLA NUMERO_ENTERO:s COMILLA 					{: System.out.println(" NUMERO ROWS TEXT AREA "+s.toString());:}	
+;
+//PARAMETROS DEL BUTTON
+etiquetas_button::=
+	ABRE_BUTTON parametros_button MAYOR_QUE TEXTO:txt CIERRA_BUTTON
+	{: System.out.println(" TEXTO EN BUTTON:  "+txt.toString());:}
+
+	| ABRE_BUTTON parametros_button MAYOR_QUE  CIERRA_BUTTON
+
+	| ABRE_BUTTON  MAYOR_QUE TEXTO:txt CIERRA_BUTTON
+	{: System.out.println(" TEXTO EN BUTTON:  "+txt.toString());:}
+
+	| ABRE_BUTTON  MAYOR_QUE  CIERRA_BUTTON
+	
+;
+parametros_button::=
+	CORCHETE_ABRE id_button CORCHETE_CIERRA parametros_button
+	| CORCHETE_ABRE font_size_button CORCHETE_CIERRA parametros_button
+	| CORCHETE_ABRE font_family_button CORCHETE_CIERRA parametros_button
+	| CORCHETE_ABRE text_align_button CORCHETE_CIERRA parametros_button
+	| CORCHETE_ABRE color_button CORCHETE_CIERRA parametros_button
+	| CORCHETE_ABRE background_button CORCHETE_CIERRA parametros_button
+	| CORCHETE_ABRE onclick_button CORCHETE_CIERRA parametros_button
+	| CORCHETE_ABRE id_button CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_size_button CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_family_button CORCHETE_CIERRA 
+	| CORCHETE_ABRE text_align_button CORCHETE_CIERRA
+	| CORCHETE_ABRE color_button CORCHETE_CIERRA
+	| CORCHETE_ABRE background_button CORCHETE_CIERRA
+	| CORCHETE_ABRE onclick_button CORCHETE_CIERRA
+
+
+	//| error:er {: System.out.println("Se esperaba parametro de INPUT: "+er.toString());:}
+;
+
+font_size_button::=
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 					{: System.out.println(" FONT SIZE BUTTON : "+s.toString());:}
+;
+font_family_button::=
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY BUTTON: "+s.toString());:}
+;
+text_align_button::=
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 			{: System.out.println(" TEXT ALIGN BUTTON: "+s.toString());:}	
+;
+id_button::=
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: System.out.println(" ID BUTTON: "+s.toString());:}	
+;
+color_button::=
+	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 				{: System.out.println(" CTE Color BUTTON "+s.toString());:}
+	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 				{: System.out.println(" RGB BUTTON "+s.toString());:}
+;
+background_button::=
+	BACKGROUND IGUAL COMILLA RGB_COLOR:back COMILLA		{: System.out.println(" BACKGROUND RGB BUTTON: "+back.toString());:}
+	| BACKGROUND IGUAL COMILLA CTE_COLOR:ba COMILLA		{: System.out.println(" BACKGROUND constante de color BUTTON: "+ba.toString());:}
+;
+onclick_button::=
+	ONCLICK IGUAL COMILLA NOMBRE_METODO:a COMILLA		{: System.out.println(" METODO DEL BUTTON: "+a.toString());:}
+;
+
+//parametros IMAGENES
+etiquetas_img::=
+	ABRE_IMG parametros_img MAYOR_QUE TEXTO:txt CIERRA_IMG
+	{: System.out.println(" TEXTO EN IMAGEN:  "+txt.toString());:}
+
+	| ABRE_IMG parametros_img MAYOR_QUE  CIERRA_IMG
+
+	| ABRE_IMG  MAYOR_QUE TEXTO:txt CIERRA_IMG
+	{: System.out.println(" TEXTO EN IMAGEN:  "+txt.toString());:}
+
+	| ABRE_IMG  MAYOR_QUE  CIERRA_IMG
+	
+;
+
+parametros_img::=
+	CORCHETE_ABRE id_img CORCHETE_CIERRA parametros_img
+	| CORCHETE_ABRE src_img CORCHETE_CIERRA parametros_img
+	| CORCHETE_ABRE width_img CORCHETE_CIERRA parametros_img
+	| CORCHETE_ABRE height_img CORCHETE_CIERRA parametros_img
+	| CORCHETE_ABRE alt_img CORCHETE_CIERRA parametros_img
+	| CORCHETE_ABRE id_img CORCHETE_CIERRA 
+	| CORCHETE_ABRE src_img CORCHETE_CIERRA 
+	| CORCHETE_ABRE width_img CORCHETE_CIERRA 
+	| CORCHETE_ABRE height_img CORCHETE_CIERRA 
+	| CORCHETE_ABRE alt_img CORCHETE_CIERRA 
+
+
+	//| error:er {: System.out.println("Se esperaba parametro de INPUT: "+er.toString());:}
+;
+
+src_img::=
+	SRC IGUAL COMILLA TEXTO:s COMILLA 					{: System.out.println("SRC: IMG : "+s.toString());:}
+;
+width_img::=
+	WIDTH IGUAL COMILLA SIZE:s COMILLA 		{: System.out.println(" WIDHT IMG: "+s.toString());:}
+;
+height_img::=
+	HEIGHT IGUAL COMILLA SIZE:s COMILLA 			{: System.out.println(" HEIGHT IMG: : "+s.toString());:}	
+;
+id_img::=
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: System.out.println(" ID IMG: "+s.toString());:}	
+;
+alt_img::=
+	ALT IGUAL COMILLA TEXTO:s COMILLA 				{: System.out.println(" ALT DE IMG "+s.toString());:}
+
+;
+//PARAMETROS DE SELECT 
+etiquetas_select::=
+	ABRE_C_SELECT parametros_select MAYOR_QUE etiquetas_option CIERRA_C_SELECT
+
+	| ABRE_C_SELECT parametros_select MAYOR_QUE  CIERRA_C_SELECT 
+
+	| ABRE_C_SELECT  MAYOR_QUE  CIERRA_C_SELECT
+	
+;
+parametros_select::=
+	CORCHETE_ABRE id_select CORCHETE_CIERRA parametros_select
+	| CORCHETE_ABRE color_select CORCHETE_CIERRA parametros_select
+	| CORCHETE_ABRE font_size_select CORCHETE_CIERRA parametros_select
+	| CORCHETE_ABRE font_family_select CORCHETE_CIERRA parametros_select
+	| CORCHETE_ABRE text_align_select CORCHETE_CIERRA parametros_select
+	| CORCHETE_ABRE id_select CORCHETE_CIERRA 
+	| CORCHETE_ABRE color_select CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_size_select CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_family_select CORCHETE_CIERRA 
+	| CORCHETE_ABRE text_align_select CORCHETE_CIERRA
+	//| error:er {: System.out.println("Se esperaba aparametro de SELECT : "+er.toString());:}
+	
+;
+font_size_select::=
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 		{: System.out.println(" FONT SIZE SELECT "+s.toString());:}
+;
+font_family_select::=
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY SELECT "+s.toString());:}
+;
+text_align_select::=
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 		{: System.out.println(" TEXT ALIGN SELECT "+s.toString());:}	
+;
+id_select::=
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 		{: System.out.println(" ID SELECT "+s.toString());:}	
+;
+color_select::=
+	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 		{: System.out.println(" CTE Color SELECT "+s.toString());:}
+	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 		{: System.out.println(" RGB SELECT "+s.toString());:}
+;
+etiquetas_option::=
+	 ABRE_C_OPTION   TEXTO:opt CIERRA_C_OPTION  etiquetas_option
+	{: System.out.println(" OPCIONES EN SELECT.: "+opt.toString());:}
+	| ABRE_C_OPTION   TEXTO:opt CIERRA_C_OPTION 
+	{: System.out.println(" OPCIONES EN SELECT "+opt.toString());:}
+;
+//PARAMETROS DIV
+//MENOR_QUE
+etiquetas_div::=
+	  ABRE_C_DIV parametros_div MAYOR_QUE parametros_body CIERRA_C_DIV
+
+	| ABRE_C_DIV parametros_div MAYOR_QUE  CIERRA_C_DIV 
+
+	| ABRE_C_DIV  MAYOR_QUE  CIERRA_C_DIV	
+;
+parametros_div::=
+	CORCHETE_ABRE id_div CORCHETE_CIERRA parametros_div
+	| CORCHETE_ABRE color_div CORCHETE_CIERRA parametros_div
+	| CORCHETE_ABRE font_size_div CORCHETE_CIERRA parametros_div
+	| CORCHETE_ABRE font_family_div CORCHETE_CIERRA parametros_div
+	| CORCHETE_ABRE text_align_div CORCHETE_CIERRA parametros_div
+	| CORCHETE_ABRE background_div CORCHETE_CIERRA parametros_div
+	| CORCHETE_ABRE class_div CORCHETE_CIERRA parametros_div
+	| CORCHETE_ABRE id_div CORCHETE_CIERRA 
+	| CORCHETE_ABRE color_div CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_size_div CORCHETE_CIERRA 
+	| CORCHETE_ABRE font_family_div CORCHETE_CIERRA 
+	| CORCHETE_ABRE text_align_div CORCHETE_CIERRA
+	| CORCHETE_ABRE background_div CORCHETE_CIERRA 
+	| CORCHETE_ABRE class_div CORCHETE_CIERRA
+	//| error:er {: System.out.println("Se esperaba aparametro de DIV : "+er.toString());:}
+	
+;
+font_size_div::=
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 		{: System.out.println(" FONT SIZE DIV "+s.toString());:}
+;
+font_family_div::=
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY DIV "+s.toString());:}
+;
+text_align_div::=
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 		{: System.out.println(" TEXT ALIGN DIV "+s.toString());:}	
+;
+id_div::=
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 				{: System.out.println(" ID DIV "+s.toString());:}	
+;
+background_div::=
+	BACKGROUND IGUAL COMILLA RGB_COLOR:back COMILLA		{: System.out.println(" BACKGROUND RGB DIV: "+back.toString());:}
+	| BACKGROUND IGUAL COMILLA CTE_COLOR:ba COMILLA		{: System.out.println(" BACKGROUND constante de color DIV: "+ba.toString());:}
+;
+color_div::=
+	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 			{: System.out.println(" CTE Color DIV "+s.toString());:}
+	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 			{: System.out.println(" RGB DIV "+s.toString());:}
+;
+class_div::=
+	CLASS IGUAL COMILLA TIPOS_CLASE:s COMILLA				{: System.out.println(" Class DIV "+s.toString());:}
+
+;
+etiquetas_scripting::=
+	ABRE_C_SCRIPTING MAYOR_QUE parametros_scripting CIERRA_C_SCRIPTING
+
+	| ABRE_C_SCRIPTING MAYOR_QUE  parametros_proces CIERRA_C_SCRIPTING
+;
+parametros_scripting::=
+	 onload parametros_proces
+	 | onload
+;
+parametros_proces::=
+	 proces parametros_proces 
+	| proces
+;
+proces::=
+	NOMBRE_METODO:method  CORCHETE_ABRE 
+	definicion_variables
+	
+	CORCHETE_CIERRA 							{: System.out.println(" METODO PROCESS_() "+method.toString()+"-------------------------------"); :}
+	| NOMBRE_METODO:method  CORCHETE_ABRE
+	
+	CORCHETE_CIERRA								{: System.out.println(" METODO PROCESS_() "+method.toString()+"-------------------------------"); :}
+
+;
+onload::=
+	ON_LOAD PARENTESIS_ABRE PARENTESIS_CIERRA CORCHETE_ABRE
+	CORCHETE_CIERRA
+	{: System.out.println(" METODO ONLOAD() "); :}
+
+;
+
+//codigo dentro de SCRIPTING  
+definicion_variables::=
+	integer  definicion_variables
+	| integer
+	| string definicion_variables
+	| string
+	| decimal definicion_variables
+	| decimal 
+	| char definicion_variables
+	| char
+	| asig definicion_variables
+	| asig 
+	| boolean definicion_variables
+	| boolean
+	| metodos_especiales definicion_variables
+	| metodos_especiales
+	| sentencias_control definicion_variables
+	| sentencias_control
+;
+instruccion::=
+	 integer
+	| string
+	| decimal 
+	| char
+	| asig 
+	| boolean
+	| metodos_especiales
+
+;
+
+asig::=
+	NOMBRE_VARIABLE:var1 IGUAL asig2:val PUNTO_COMA  
+																			{: System.out.println("----- ASIGNACION INTEGER:   "+var1+" Valores: "+val); :}
+;
+asig2::=
+	asig2:e1 SUMA  asig2:e2         									{: RESULT = e1.toString()+"+"+e2.toString(); :}
+	| asig2:e1 RESTA asig2:e2        									{: RESULT = e1.toString()+"-"+e2.toString(); :}
+    | asig2:e1 MULTIPLICACION asig2:e2        							{: RESULT = e1.toString()+"*"+e2.toString() ; :}
+	| asig2:e1 DIVISION asig2:e2        								{: RESULT = e1.toString()+"/"+e2.toString() ; :}
+	| asig2:s OR_O_AND:o asig2:t										{: RESULT = s.toString()+o.toString()+" "+t.toString(); :}
+    | RESTA asig2:e                 									{: RESULT = "-"+e.toString();  :}
+  	%prec UMENOS														
+    | PARENTESIS_ABRE asig2:e PARENTESIS_CIERRA	         				{: RESULT = "("+e.toString()+")"; :}
+    | NUMERO_ENTERO:n	                      							{: RESULT = n.toString(); :}
+	| NUMERO_DECIMAL:n	                      							{: RESULT = n.toString(); :}
+	| NOMBRE_VARIABLE:n	   					 							{: RESULT = n.toString(); :}
+	| COMILLA TEXTO:t COMILLA											{: RESULT = t.toString(); :}
+	| COMILLA_SIMPLE TEXTO:t COMILLA_SIMPLE								{: RESULT = t.toString(); :}
+	| operador_logico_boolean:t											{: RESULT = t.toString()+""; :}
+
+;
+
+get_element::=
+	GETELEMENBYID PARENTESIS_ABRE COMILLA_SIMPLE TEXTO_ID:ids COMILLA_SIMPLE PARENTESIS_CIERRA {: RESULT= ids.toString(); :}
+;
+
+//DEFINIR UNA VARIABLE TIPO INTEGER
+integer::=
+	INTEGER GLOBAL nombre_variables:vars PUNTO_COMA									
+	{: /*lstVariable.add();*/  System.out.println(" VARIABLES:  G "+vars); :}
+	| INTEGER GLOBAL nombre_variables:vars IGUAL valor_integer:val PUNTO_COMA 		
+	{: System.out.println(" VARIABLES:  G "+vars+" Valores: "+val); :}
+	| INTEGER nombre_variables:vars PUNTO_COMA										
+	{: System.out.println(" VARIABLES:   "+vars); :}
+	| INTEGER nombre_variables:vars IGUAL valor_integer:val PUNTO_COMA				
+	{: System.out.println(" VARIABLES:   "+vars+" Valores: "+val); :}
+	
+;
+
+nombre_variables::=
+	nombre_variables:aa COMA:c  NOMBRE_VARIABLE:var2    				{: RESULT= aa.toString()+var2.toString()+c.toString();:}
+	| NOMBRE_VARIABLE:var1  											{: RESULT= var1+",";:}
+;
+
+valor_integer::=
+    valor_integer:e1 SUMA  valor_integer:e2         					{: RESULT = e1.toString()+"+"+e2.toString(); :}
+	| valor_integer:e1 RESTA valor_integer:e2        					{: RESULT = e1.toString()+"-"+e2.toString(); :}
+    | valor_integer:e1 MULTIPLICACION valor_integer:e2        			{: RESULT = e1.toString()+"*"+e2.toString() ; :}
+	| valor_integer:e1 DIVISION valor_integer:e2        				{: RESULT = e1.toString()+"/"+e2.toString() ; :}
+    | RESTA valor_integer:e                 							{: RESULT = "-"+e.toString();  :}
+  	%prec UMENOS														
+    | PARENTESIS_ABRE valor_integer:e PARENTESIS_CIERRA	         		{: RESULT = "("+e.toString()+")"; :}
+    | NUMERO_ENTERO:n	                      							{: RESULT = n.toString(); :}
+	| NOMBRE_VARIABLE:n	   					 							{: RESULT = n.toString(); :}
+;
+
+string::=
+	 STRING GLOBAL nombre_variables:vars IGUAL get_element:id PUNTO_COMA				{: System.out.println(" GETELEMENT BY ID "+vars+" ID: "+id); :}
+	| STRING  nombre_variables:vars IGUAL get_element:id PUNTO_COMA					{: System.out.println(" GETELEMENT BY ID "+vars+" ID: "+id); :}
+	| STRING GLOBAL nombre_variables:vars PUNTO_COMA									
+																				{: /*lstVariable.add();*/  System.out.println(" VARIABLES: STRING  G "+vars); :}
+	| STRING GLOBAL nombre_variables:vars IGUAL valor_string:val PUNTO_COMA 		
+																				{: System.out.println(" VARIABLES: STRING G "+vars+" Valores: "+val); :}
+	| STRING nombre_variables:vars PUNTO_COMA										
+																				{: System.out.println(" VARIABLES: STRING "+vars); :}
+	| STRING nombre_variables:vars IGUAL valor_string:val PUNTO_COMA				
+																				{: System.out.println(" VARIABLES: STRING "+vars+" Valores: "+val); :}
+	
+;
+valor_string::=
+
+	valor_string:s SUMA COMILLA TEXTO:t COMILLA										{: RESULT = s.toString()+t.toString()+","; :}
+	| valor_string:s SUMA NOMBRE_VARIABLE:t											{: RESULT = s.toString()+t.toString()+","; :}
+	| COMILLA TEXTO:t COMILLA														{: RESULT = t.toString()+","; :}
+	| NOMBRE_VARIABLE:t																{: RESULT = t.toString()+","; :}
+;
+char::=
+	CHAR GLOBAL nombre_variables:vars PUNTO_COMA									
+																				{:  System.out.println(" VARIABLES: CHAR  G "+vars); :}
+	| CHAR GLOBAL nombre_variables:vars IGUAL valor_char:val PUNTO_COMA 		
+																				{: System.out.println(" VARIABLES: CHAR G "+vars+" Valores: "+val); :}
+	| CHAR nombre_variables:vars PUNTO_COMA										
+																				{: System.out.println(" VARIABLES: CHAR "+vars); :}
+	| CHAR nombre_variables:vars IGUAL valor_char:val PUNTO_COMA				
+																				{: System.out.println(" VARIABLES: CHAR "+vars+" Valores: "+val); :}
+;
+
+valor_char::=
+
+	valor_char:s SUMA COMILLA_SIMPLE TEXTO:t COMILLA_SIMPLE							{: RESULT = s.toString()+t.toString()+","; :}
+	| valor_char:s SUMA NOMBRE_VARIABLE:t											{: RESULT = s.toString()+t.toString()+","; :}
+	| COMILLA_SIMPLE TEXTO:t COMILLA_SIMPLE										    {: RESULT = t.toString()+","; :}
+	| NOMBRE_VARIABLE:t																{: RESULT = t.toString()+","; :}
 ;
 
 
+//DEFINIR UNA VARIABLE TIPO INTEGER
+decimal::=
+	DECIMAL GLOBAL nombre_variables:vars PUNTO_COMA									
+																					{: System.out.println(" VARIABLES: DECIMAL  G "+vars); :}
+	| DECIMAL GLOBAL nombre_variables:vars IGUAL valor_decimal:val PUNTO_COMA 		
+																					{: System.out.println(" VARIABLES: DECIMAL G "+vars+" Valores: "+val); :}
+	| DECIMAL nombre_variables:vars PUNTO_COMA										
+																					{: System.out.println(" VARIABLES: DECIMAL  "+vars); :}
+	| DECIMAL nombre_variables:vars IGUAL valor_decimal:val PUNTO_COMA				
+																					{: System.out.println(" VARIABLES: DECIMAL  "+vars+" Valores: "+val); :}
+;
+valor_decimal::=
+    valor_decimal:e1 SUMA  valor_decimal:e2         					{: RESULT = e1.toString()+"+"+e2.toString(); :}
+	| valor_decimal:e1 RESTA valor_decimal:e2        					{: RESULT = e1.toString()+"-"+e2.toString(); :}
+    | valor_decimal:e1 MULTIPLICACION valor_decimal:e2        			{: RESULT = e1.toString()+"*"+e2.toString() ; :}
+	| valor_decimal:e1 DIVISION valor_decimal:e2        				{: RESULT = e1.toString()+"/"+e2.toString() ; :}
+    | RESTA valor_decimal:e                 							{: RESULT = "-"+e.toString();  :}
+  	%prec UMENOS														
+    | PARENTESIS_ABRE valor_decimal:e PARENTESIS_CIERRA	         		{: RESULT = "("+e.toString()+")"; :}
+    | NUMERO_ENTERO:n	                      							{: RESULT = n.toString(); :}
+	| NUMERO_DECIMAL:n	                      							{: RESULT = n.toString(); :}
+	| NOMBRE_VARIABLE:n	   					 							{: RESULT = n.toString(); :}
+;
+boolean::=
+	 //TRUE_O_FALSE
+	BOOLEAN GLOBAL nombre_variables:vars PUNTO_COMA									
+																					{: System.out.println(" VARIABLES: BOOLEAN  G "+vars); :}
+	| BOOLEAN GLOBAL nombre_variables:vars IGUAL valor_boolean:val PUNTO_COMA 		
+																					{: System.out.println(" VARIABLES: BOOLEAN G "+vars+" Valores: "+val); :}
+	| BOOLEAN nombre_variables:vars PUNTO_COMA										
+																					{: System.out.println(" VARIABLES: BOOLEAN  "+vars); :}
+	| BOOLEAN nombre_variables:vars IGUAL valor_boolean:val PUNTO_COMA				
+																					{: System.out.println(" VARIABLES: BOOLEAN  "+vars+" Valores: "+val); :}
+;
+valor_boolean::=
+	valor_boolean:s OR_O_AND:o operador_logico_boolean:t									{: RESULT = s.toString()+o.toString()+" "+t.toString(); :}
+	| valor_boolean:s OR_O_AND:o NOMBRE_VARIABLE:t										{: RESULT = s.toString()+o.toString()+" "+t.toString(); :}
+	| operador_logico_boolean:t									    					{: RESULT = t.toString()+""; :}
+	| NOMBRE_VARIABLE:t																		{: RESULT = t.toString()+" "; :}
+
+;
+operador_logico_boolean::=
+	 NOT TRUE_O_FALSE:t																		{: RESULT = "!"+t.toString()+" "; :}
+	| NOT NOMBRE_VARIABLE:t																	{: RESULT = "!"+t.toString()+" "; :}
+	| TRUE_O_FALSE:t																		{: RESULT = t.toString()+" "; :}
+	//| NOMBRE_VARIABLE:t																		{: RESULT = t.toString()+" "; :}
 
 
-
-
-
+;
 
 
 sentencias::=
@@ -422,17 +868,26 @@ sentencias::=
 	| sentencias_control
 ;
 sentencias_control::=
-    //primera forma
+    //primera forma--------------
    	if
+    instruccion
+	| if
     bloque_INIT_END
 
     //segunda forma--------------
     | if 
+    instruccion 
+    pametro_els
+	| if 
     bloque_INIT_END 
     pametro_els
 
-    //tercera forma
+    //tercera forma--------------
     | if   
+    instruccion
+    pametros_elseif 
+    pametro_els
+	| if   
     bloque_INIT_END
     pametros_elseif 
     pametro_els
@@ -444,23 +899,41 @@ if::=
 
 pametro_els::=
     ELSE   
+    instruccion
+	| ELSE   
     bloque_INIT_END
 ;
 pametros_elseif::=
     ELSE IF PARENTESIS_ABRE  PARENTESIS_CIERRA THEN
+    instruccion {:System.out.println("aqui 1");:}
+	| ELSE IF PARENTESIS_ABRE  PARENTESIS_CIERRA THEN
     bloque_INIT_END {:System.out.println("aqui 1");:}
 
     | pametros_elseif ELSE IF PARENTESIS_ABRE  PARENTESIS_CIERRA THEN
+    instruccion  {:System.out.println("aqui 2");:}
+	| pametros_elseif ELSE IF PARENTESIS_ABRE  PARENTESIS_CIERRA THEN
     bloque_INIT_END  {:System.out.println("aqui 2");:}
 
 ;
 bloque_INIT_END::=
     INIT ABRE_INIT
-    //instrucciones
+    definicion_variables
     CIERRA_INIT END
+	| INIT ABRE_INIT
+    
+    CIERRA_INIT END
+	
 ;
-instrucciones::=
-
+metodos_especiales::=
+	ASC PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA 				{: System.out.println(" ASC "+b); :}
+	| DESC PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA			{: System.out.println(" DESC "+b); :}
+	| LETPAR_NUM PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA		{: System.out.println(" LETPAR_NUM "+b); :}
+	| LETIMPAR_NUM PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA	{: System.out.println(" LETIMPAR_NUM "+b); :}
+	| REVERSE PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA		{: System.out.println(" REVERSE "+b); :}
+	| CARACTER_ALEATORIO PARENTESIS_ABRE  PARENTESIS_CIERRA PUNTO_COMA				{: System.out.println(" CARACTER_ALEATORIO "); :}
+	| NUM_ALEATORIO PARENTESIS_ABRE  PARENTESIS_CIERRA PUNTO_COMA					{: System.out.println(" NUM_ALEATORIO "); :}
+	| ALERT_INFO PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA		{: System.out.println(" DESC "+b); :}
+	| EXIT PARENTESIS_ABRE  PARENTESIS_CIERRA PUNTO_COMA							{: System.out.println(" EXIT "); :}
 
 ;
 
