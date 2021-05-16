@@ -166,8 +166,10 @@ public class GeneraHtml {
     
     
     
-    public void imprime_Script(){
-        
+    public void imprime_Script(Script listaDato){
+        for(int i=0;i<listaDato.getListBody().size();i++){
+            
+        }
     }
     
     
