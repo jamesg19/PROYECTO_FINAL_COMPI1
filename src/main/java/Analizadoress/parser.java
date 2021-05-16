@@ -5485,7 +5485,7 @@ class CUP$parser$actions {
 		int varsleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int varsright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object vars = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES: BOOLEAN  G "+vars); 
+		 bool = new BooleanV(vars.toString(),true,""); script.getListScript().add(bool); System.out.println(" VARIABLES: BOOLEAN  G "+vars); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("boolean",123, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5500,7 +5500,7 @@ class CUP$parser$actions {
 		int valleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int valright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object val = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES: BOOLEAN G "+vars+" Valores: "+val); 
+		 bool = new BooleanV(vars.toString(),true,val.toString()); script.getListScript().add(bool); System.out.println(" VARIABLES: BOOLEAN G "+vars+" Valores: "+val); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("boolean",123, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5512,7 +5512,7 @@ class CUP$parser$actions {
 		int varsleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int varsright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object vars = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES: BOOLEAN  "+vars); 
+		 bool = new BooleanV(vars.toString(),false,""); script.getListScript().add(bool); System.out.println(" VARIABLES: BOOLEAN  "+vars); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("boolean",123, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5527,7 +5527,7 @@ class CUP$parser$actions {
 		int valleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int valright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object val = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES: BOOLEAN  "+vars+" Valores: "+val); 
+		 bool = new BooleanV(vars.toString(),false,val.toString()); script.getListScript().add(bool); System.out.println(" VARIABLES: BOOLEAN  "+vars+" Valores: "+val); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("boolean",123, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

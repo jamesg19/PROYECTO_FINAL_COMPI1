@@ -1000,13 +1000,16 @@ valor_decimal::=
 boolean::=
 	 //TRUE_O_FALSE
 	BOOLEAN GLOBAL nombre_variables:vars PUNTO_COMA									
-																					{: System.out.println(" VARIABLES: BOOLEAN  G "+vars); :}
+	{: bool = new BooleanV(vars.toString(),true,""); script.getListScript().add(bool); System.out.println(" VARIABLES: BOOLEAN  G "+vars); :}
+
 	| BOOLEAN GLOBAL nombre_variables:vars IGUAL valor_boolean:val PUNTO_COMA 		
-																					{: System.out.println(" VARIABLES: BOOLEAN G "+vars+" Valores: "+val); :}
+	{: bool = new BooleanV(vars.toString(),true,val.toString()); script.getListScript().add(bool); System.out.println(" VARIABLES: BOOLEAN G "+vars+" Valores: "+val); :}
+
 	| BOOLEAN nombre_variables:vars PUNTO_COMA										
-																					{: System.out.println(" VARIABLES: BOOLEAN  "+vars); :}
+	{: bool = new BooleanV(vars.toString(),false,""); script.getListScript().add(bool); System.out.println(" VARIABLES: BOOLEAN  "+vars); :}
+
 	| BOOLEAN nombre_variables:vars IGUAL valor_boolean:val PUNTO_COMA				
-																					{: System.out.println(" VARIABLES: BOOLEAN  "+vars+" Valores: "+val); :}
+	{: bool = new BooleanV(vars.toString(),false,val.toString()); script.getListScript().add(bool); System.out.println(" VARIABLES: BOOLEAN  "+vars+" Valores: "+val); :}
 ;
 valor_boolean::=
 	valor_boolean:s OR_O_AND:o operador_logico_boolean:t									{: RESULT = s.toString()+o.toString()+" "+t.toString(); :}

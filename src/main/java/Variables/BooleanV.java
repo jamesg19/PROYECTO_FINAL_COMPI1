@@ -12,12 +12,18 @@ package Variables;
  */
 public class BooleanV  extends Variable{
     private String constante="";
-    private boolean global;
-    private String valor;
+    private boolean global=false;
+    private String valor="";
 
     public BooleanV() {
     }
 
+    public BooleanV(String constante, boolean global, String valor) {
+        this.constante = constante;
+        this.global = global;
+        this.valor = valor;
+    }
+    
     public String getConstante() {
         return constante;
     }
