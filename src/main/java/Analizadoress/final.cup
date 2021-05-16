@@ -704,7 +704,7 @@ etiquetas_div::=
 
 ;
 abre_div::=
-	ABRE_C_DIV {:    System.out.println("@@@@@@@@@@@@@@@@@@@@@@ABRE-DIV@@@@@@@@@@@@@@@@@@@@@@@@"); :}
+	ABRE_C_DIV {:  System.out.println("@@@@@@@@@@@@@@@@@@@@@@ABRE-DIV@@@@@@@@@@@@@@@@@@@@@@@@"); :}
 	
 ;
 mayor::=
@@ -773,21 +773,19 @@ parametros_proces::=
 proces::=
 	NOMBRE_METODO:method  CORCHETE_ABRE 
 	definicion_variables
-	
-	CORCHETE_CIERRA 							{: System.out.println(" METODO PROCESS_() "+method.toString()+"-------------------------------"); :}
-	| NOMBRE_METODO:method  CORCHETE_ABRE
-	
-	CORCHETE_CIERRA								{: System.out.println(" METODO PROCESS_() "+method.toString()+"-------------------------------"); :}
+	CORCHETE_CIERRA 											{: System.out.println(" METODO PROCESS_() "+method.toString()+"-------------------------------"); :}
 
+	| NOMBRE_METODO:method  CORCHETE_ABRE
+	CORCHETE_CIERRA												{: System.out.println(" METODO PROCESS_() "+method.toString()+"-------------------------------"); :}
 ;
 onload::=
 	ON_LOAD PARENTESIS_ABRE PARENTESIS_CIERRA CORCHETE_ABRE
 	definicion_variables
 	CORCHETE_CIERRA
-	{: System.out.println(" METODO ONLOAD() "); :}
+																{: System.out.println(" METODO ONLOAD() "); :}
 	| ON_LOAD PARENTESIS_ABRE PARENTESIS_CIERRA CORCHETE_ABRE
 	CORCHETE_CIERRA
-	{: System.out.println(" METODO ONLOAD() "); :}
+																{: System.out.println(" METODO ONLOAD() "); :}
 
 ;
 

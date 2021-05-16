@@ -36,7 +36,7 @@ public class H1 extends Body {
             id = "";
         }
         if (size.trim().isEmpty()) {
-            size = " 10";
+            size = "14";
         }
         if (letra.trim().isEmpty()) {
             letra = "Verdana";

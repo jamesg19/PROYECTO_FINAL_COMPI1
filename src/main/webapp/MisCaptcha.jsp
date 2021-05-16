@@ -28,14 +28,14 @@
             }
         %>
         <%@ include file = "/nav.jsp" %>
-        <h1>Mis captcha</h1>
+        <h1 align="center" >Mis captcha</h1>
 
         <div class="container-fluid">
             <div class="card" id="TableSorterCard">
                 <div class="card-header py-3">
                     <div class="row table-topper align-items-center">
                         <div class="col-12 col-sm-5 col-md-6 text-start" style="margin: 0px;padding: 5px 15px;">
-                            <p class="text-primary m-0 fw-bold">Captchas Generados</p>
+                            <p class="text-primary m-0 fw-bold"  >Captchas Generados</p>
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                     <div class="col-12">
                         <div class="table-responsive">
                             <table class="table table-striped table tablesorter" id="ipi-table">
-                                <tr style="background-color:#51B9C9;" >
+                                <tr style="background-color:#9CA5A6;" >
                                         <td align="center" >Nombre</td>
                                         <td align="center" >Link</td>
                                         <td align="center" >Modificacadores</td>

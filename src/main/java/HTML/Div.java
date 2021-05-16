@@ -79,7 +79,7 @@ public class Div extends Body {
     }
     
     public String genera_abre_div(){
-        formato="<div id=\""+id+"\" "+classs+" align=\""+align+"\" "+background+" style=\" COLOR:"+color+" FONT-SIZE:"+size+"; FONT-FAMILY:"+letra+"; \" >\n";
+        formato="<div id=\""+id+"\" "+classs+" align=\""+align+"\" "+background+" style=\" COLOR:"+color+"; FONT-SIZE:"+size+"; FONT-FAMILY:"+letra+"; \" >\n";
         return formato;
     }
     public String genera_cierra_div(){

@@ -16,15 +16,8 @@
 <span id="mostrar_2" ><font size ="" face="8" color="style="background-color:#fff6ff;"" >¿ Qué resultado genera la operación siguiente: 100-27 ?</font></span>
 </div>
 <p id="" style=" COLOR:#3E3A39; TEXT-ALIGN: center; FONT-SIZE:12; FONT-FAMILY:Verdana; " >resultado genera la operación siguiente: 100-27 ?</p>
+<input id="IDinput123" type="number" class="form-control"  placeholder="number" style="BORDER: #fff6ff 1px solid; COLOR:#fff6ff; FONT-SIZE: 10pt; FONT-FAMILY: Verdana;">texto del input </input>
 <div class="row">
-<div  class="col"></div>
-<div  class="col"> </div>
-<div  class="col">
-<input id="IDinput123" type="text" class="form-control"  placeholder="text" style="BORDER: #fff6ff 1px solid; COLOR:#fff6ff; FONT-SIZE: 10pt; FONT-FAMILY: Verdana;">texto del input </input>
-</div>
-<div  class="col"> </div>
-<div  class="col"> </div>
-</div><div class="row">
     <div class="col"></div>
     <div class="col"> 
     <textarea  class="form-control" id="mostrar_2" cols="8" rows="2" style=" COLOR:#3E3A39; FONT-SIZE: 18pxpt; FONT-FAMILY: Verdana;" >
@@ -49,9 +42,11 @@
     </div>
     <div class="col"></div>
 </div>
+<div id="div_1" class="row" align="left" style="background-color:#7B1BA9;" style=" COLOR:#FBFCFB; FONT-SIZE:30px; FONT-FAMILY:Verdana; " >
 <figure>
-<img class="img-thumbnail" id="mg_1" alt="Textoooo" src="https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/bitcoin_660_062619052016_102919051118_130521080943.jpg" width="100%" height="20pX"  >
+<img class="img-thumbnail" id="mg_1" alt="Textoooo" src="www.google.com" width="100%" height="20pX"  >
 <figcaption>Textoooo</figcaption></figure>
+</div>
 </body>
 
 </html>
