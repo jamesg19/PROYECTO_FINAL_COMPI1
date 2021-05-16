@@ -10,12 +10,12 @@ package Variables;
  * 
  * @author James Gramajo 
  */
-public class IntegerV  extends Variable{
+public class DecimalV  extends Variable{
     private String constante="";
     private boolean global;
     private String valor;
 
-    public IntegerV() {
+    public DecimalV() {
     }
 
     public String getConstante() {

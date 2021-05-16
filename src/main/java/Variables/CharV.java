@@ -10,12 +10,12 @@ package Variables;
  * 
  * @author James Gramajo 
  */
-public class IntegerV  extends Variable{
+public class CharV  extends Variable{
     private String constante="";
     private boolean global;
     private String valor;
 
-    public IntegerV() {
+    public CharV() {
     }
 
     public String getConstante() {

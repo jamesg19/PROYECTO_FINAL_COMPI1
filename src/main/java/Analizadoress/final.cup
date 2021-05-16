@@ -7,6 +7,8 @@ import HTML.*;
 import Script.*;
 import Variables.*;
 
+
+
 parser code
 {:
 	boolean banderaDiv=false;
@@ -17,6 +19,12 @@ parser code
 
 	ArrayList<Variable> lstVariable = new ArrayList();
 	IntegerV integ= new IntegerV();
+	StringV string = new StringV();
+	BooleanV boolean= new BooleanV();
+	DecimalV decimal= new DecimalV();
+	CharV char= new CharV();
+
+
 	ArrayList<String> Variables = new ArrayList<String>();
 
 	ArrayList<Html> listHtml = new ArrayList<>();
@@ -43,6 +51,11 @@ parser code
 	Img img= new Img();
 	Script script= new Script();
 	Script2 script2= new Script2();
+	Process proceso= new Process();
+	Onload only= new Onload();
+	CierraCorchete close= new CierraCorchete();
+
+
 
 
 	//constructor
@@ -778,11 +791,13 @@ etiquetas_scripting::=
 ;
 abre_script::=
 	ABRE_C_SCRIPTING
-	{:  body.getListBody().add(script); script= new Script(); :}
+	{:  script= new Script(); :}
 ;
 cierra_script::=
 	CIERRA_C_SCRIPTING
-	{:  body.getListBody().add(script2); script2= new Script2(); :}
+	{:    
+	body.getListBody().add(script); script= new Script(); 
+	body.getListBody().add(script2); script2= new Script2(); :}
 ;
 parametros_scripting::=
 	 onload parametros_proces
