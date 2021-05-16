@@ -52,6 +52,16 @@ public class Gestor extends HttpServlet {
             logica logic= new logica();
             logic.analizar(codigo_codificado);
             info=logic.getInforme_error();
+            
+            //si hay id duplicados
+            for(int i=0;i<logic.semantico.size();i++){
+                info+=logic.semantico.get(i);
+            }
+            
+            
+            
+            
+            
             } catch(Exception e){
                 System.out.println("ERROR al analizar el codigo: \n"+e);
             }

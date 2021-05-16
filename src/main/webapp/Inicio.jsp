@@ -41,8 +41,8 @@
                 code.value = editor.value;
             };
         </script>
-        <div align="center" >
-            <textarea  id="area"  name="area" rows="20" cols="220"><%=areas%></textarea>
+        <div align="center"  >
+            <textarea  id="area"  name="area" rows="20" cols="200"><%=areas%></textarea>
         </div>
         <div class="row" align="center" >
             <div class="col" ></div>       

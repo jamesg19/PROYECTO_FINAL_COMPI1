@@ -4,6 +4,7 @@ import java_cup.runtime.Symbol;
 import java_cup.runtime.XMLElement;
 import java.util.ArrayList;
 import HTML.*;
+import Script.*;
 import Variables.*;
 
 parser code
@@ -40,7 +41,8 @@ parser code
 	P p= new P();
 	Button button = new Button();
 	Img img= new Img();
-	
+	Script script= new Script();
+	Script2 script2= new Script2();
 
 
 	//constructor
@@ -56,9 +58,13 @@ parser code
 	public void syntax_error(Symbol curl_token){
 		sintaxERROR.add("Se esperaba: "+symbl_name_from_id(expected_token_ids().get(0)) +"\n"
 		+" Columna: "+cur_token.right+" Linea: "+cur_token.left+" Valor:"+cur_token.value);
+
 		System.out.println("\nSE ESPERABA: "+symbl_name_from_id(expected_token_ids().get(0)));
         System.out.println("syntaxerr: " + symbl_name_from_id(cur_token.sym) +" Columna: "+cur_token.right+" Linea: "+cur_token.left+" Valor:"+cur_token.value);
 	}
+	
+
+
 	public void prueba(Symbol curl_token){
 		System.out.println("----HEYYYY :"+cur_token.right);
 	}
@@ -138,7 +144,7 @@ non terminal parametros_select, etiquetas_select, id_select, color_select, font_
 non terminal parametros_div, etiquetas_div, id_div, color_div, background_div, font_size_div, font_family_div, text_align_div, class_div, abre_div, cierra_div, mayor;
 
 
-non terminal etiquetas_scripting, parametros_proces,parametros_scripting, proces, onload;
+non terminal etiquetas_scripting, abre_script, cierra_script, parametros_proces,parametros_scripting, proces, onload;
 non terminal estado_inicial, metodos_especiales, bloque_INIT_END, instruccion, sentencias_control, pametros_elseif, pametro_els, if;
 non terminal  repeat, while, insert, param_var, condicionales, condicionales2, cond_str;
 //NO TERMINALES DE VARIABLES EN SCRIPTING 
@@ -190,11 +196,17 @@ parametro_c_gcic::=
 	
 	| CORCHETE_ABRE id:ts CORCHETE_CIERRA
 	{:  html.setId(ts.toString()); html= new Html2();  listHtml.add(html); :}
+	/*
+	| error 
+	{: sintaxERROR.add(" Se esperaba la definicion de PARAMETROS EN c_gcic \n");
+	 expected_token_ids();
+	 :}
+	*/
 
 ;
 id::=
 	 ID IGUAL COMILLA TEXTO_ID:ts COMILLA 		{: RESULT=ts.toString(); System.out.println(" ID "+ts.toString());:}
-	 | error {: sintaxERROR.add(" Se esperaba la definicion de un ID  c_gcic ");  System.out.println("*/*/*/*/*/*/*/*/*/*/*/ID"); :}	
+	
 ;
 
 name::=
@@ -760,9 +772,17 @@ class_div::=
 
 ;
 etiquetas_scripting::=
-	ABRE_C_SCRIPTING MAYOR_QUE parametros_scripting CIERRA_C_SCRIPTING
+	abre_script MAYOR_QUE parametros_scripting cierra_script
 
-	| ABRE_C_SCRIPTING MAYOR_QUE  parametros_proces CIERRA_C_SCRIPTING
+	| abre_script MAYOR_QUE  parametros_proces cierra_script
+;
+abre_script::=
+	ABRE_C_SCRIPTING
+	{:  body.getListBody().add(script); script= new Script(); :}
+;
+cierra_script::=
+	CIERRA_C_SCRIPTING
+	{:  body.getListBody().add(script2); script2= new Script2(); :}
 ;
 parametros_scripting::=
 	 onload parametros_proces

@@ -23,6 +23,9 @@ public class logica {
     ArrayList<Html> listaDatos = new ArrayList<>();
     ArrayList<String> lexERROR = new ArrayList<String>();
     ArrayList<String> sintaxERROR = new ArrayList<String>();
+    ArrayList<String> semantico = new ArrayList<String>();
+    GeneraHtml gg;
+
     private String informe_error = "";
 
     public logica() {
@@ -41,30 +44,42 @@ public class logica {
             parse.parse();
             sintaxERROR = parse.getSintaxError();
 
-            if (lexERROR.isEmpty() && sintaxERROR.isEmpty()) {
+            //obtengo los datos recopilados y los guardo en la ArrayList <Html>
+            listaDatos = parse.getLISTAHTML();
+            try {
+                GeneraHtml g = new GeneraHtml();
+                g.generahtml(listaDatos);
+                analisisSemantico(g);
+                gg=g;
+            } catch (Exception e) {
+                System.out.println("Error en generar archivo .jsp" + e);
+
+            }
+
+            if (lexERROR.isEmpty() && sintaxERROR.isEmpty() && semantico.isEmpty()) {
                 //analisis de semantica
-
-                //obtengo los datos recopilados y los guardo en la ArrayList <Html>
-                listaDatos = parse.getLISTAHTML();
-                try {
-                    GeneraHtml g = new GeneraHtml();
-                    g.generahtml(listaDatos);
-                    String formato = g.getFORMATO();
-                    generarArchivo(formato, "captcha.jsp");
-                } catch (Exception e) {
-                    System.out.println("Error en generar archivo .jsp" + e);
-
-                }
-
+                generarCaptcha(gg);
             } else {
                 generar_informe_errores();
             }
-            //obtengo los errores sintacticos
 
+            //obtengo los errores sintacticos
         } catch (Exception ex) {
             System.out.println("");
             Logger.getLogger(logica.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void analisisSemantico(GeneraHtml g) {
+
+        semantico = g.getID_duplicado();
+
+    }
+
+    public void generarCaptcha(GeneraHtml g) {
+        String formato = g.getFORMATO();
+        generarArchivo(formato, "captcha.jsp");
+
     }
 
     public void generarArchivo(String formato, String nombre) {
@@ -75,18 +90,21 @@ public class logica {
             System.out.println("Error en generar archivo .jsp" + e);
 
         }
-
     }
 
     public void generar_informe_errores() {
-
+        //analisis semantico de errores lexicos
         for (int i = 0; i < lexERROR.size(); i++) {
-            informe_error += lexERROR.get(i).toString();
+            informe_error += lexERROR.get(i);
         }
+        //analisis semantico de sintaxis
         for (int i = 0; i < sintaxERROR.size(); i++) {
-            informe_error += sintaxERROR.get(i).toString();
+            informe_error += sintaxERROR.get(i);
         }
-
+        //analisis semantico de ID duplicados
+        for (int i = 0; i < semantico.size(); i++) {
+            informe_error += semantico.get(i);
+        }
     }
 
     public ArrayList<Html> getListaDatos() {
@@ -119,6 +137,14 @@ public class logica {
 
     public void setInforme_error(String informe_error) {
         this.informe_error = informe_error;
+    }
+
+    public ArrayList<String> getId_duplicado() {
+        return semantico;
+    }
+
+    public void setId_duplicado(ArrayList<String> semantico) {
+        this.semantico = semantico;
     }
 
 }

@@ -61,27 +61,27 @@ public class GeneraHtml {
         
     }
     public void imprimir_dentro_body(Body listaDato){
-        
+        //FORMATO+=" <%@ include file = \"../alt/nav.jsp\" %>";
         for(int i=0;i<listaDato.getListBody().size();i++){
             // SPAM
             if(listaDato.getListBody().get(i) instanceof Spam){
                 Spam spam = (Spam) listaDato.getListBody().get(i);
                 spam.genera_spam();
                 FORMATO+=spam.getFormato();
-                validar_id(spam.getId());
+                validar_id(spam.getId(),"Spam");
             }
             // Div
             else if(listaDato.getListBody().get(i) instanceof Div){
                 Div div = (Div) listaDato.getListBody().get(i);
                 div.genera_div();
                 FORMATO+=div.genera_abre_div();
-                validar_id(div.getId());
+                validar_id(div.getId(),"DIV");
             } 
             // Div
             else if(listaDato.getListBody().get(i) instanceof DivC){
                 DivC div = (DivC) listaDato.getListBody().get(i);
                 FORMATO+=div.genera_cierra_div();
-                validar_id(div.getId());
+                
             } 
             //BR
             else if(listaDato.getListBody().get(i) instanceof Br){
@@ -93,14 +93,14 @@ public class GeneraHtml {
                 H1 h1 = (H1) listaDato.getListBody().get(i);
                 h1.genera_h1();
                 FORMATO+=h1.getFormato();
-                validar_id(h1.getId());
+                validar_id(h1.getId(),"H1");
             } 
             //P
             else  if(listaDato.getListBody().get(i) instanceof P){
                 P p = (P) listaDato.getListBody().get(i);
                 p.genera_p();
                 FORMATO+=p.getFormato();
-                validar_id(p.getId());
+                validar_id(p.getId(),"P");
             }
             //input
             else  if(listaDato.getListBody().get(i) instanceof Input){
@@ -108,34 +108,34 @@ public class GeneraHtml {
                 Input in = (Input) listaDato.getListBody().get(i);
                 in.determina_formato_input();
                 FORMATO+=in.determina_formato_input();
-                validar_id(in.getId());
+                validar_id(in.getId(),"Input");
             }
             else  if(listaDato.getListBody().get(i) instanceof TextArea){
                 
                 TextArea area = (TextArea) listaDato.getListBody().get(i);
                 //area.generatext();
                 FORMATO+=area.generatext();
-                validar_id(area.getId());
+                validar_id(area.getId(),"TextArea");
             } else  if(listaDato.getListBody().get(i) instanceof Button){
                 
                 Button button= (Button) listaDato.getListBody().get(i);
                 
                 FORMATO+=button.genera_button();
-                validar_id(button.getId());
+                validar_id(button.getId(),"Button");
             }
             else  if(listaDato.getListBody().get(i) instanceof Img){
                 
                 Img img= (Img) listaDato.getListBody().get(i);
                 
                 FORMATO+=img.generar_img();
-                validar_id(img.getId());
+                validar_id(img.getId(),"Imagen");
             } 
             else if(listaDato.getListBody().get(i) instanceof Select){
                 
                 Select select= (Select) listaDato.getListBody().get(i);
                 
                 FORMATO+=select.generar_select();
-                validar_id(select.getId());
+                validar_id(select.getId(),"Select");
             }
             //abre script
             else if(listaDato.getListBody().get(i) instanceof Script){
@@ -151,21 +151,16 @@ public class GeneraHtml {
                 
                 FORMATO+=script.getFORMATO();
             }
-            
-            
-            
         }
-        
-        
-        
-        
     }
     
-    public void validar_id(String id){
-        if(listaID.contains(id)){
-            ID_duplicado.add("No se pueden tener ID duplicados el siguiente ID ( "+id+" ) ya esta definido");
+    public void validar_id(String id, String seccion){
+        if(!id.isEmpty()|| id.equalsIgnoreCase(" ")){
+            if(listaID.contains(id.trim())){
+            ID_duplicado.add("No se pueden tener ID DUPLICADOS el siguiente ID ( "+id+" ) ya esta definido en: "+seccion+"\n");
         }else{
-            listaID.add(id);
+            listaID.add(id.trim());
+        }
         }
     }
     

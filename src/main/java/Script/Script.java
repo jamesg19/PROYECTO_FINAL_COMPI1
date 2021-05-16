@@ -7,6 +7,7 @@
 package Script;
 
 import HTML.*;
+import java.util.ArrayList;
 
 /**
  * 
@@ -14,6 +15,7 @@ import HTML.*;
  */
 public class Script extends Body {
     private String FORMATO="<script>\n";
+    private ArrayList<Body> listScript = new ArrayList();
 
     public Script() {
     }
@@ -24,6 +26,14 @@ public class Script extends Body {
 
     public void setFORMATO(String FORMATO) {
         this.FORMATO = FORMATO;
+    }
+
+    public ArrayList<Body> getListScript() {
+        return listScript;
+    }
+
+    public void setListScript(ArrayList<Body> listScript) {
+        this.listScript = listScript;
     }
     
 }

@@ -13,7 +13,7 @@
 <br>
 <br>
 <div align="center" >
-<span id="mostrar_2" ><font size ="" face="8" color="style="background-color:#fff6ff;"" >¿ Qué resultado genera la operación siguiente: 100-27 ?</font></span>
+<span id="mostrar_3" ><font size ="" face="8" color="style="background-color:#fff6ff;"" >¿ Qué resultado genera la operación siguiente: 100-27 ?</font></span>
 </div>
 <p id="" style=" COLOR:#3E3A39; TEXT-ALIGN: center; FONT-SIZE:12; FONT-FAMILY:Verdana; " >resultado genera la operación siguiente: 100-27 ?</p>
 <input id="IDinput123" type="number" class="form-control"  placeholder="number" style="BORDER: #fff6ff 1px solid; COLOR:#fff6ff; FONT-SIZE: 10pt; FONT-FAMILY: Verdana;">texto del input </input>
@@ -28,7 +28,7 @@
 <button id="boton_1" onclick="PROCESS_metodosJames1()"  class="btn" type="button" style="background-color:#4DA538;" style=" COLOR:#FFF123; TEXT-ALIGN: left; FONT-SIZE:18px; FONT-FAMILY:Verdana; "> Procesar...</button>
 </div>
 <figure>
-<img class="img-thumbnail" id="mg_1" alt="Textoooo" src="https://static.coindesk.com/wp-content/uploads/2021/04/dogecoin-710x458.jpg?format=webp" width="20%" height="20pX"  >
+<img class="img-thumbnail" id="mg_3" alt="Textoooo" src="https://static.coindesk.com/wp-content/uploads/2021/04/dogecoin-710x458.jpg?format=webp" width="20%" height="20pX"  >
 <figcaption>Textoooo</figcaption></figure>
 <div class="row">
     <div class="col"></div>    <div class="col"> 
@@ -44,9 +44,11 @@
 </div>
 <div id="div_1" class="row" align="left" style="background-color:#7B1BA9;" style=" COLOR:#FBFCFB; FONT-SIZE:30px; FONT-FAMILY:Verdana; " >
 <figure>
-<img class="img-thumbnail" id="mg_1" alt="Textoooo" src="www.google.com" width="100%" height="20pX"  >
+<img class="img-thumbnail" id="mg_2" alt="Textoooo" src="www.google.com" width="100%" height="20pX"  >
 <figcaption>Textoooo</figcaption></figure>
 </div>
+<script>
+</script>
 </body>
 
 </html>
