@@ -69,7 +69,7 @@ parser code
 		System.out.println("\nREPORT FATAL");
 	}
 	public void syntax_error(Symbol curl_token){
-		sintaxERROR.add("Se esperaba: "+symbl_name_from_id(expected_token_ids().get(0)) +"\n"
+		sintaxERROR.add("\nSe esperaba: "+symbl_name_from_id(expected_token_ids().get(0)) +"\n"
 		+" Columna: "+cur_token.right+" Linea: "+cur_token.left+" Valor:"+cur_token.value);
 
 		System.out.println("\nSE ESPERABA: "+symbl_name_from_id(expected_token_ids().get(0)));
@@ -209,12 +209,11 @@ parametro_c_gcic::=
 	
 	| CORCHETE_ABRE id:ts CORCHETE_CIERRA
 	{:  html.setId(ts.toString()); html= new Html2();  listHtml.add(html); :}
-	/*
+	
 	| error 
-	{: sintaxERROR.add(" Se esperaba la definicion de PARAMETROS EN c_gcic \n");
-	 expected_token_ids();
-	 :}
-	*/
+	| error parametro_c_gcic
+
+	
 
 ;
 id::=
@@ -239,6 +238,7 @@ head::=
 	| MENOR_QUE C_HEAD MAYOR_QUE 
 	MENOR_QUE DIVISION C_HEAD MAYOR_QUE
 	{: listHtml.add(head); :}
+	| error
 	
 
 ;
@@ -249,12 +249,16 @@ parametros_head::=
 	| titulo  parametros_head1
 
 	| parametros_head1
+	
+
 ;
 parametros_head1::=
 	 link
+	 
 ;
 parametros_head2::=
 	titulo
+	
 ;
 
 link::=
@@ -265,6 +269,7 @@ link::=
 	| MENOR_QUE C_LINK  CORCHETE_ABRE  CORCHETE_CIERRA MAYOR_QUE
 	MENOR_QUE DIVISION C_LINK MAYOR_QUE
 	{: Link link= new Link(); head.getListHead().add(link); :}
+	| error
 ;
 
 titulo::=
@@ -273,6 +278,7 @@ titulo::=
 	
 	| TI TD
 	{: Title title= new Title(); head.getListHead().add(title);         :}
+	| error
 ;
 
 href::=
@@ -297,6 +303,7 @@ background::=
 
 	| BACKGROUND IGUAL COMILLA CTE_COLOR:ba COMILLA		
 	{: body.setBackground(ba.toString()); System.out.println(" BACKGROUND CTE COLOR "+ba.toString()); :}
+	| error
 ;
 
 //AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII

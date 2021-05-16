@@ -17,6 +17,7 @@ public class Proceso extends Script {
     public Proceso() {
         
     }
+    
     public String genera_proces_A(){
         FORMATO="function "+nombre+"{ ";
         return FORMATO;

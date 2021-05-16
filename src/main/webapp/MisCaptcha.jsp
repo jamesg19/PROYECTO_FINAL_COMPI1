@@ -49,7 +49,6 @@
                                         <td align="center" >Modificacadores</td>
                                     </tr>
                                 <thead class="thead-dark">
-                                    
                                 </thead>
                                 <tbody class="text-center">
                                     <%
@@ -76,8 +75,9 @@
                                     </tr>
                                     <% }
                                     } else { %>
-
-
+                                    <td> -----</td>
+                                <td> No tienes captchas</td>
+                                <td> -----</td>
 
                                     <% }
                                         } catch (Exception e) {
