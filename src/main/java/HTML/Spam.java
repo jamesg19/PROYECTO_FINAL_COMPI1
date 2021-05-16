@@ -61,7 +61,7 @@ public class Spam extends Body {
         
         //valores por defecto<>
 
-        formato = "<div align=\""+alineacion+"\" >\n"
+        formato = "\n<div align=\""+alineacion+"\" >\n"
                 + "<span id=\""+id+"\" ><font size =\""+size+"\" face=\""+letra+"\" color=\""+color+"\" >"+texto+"</font></span>\n"
                 + "</div>\n";
 
