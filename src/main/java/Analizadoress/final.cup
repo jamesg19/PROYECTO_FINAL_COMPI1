@@ -20,9 +20,9 @@ parser code
 	ArrayList<Variable> lstVariable = new ArrayList();
 	IntegerV integ= new IntegerV();
 	StringV string = new StringV();
-	BooleanV boolean= new BooleanV();
+	BooleanV bool= new BooleanV();
 	DecimalV decimal= new DecimalV();
-	CharV char= new CharV();
+	CharV cha= new CharV();
 
 
 	ArrayList<String> Variables = new ArrayList<String>();
@@ -51,7 +51,7 @@ parser code
 	Img img= new Img();
 	Script script= new Script();
 	Script2 script2= new Script2();
-	Process proceso= new Process();
+	Proceso proceso = new Proceso();
 	Onload only= new Onload();
 	CierraCorchete close= new CierraCorchete();
 
@@ -891,13 +891,16 @@ get_element::=
 //DEFINIR UNA VARIABLE TIPO INTEGER
 integer::=
 	INTEGER GLOBAL nombre_variables:vars PUNTO_COMA									
-	{: /*lstVariable.add();*/  System.out.println(" VARIABLES:  G "+vars); :}
+	{: integ = new IntegerV(vars.toString(),true,""); script.getListScript().add(integ);   System.out.println(" VARIABLES:  G "+vars); :}
+	
 	| INTEGER GLOBAL nombre_variables:vars IGUAL valor_integer:val PUNTO_COMA 		
-	{: System.out.println(" VARIABLES:  G "+vars+" Valores: "+val); :}
+	{: integ = new IntegerV(vars.toString(),true,val.toString()); script.getListScript().add(integ); System.out.println(" VARIABLES:  G "+vars+" Valores: "+val); :}
+	
 	| INTEGER nombre_variables:vars PUNTO_COMA										
-	{: System.out.println(" VARIABLES:   "+vars); :}
+	{: integ = new IntegerV(vars.toString(),false,""); script.getListScript().add(integ); System.out.println(" VARIABLES:   "+vars); :}
+	
 	| INTEGER nombre_variables:vars IGUAL valor_integer:val PUNTO_COMA				
-	{: System.out.println(" VARIABLES:   "+vars+" Valores: "+val); :}
+	{: integ = new IntegerV(vars.toString(),false,val.toString()); script.getListScript().add(integ); System.out.println(" VARIABLES:   "+vars+" Valores: "+val); :}
 	
 ;
 
@@ -919,16 +922,23 @@ valor_integer::=
 ;
 
 string::=
-	 STRING GLOBAL nombre_variables:vars IGUAL get_element:id PUNTO_COMA				{: System.out.println(" GETELEMENT BY ID "+vars+" ID: "+id); :}
-	| STRING  nombre_variables:vars IGUAL get_element:id PUNTO_COMA					{: System.out.println(" GETELEMENT BY ID "+vars+" ID: "+id); :}
+	 STRING GLOBAL nombre_variables:vars IGUAL get_element:id PUNTO_COMA				
+	 {: string = new StringV(vars.toString(),true,"",id.toString()); script.getListScript().add(string); System.out.println(" GETELEMENT BY ID "+vars+" ID: "+id); :}
+
+	| STRING  nombre_variables:vars IGUAL get_element:id PUNTO_COMA					
+	{: string = new StringV(vars.toString(),false,"",id.toString()); script.getListScript().add(string); System.out.println(" GETELEMENT BY ID "+vars+" ID: "+id); :}
+	
 	| STRING GLOBAL nombre_variables:vars PUNTO_COMA									
-																				{: /*lstVariable.add();*/  System.out.println(" VARIABLES: STRING  G "+vars); :}
+	{: string = new StringV(vars.toString(),true,"",""); script.getListScript().add(string);  System.out.println(" VARIABLES: STRING  G "+vars); :}
+	
 	| STRING GLOBAL nombre_variables:vars IGUAL valor_string:val PUNTO_COMA 		
-																				{: System.out.println(" VARIABLES: STRING G "+vars+" Valores: "+val); :}
+	{: string = new StringV(vars.toString(),true,val.toString(),""); script.getListScript().add(string); System.out.println(" VARIABLES: STRING G "+vars+" Valores: "+val); :}
+	
 	| STRING nombre_variables:vars PUNTO_COMA										
-																				{: System.out.println(" VARIABLES: STRING "+vars); :}
+	{: string = new StringV(vars.toString(),false,"",""); script.getListScript().add(string);  System.out.println(" VARIABLES: STRING "+vars); :}
+
 	| STRING nombre_variables:vars IGUAL valor_string:val PUNTO_COMA				
-																				{: System.out.println(" VARIABLES: STRING "+vars+" Valores: "+val); :}
+	{: string = new StringV(vars.toString(),false,val.toString(),""); script.getListScript().add(string); System.out.println(" VARIABLES: STRING "+vars+" Valores: "+val); :}
 	
 ;
 valor_string::=
@@ -940,13 +950,16 @@ valor_string::=
 ;
 char::=
 	CHAR GLOBAL nombre_variables:vars PUNTO_COMA									
-																				{:  System.out.println(" VARIABLES: CHAR  G "+vars); :}
+	{:  cha = new CharV(vars.toString(),true,""); script.getListScript().add(cha);  System.out.println(" VARIABLES: CHAR  G "+vars); :}
+
 	| CHAR GLOBAL nombre_variables:vars IGUAL valor_char:val PUNTO_COMA 		
-																				{: System.out.println(" VARIABLES: CHAR G "+vars+" Valores: "+val); :}
+	{: cha = new CharV(vars.toString(),true,val.toString()); script.getListScript().add(cha);  System.out.println(" VARIABLES: CHAR G "+vars+" Valores: "+val); :}
+	
 	| CHAR nombre_variables:vars PUNTO_COMA										
-																				{: System.out.println(" VARIABLES: CHAR "+vars); :}
+	{: cha = new CharV(vars.toString(),false,""); script.getListScript().add(cha); System.out.println(" VARIABLES: CHAR "+vars); :}
+
 	| CHAR nombre_variables:vars IGUAL valor_char:val PUNTO_COMA				
-																				{: System.out.println(" VARIABLES: CHAR "+vars+" Valores: "+val); :}
+	{: cha = new CharV(vars.toString(),false,val.toString()); script.getListScript().add(cha); System.out.println(" VARIABLES: CHAR "+vars+" Valores: "+val); :}
 ;
 
 valor_char::=
@@ -961,13 +974,16 @@ valor_char::=
 //DEFINIR UNA VARIABLE TIPO INTEGER
 decimal::=
 	DECIMAL GLOBAL nombre_variables:vars PUNTO_COMA									
-																					{: System.out.println(" VARIABLES: DECIMAL  G "+vars); :}
+	{: decimal = new DecimalV(vars.toString(),true,""); script.getListScript().add(decimal); System.out.println(" VARIABLES: DECIMAL  G "+vars); :}
+
 	| DECIMAL GLOBAL nombre_variables:vars IGUAL valor_decimal:val PUNTO_COMA 		
-																					{: System.out.println(" VARIABLES: DECIMAL G "+vars+" Valores: "+val); :}
+	{: decimal = new DecimalV(vars.toString(),true,val.toString()); script.getListScript().add(decimal); System.out.println(" VARIABLES: DECIMAL G "+vars+" Valores: "+val); :}
+
 	| DECIMAL nombre_variables:vars PUNTO_COMA										
-																					{: System.out.println(" VARIABLES: DECIMAL  "+vars); :}
+	{: decimal = new DecimalV(vars.toString(),false,""); script.getListScript().add(decimal); System.out.println(" VARIABLES: DECIMAL  "+vars); :}
+
 	| DECIMAL nombre_variables:vars IGUAL valor_decimal:val PUNTO_COMA				
-																					{: System.out.println(" VARIABLES: DECIMAL  "+vars+" Valores: "+val); :}
+	{: decimal = new DecimalV(vars.toString(),false,val.toString()); script.getListScript().add(decimal); System.out.println(" VARIABLES: DECIMAL  "+vars+" Valores: "+val); :}
 ;
 valor_decimal::=
     valor_decimal:e1 SUMA  valor_decimal:e2         					{: RESULT = e1.toString()+"+"+e2.toString(); :}

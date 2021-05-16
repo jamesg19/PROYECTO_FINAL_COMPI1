@@ -10,11 +10,11 @@ package Script;
  * 
  * @author James Gramajo 
  */
-public class Process {
+public class Proceso extends Script {
     private String FORMATO="";
     private String nombre="";
 
-    public Process() {
+    public Proceso() {
         
     }
     public String genera_proces_A(){

@@ -10,14 +10,17 @@ package Script;
  * 
  * @author James Gramajo 
  */
-public class CierraCorchete extends Script {
-    private String FORMATO="}";
+public class Onload extends Script {
+    private String FORMATO="";
     private String nombre="";
 
-    public CierraCorchete() {
+    public Onload() {
         
     }
-
+    public String genera_proces_A(){
+        FORMATO="function "+nombre+"{ ";
+        return FORMATO;
+    }
 
     public String getFORMATO() {
         return FORMATO;

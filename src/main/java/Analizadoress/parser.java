@@ -1609,6 +1609,12 @@ public class parser extends java_cup.runtime.lr_parser {
 
 	ArrayList<Variable> lstVariable = new ArrayList();
 	IntegerV integ= new IntegerV();
+	StringV string = new StringV();
+	BooleanV bool= new BooleanV();
+	DecimalV decimal= new DecimalV();
+	CharV cha= new CharV();
+
+
 	ArrayList<String> Variables = new ArrayList<String>();
 
 	ArrayList<Html> listHtml = new ArrayList<>();
@@ -1635,6 +1641,11 @@ public class parser extends java_cup.runtime.lr_parser {
 	Img img= new Img();
 	Script script= new Script();
 	Script2 script2= new Script2();
+	Proceso proceso = new Proceso();
+	Onload only= new Onload();
+	CierraCorchete close= new CierraCorchete();
+
+
 
 
 	//constructor
@@ -4278,7 +4289,7 @@ class CUP$parser$actions {
           case 254: // abre_script ::= ABRE_C_SCRIPTING 
             {
               Object RESULT =null;
-		  body.getListBody().add(script); script= new Script(); 
+		  script= new Script(); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("abre_script",89, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -4287,7 +4298,9 @@ class CUP$parser$actions {
           case 255: // cierra_script ::= CIERRA_C_SCRIPTING 
             {
               Object RESULT =null;
-		  body.getListBody().add(script2); script2= new Script2(); 
+		    
+	body.getListBody().add(script); script= new Script(); 
+	body.getListBody().add(script2); script2= new Script2(); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("cierra_script",90, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -4860,7 +4873,7 @@ class CUP$parser$actions {
 		int varsleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int varsright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object vars = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 /*lstVariable.add();*/  System.out.println(" VARIABLES:  G "+vars); 
+		 integ = new IntegerV(vars.toString(),true,""); script.getListScript().add(integ);   System.out.println(" VARIABLES:  G "+vars); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("integer",111, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -4875,7 +4888,7 @@ class CUP$parser$actions {
 		int valleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int valright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object val = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES:  G "+vars+" Valores: "+val); 
+		 integ = new IntegerV(vars.toString(),true,val.toString()); script.getListScript().add(integ); System.out.println(" VARIABLES:  G "+vars+" Valores: "+val); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("integer",111, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -4887,7 +4900,7 @@ class CUP$parser$actions {
 		int varsleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int varsright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object vars = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES:   "+vars); 
+		 integ = new IntegerV(vars.toString(),false,""); script.getListScript().add(integ); System.out.println(" VARIABLES:   "+vars); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("integer",111, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -4902,7 +4915,7 @@ class CUP$parser$actions {
 		int valleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int valright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object val = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES:   "+vars+" Valores: "+val); 
+		 integ = new IntegerV(vars.toString(),false,val.toString()); script.getListScript().add(integ); System.out.println(" VARIABLES:   "+vars+" Valores: "+val); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("integer",111, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5055,7 +5068,7 @@ class CUP$parser$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" GETELEMENT BY ID "+vars+" ID: "+id); 
+		 string = new StringV(vars.toString(),true,"",id.toString()); script.getListScript().add(string); System.out.println(" GETELEMENT BY ID "+vars+" ID: "+id); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("string",117, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5070,7 +5083,7 @@ class CUP$parser$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" GETELEMENT BY ID "+vars+" ID: "+id); 
+		 string = new StringV(vars.toString(),false,"",id.toString()); script.getListScript().add(string); System.out.println(" GETELEMENT BY ID "+vars+" ID: "+id); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("string",117, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5082,7 +5095,7 @@ class CUP$parser$actions {
 		int varsleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int varsright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object vars = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 /*lstVariable.add();*/  System.out.println(" VARIABLES: STRING  G "+vars); 
+		 string = new StringV(vars.toString(),true,"",""); script.getListScript().add(string);  System.out.println(" VARIABLES: STRING  G "+vars); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("string",117, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5097,7 +5110,7 @@ class CUP$parser$actions {
 		int valleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int valright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object val = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES: STRING G "+vars+" Valores: "+val); 
+		 string = new StringV(vars.toString(),true,val.toString(),""); script.getListScript().add(string); System.out.println(" VARIABLES: STRING G "+vars+" Valores: "+val); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("string",117, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5109,7 +5122,7 @@ class CUP$parser$actions {
 		int varsleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int varsright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object vars = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES: STRING "+vars); 
+		 string = new StringV(vars.toString(),false,"",""); script.getListScript().add(string);  System.out.println(" VARIABLES: STRING "+vars); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("string",117, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5124,7 +5137,7 @@ class CUP$parser$actions {
 		int valleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int valright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object val = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES: STRING "+vars+" Valores: "+val); 
+		 string = new StringV(vars.toString(),false,val.toString(),""); script.getListScript().add(string); System.out.println(" VARIABLES: STRING "+vars+" Valores: "+val); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("string",117, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5190,7 +5203,7 @@ class CUP$parser$actions {
 		int varsleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int varsright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object vars = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		  System.out.println(" VARIABLES: CHAR  G "+vars); 
+		  cha = new CharV(vars.toString(),true,""); script.getListScript().add(cha);  System.out.println(" VARIABLES: CHAR  G "+vars); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("char",121, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5205,7 +5218,7 @@ class CUP$parser$actions {
 		int valleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int valright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object val = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES: CHAR G "+vars+" Valores: "+val); 
+		 cha = new CharV(vars.toString(),true,val.toString()); script.getListScript().add(cha);  System.out.println(" VARIABLES: CHAR G "+vars+" Valores: "+val); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("char",121, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5217,7 +5230,7 @@ class CUP$parser$actions {
 		int varsleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int varsright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object vars = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES: CHAR "+vars); 
+		 cha = new CharV(vars.toString(),false,""); script.getListScript().add(cha); System.out.println(" VARIABLES: CHAR "+vars); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("char",121, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5232,7 +5245,7 @@ class CUP$parser$actions {
 		int valleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int valright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object val = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES: CHAR "+vars+" Valores: "+val); 
+		 cha = new CharV(vars.toString(),false,val.toString()); script.getListScript().add(cha); System.out.println(" VARIABLES: CHAR "+vars+" Valores: "+val); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("char",121, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5298,7 +5311,7 @@ class CUP$parser$actions {
 		int varsleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int varsright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object vars = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES: DECIMAL  G "+vars); 
+		 decimal = new DecimalV(vars.toString(),true,""); script.getListScript().add(decimal); System.out.println(" VARIABLES: DECIMAL  G "+vars); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("decimal",120, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5313,7 +5326,7 @@ class CUP$parser$actions {
 		int valleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int valright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object val = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES: DECIMAL G "+vars+" Valores: "+val); 
+		 decimal = new DecimalV(vars.toString(),true,val.toString()); script.getListScript().add(decimal); System.out.println(" VARIABLES: DECIMAL G "+vars+" Valores: "+val); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("decimal",120, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5325,7 +5338,7 @@ class CUP$parser$actions {
 		int varsleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int varsright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object vars = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES: DECIMAL  "+vars); 
+		 decimal = new DecimalV(vars.toString(),false,""); script.getListScript().add(decimal); System.out.println(" VARIABLES: DECIMAL  "+vars); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("decimal",120, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5340,7 +5353,7 @@ class CUP$parser$actions {
 		int valleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int valright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object val = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 System.out.println(" VARIABLES: DECIMAL  "+vars+" Valores: "+val); 
+		 decimal = new DecimalV(vars.toString(),false,val.toString()); script.getListScript().add(decimal); System.out.println(" VARIABLES: DECIMAL  "+vars+" Valores: "+val); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("decimal",120, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

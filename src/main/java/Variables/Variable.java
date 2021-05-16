@@ -6,11 +6,13 @@
 
 package Variables;
 
+import Script.Script;
+
 /**
  * 
  * @author James Gramajo 
  */
-public class Variable {
+public class Variable extends Script {
     private String nombre;
     private String tipo;
     private boolean global;

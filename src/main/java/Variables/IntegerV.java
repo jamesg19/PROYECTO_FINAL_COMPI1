@@ -12,10 +12,16 @@ package Variables;
  */
 public class IntegerV  extends Variable{
     private String constante="";
-    private boolean global;
-    private String valor;
+    private boolean global=false;
+    private String valor="";
 
     public IntegerV() {
+    }
+
+    public IntegerV(String constante,boolean global, String valor) {
+        this.constante=constante;
+        this.global = global;
+        this.valor = valor;
     }
 
     public String getConstante() {

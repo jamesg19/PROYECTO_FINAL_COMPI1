@@ -12,8 +12,8 @@ package Variables;
  */
 public class DecimalV  extends Variable{
     private String constante="";
-    private boolean global;
-    private String valor;
+    private boolean global=false;
+    private String valor="";
 
     public DecimalV() {
     }
@@ -21,7 +21,12 @@ public class DecimalV  extends Variable{
     public String getConstante() {
         return constante;
     }
-    
+
+    public DecimalV(String constante, boolean global, String valor) {
+        this.constante = constante;
+        this.global = global;
+        this.valor = valor;
+    }
 
     public void setConstante(String constante) {
         this.constante = constante;

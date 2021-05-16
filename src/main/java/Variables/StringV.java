@@ -12,11 +12,22 @@ package Variables;
  */
 public class StringV  extends Variable{
     private String constante="";
-    private boolean global;
-    private String valor;
+    private boolean global=false;
+    private String valor="";
+    private String element="";
+    //document.getElementById("intro");
+
+    public StringV(String constante, boolean global, String valor, String element) {
+        this.constante = constante;
+        this.global = global;
+        this.valor = valor;
+        this.element = element;
+    }
 
     public StringV() {
     }
+
+    
 
     public String getConstante() {
         return constante;
@@ -41,6 +52,14 @@ public class StringV  extends Variable{
 
     public void setValor(String valor) {
         this.valor = valor;
+    }
+
+    public String getElement() {
+        return element;
+    }
+
+    public void setElement(String element) {
+        this.element = element;
     }
     
     
