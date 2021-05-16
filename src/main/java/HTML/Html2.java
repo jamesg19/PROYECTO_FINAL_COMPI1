@@ -27,12 +27,8 @@ public class Html2 extends Html implements Serializable{
     public String formato_html_ABRE(){
         if(id.isEmpty()&& !name.isEmpty()){
             formato="<html name=\""+name+"\" >\n";
-        } 
-        else if(!id.isEmpty()&& name.isEmpty()){
-             formato="<html id=\""+id.substring(1)+"\" >\n";
-        }
-        else if(!id.isEmpty()&& !name.isEmpty()){
-             formato="<html id=\""+id.substring(1)+"\" name=\""+name+"\" >\n";
+        }else if(!id.isEmpty()&& !name.isEmpty()){
+             formato="<html id=\""+id+"\" name=\""+name+"\" >\n";
         } else if(id.isEmpty()&& name.isEmpty()){
              formato="<html >\n";
         }

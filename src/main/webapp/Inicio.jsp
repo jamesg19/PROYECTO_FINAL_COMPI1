@@ -27,6 +27,7 @@
             }
             //<link rel="stylesheet" href="Resources/JSS/area.css">    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
         %>
+       <%@ include file = "/nav.jsp" %>
         <form action="Gestor" method="POST" >
 
         

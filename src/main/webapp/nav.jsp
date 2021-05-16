@@ -24,8 +24,8 @@
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav ml-auto" style="margin-top:13px;">
                     <li class="nav-item"><a class="nav-link" uk-scroll="offset:50" href="Inicio.jsp">Home </a></li>
-                    <li class="nav-item"><a class="nav-link" uk-scroll="offset:100" href="#empresa">Mis Captchas</a></li>
-                    <li class="nav-item"><a class="nav-link" uk-scroll="offset:100" href="#areas">Reportes</a></li>
+                    <li class="nav-item"><a class="nav-link" uk-scroll="offset:100" href="MisCaptchas">Mis Captchas</a></li>
+                    <li class="nav-item"><a class="nav-link" uk-scroll="offset:100" href="#">Reportes</a></li>
                     <li class="nav-item"><a class="nav-link" uk-scroll="offset:50" href="#diferencial">Compi1 2021 </a></li>
                 </ul>
             </div>
