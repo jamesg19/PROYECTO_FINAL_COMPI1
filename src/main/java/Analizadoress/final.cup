@@ -3,15 +3,45 @@ package Analizadoress;
 import java_cup.runtime.Symbol;
 import java_cup.runtime.XMLElement;
 import java.util.ArrayList;
+import HTML.*;
 import Variables.*;
 
 parser code
 {:
-	
+	boolean banderaDiv=false;
 	private Symbol sym;
+	//lista errores sintacticos
+	ArrayList<String> sintaxERROR = new ArrayList<String>();
+
+
 	ArrayList<Variable> lstVariable = new ArrayList();
 	IntegerV integ= new IntegerV();
 	ArrayList<String> Variables = new ArrayList<String>();
+
+	ArrayList<Html> listHtml = new ArrayList<>();
+
+	ArrayList<Body> listB = new ArrayList<>();
+	ArrayList<Body> listC = new ArrayList<>();
+	
+	
+
+	//OBJETOS HTML
+	Html2 html=new Html2();
+	Head head=new Head();
+	Body body= new Body();
+	Spam spam= new Spam();
+	Input input = new Input();
+	TextArea area=new TextArea();
+	Select select= new Select();
+	H1 h1= new H1();
+	Div div= new Div();
+	DivC divc= new DivC();
+	Br br= new Br();
+	P p= new P();
+	Button button = new Button();
+	Img img= new Img();
+	
+
 
 	//constructor
 	public parser( LexerCup lex){
@@ -24,6 +54,8 @@ parser code
 		System.out.println("\nREPORT FATAL");
 	}
 	public void syntax_error(Symbol curl_token){
+		sintaxERROR.add("Se esperaba: "+symbl_name_from_id(expected_token_ids().get(0)) +"\n"
+		+" Columna: "+cur_token.right+" Linea: "+cur_token.left+" Valor:"+cur_token.value);
 		System.out.println("\nSE ESPERABA: "+symbl_name_from_id(expected_token_ids().get(0)));
         System.out.println("syntaxerr: " + symbl_name_from_id(cur_token.sym) +" Columna: "+cur_token.right+" Linea: "+cur_token.left+" Valor:"+cur_token.value);
 	}
@@ -45,6 +77,13 @@ parser code
 	public void addNameVar(String var){
 		Variables.add(var);
 	}
+	public ArrayList<Html> getLISTAHTML() {
+        return listHtml;
+    }
+	public ArrayList<String> getSintaxError() {
+        return sintaxERROR;
+    }
+
 
 
 :};
@@ -67,8 +106,8 @@ terminal TEXT_ALIGN;
 terminal
 TYPE, TIPOS_DE_INPUT, ID, NAME, COLS, ROWS, CLASS, TIPOS_CLASE, ROW, COLUMN, SRC, WIDTH, HEIGHT, ALT, ONCLICK, NOMBRE_METODO, C_SCRIPTING, PROCESS_, ON_LOAD;
 
-terminal RGB_COLOR, CTE_COLOR, NOMBRE_VARIABLE, GLOBAL, INTEGER, DECIMAL, BOOLEAN, TRUE_O_FALSE, OR_O_AND, CHAR, STRING, IGUALDAD, IGUAL, DIFERENCIACION, MENOR_QUE, MENOR_IGUAL, MAYOR_QUE, MAYOR_IGUAK, MAYOR_IGUAL, 
-OR, AND, NOT, ASC, DESC, LETPAR_NUM, LETIMPAR_NUM, REVERSE, CARACTER_ALEATORIO, NUM_ALEATORIO, ALERT_INFO, EXIT, MODO, GETELEMENBYID, INIT, END, 
+terminal RGB_COLOR, CTE_COLOR, NOMBRE_VARIABLE, GLOBAL, INTEGER, DECIMAL, BOOLEAN, TRUE_O_FALSE, OR_O_AND, CHAR, STRING, IGUALDAD, IGUAL, NO_IGUAL, MENOR_QUE, MENOR_IGUAL, MAYOR_QUE, MAYOR_IGUAK, MAYOR_IGUAL, 
+OR, AND, NOT, ASC, DESC, LETPAR_NUM, LETIMPAR_NUM, REVERSE, CARACTER_ALEATORIO, NUM_ALEATORIO, ALERT_INFO, EXIT, REDIRECT, MODO, GETELEMENBYID, INIT, END, 
 IF, ELSE, THEN, REPEAT, HUNTIL, INSERT, WHILE, THENWHILE, ABRE_INIT, CIERRA_INIT, PARENTESIS_ABRE, PARENTESIS_CIERRA, CORCHETE_ABRE, CORCHETE_CIERRA, COMILLA, COMILLA_SIMPLE, TI, TD;
 
 //SIMBOLOSSS  
@@ -76,7 +115,7 @@ terminal PUNTO_COMA, COMA;
 
 //operadores ARITMETICOS y CALCULADORA
 terminal SUMA, RESTA, MULTIPLICACION, DIVISION, NUMERO_ENTERO, NUMERO_DECIMAL;
-terminal UMENOS;
+terminal UMENOS, RMENOS;
 
 
 terminal FONT_FAMILY, ALINEACION, SIZE;
@@ -85,7 +124,7 @@ ABRE_BUTTON, CIERRA_BUTTON, ABRE_IMG, CIERRA_IMG, ABRE_C_SELECT, CIERRA_C_SELECT
 ABRE_C_SCRIPTING, CIERRA_C_SCRIPTING;
 
 /* No terminales */
-non terminal etiqueta_gcic, parametro_c_gcic, parametros_head, parametros_head1, parametros_head2, paramHeadUno, titulo, head, link, href, title, id, name;
+non terminal etiqueta_gcic, parametro_c_gcic, parametros_head, parametros_head1, parametros_head2, titulo, head, link, href, id, name;
 non terminal body, background,parametros_body, br;	 
 /*No terminales de C_H1*/
 non terminal parametros_h1, etiquetas_h1, id_h1, color_h1, font_size_h1, font_family_h1, text_align_h1;
@@ -96,22 +135,25 @@ non terminal parametros_img, etiquetas_img, id_img, src_img, width_img, height_i
 non terminal parametros_button, etiquetas_button, id_button, font_size_button, font_family_button, text_align_button, color_button, background_button, onclick_button;
 non terminal tipos_input, parametros_input, etiquetas_input, id_input, color_input, font_size_input, font_family_input, text_align_input;
 non terminal parametros_select, etiquetas_select, id_select, color_select, font_size_select, font_family_select, text_align_select, etiquetas_option;
-non terminal parametros_div, etiquetas_div, id_div, color_div, background_div, font_size_div, font_family_div, text_align_div, class_div;
+non terminal parametros_div, etiquetas_div, id_div, color_div, background_div, font_size_div, font_family_div, text_align_div, class_div, abre_div, cierra_div, mayor;
 
 
-non terminal etiquetas_scripting, parametros_proces,parametros_scripting, proces, adentro_process, onload;
-non terminal estado_inicial, metodos_especiales, parametro, bloque_INIT_END, instruccion, sentencias_control, pametros_elseif, pametro_els, if;
-non terminal sentencias;
+non terminal etiquetas_scripting, parametros_proces,parametros_scripting, proces, onload;
+non terminal estado_inicial, metodos_especiales, bloque_INIT_END, instruccion, sentencias_control, pametros_elseif, pametro_els, if;
+non terminal  repeat, while, insert, param_var, condicionales, condicionales2, cond_str;
 //NO TERMINALES DE VARIABLES EN SCRIPTING 
-non terminal definicion_variables,integer ,nombre_variables,valor_integer, valor_decimal, expr;
+non terminal definicion_variables,integer ,nombre_variables,valor_integer, valor_decimal;
 non terminal asig, asig2, string, get_element, valor_string, decimal, char, valor_char, boolean, valor_boolean, operador_logico_boolean;
 
 
 /* PRECEDENCIA DE OPERADORES */
 precedence left SUMA, RESTA;
 precedence left MULTIPLICACION, DIVISION;
-precedence left OR_O_AND;
+precedence left IGUALDAD, NO_IGUAL, MENOR_QUE, MENOR_IGUAL, MAYOR_QUE, MAYOR_IGUAL;
+precedence left OR, AND, OR_O_AND;
+precedence left NOT;
 precedence left UMENOS;
+//precedence left RMENOS;
 
 start with estado_inicial;
 
@@ -126,45 +168,59 @@ etiqueta_gcic::=
 	head
 	body
 	MENOR_QUE DIVISION C_GCIC MAYOR_QUE
-	
+	{: :}
+
 	| MENOR_QUE C_GCIC  MAYOR_QUE
 	head
 	body
 	MENOR_QUE DIVISION C_GCIC MAYOR_QUE
+	{:  :}
 	
 
 ;
 parametro_c_gcic::=
-	CORCHETE_ABRE id CORCHETE_CIERRA CORCHETE_ABRE name CORCHETE_CIERRA
-	| CORCHETE_ABRE name CORCHETE_CIERRA CORCHETE_ABRE id CORCHETE_CIERRA
-	| CORCHETE_ABRE name CORCHETE_CIERRA
-	| CORCHETE_ABRE id CORCHETE_CIERRA
+	CORCHETE_ABRE id:ts CORCHETE_CIERRA CORCHETE_ABRE name:na CORCHETE_CIERRA
+	{:   html.setId(ts.toString()); html.setName(na.toString()); html= new Html2();  listHtml.add(html); :}
+	
+	| CORCHETE_ABRE name:na CORCHETE_CIERRA CORCHETE_ABRE id:ts CORCHETE_CIERRA
+	{:  html.setId(ts.toString()); html.setName(na.toString()); html= new Html2();  listHtml.add(html); :}
+	
+	| CORCHETE_ABRE name:ts CORCHETE_CIERRA
+	{:  html.setName(ts.toString()); html= new Html2();  listHtml.add(html); :}
+	
+	| CORCHETE_ABRE id:ts CORCHETE_CIERRA
+	{:  html.setId(ts.toString()); html= new Html2();  listHtml.add(html); :}
 ;
 id::=
-	 ID IGUAL COMILLA TEXTO_ID:ts COMILLA 		{: System.out.println(" ID "+ts.toString());:}	
+	 ID IGUAL COMILLA TEXTO_ID:ts COMILLA 		{: RESULT=ts.toString(); System.out.println(" ID "+ts.toString());:}	
 ;
 
 name::=
-	NAME IGUAL COMILLA TEXTO:es COMILLA	{: System.out.println(" NAME "+es.toString());:}
+	NAME IGUAL COMILLA TEXTO:es COMILLA	{:  RESULT=es.toString(); System.out.println(" NAME "+es.toString());:}
 ;
 head::=
 	MENOR_QUE C_HEAD MAYOR_QUE
 	parametros_head 
 	MENOR_QUE DIVISION C_HEAD MAYOR_QUE
+	{: listHtml.add(head); :}
 
 	| MENOR_QUE C_HEAD MAYOR_QUE 
 	titulo
 	MENOR_QUE DIVISION C_HEAD MAYOR_QUE
+	{: listHtml.add(head); :}
 
 	| MENOR_QUE C_HEAD MAYOR_QUE 
-	
 	MENOR_QUE DIVISION C_HEAD MAYOR_QUE
+	{: listHtml.add(head); :}
 	
 
 ;
+
 parametros_head::=
 	  link parametros_head2
+
 	| titulo  parametros_head1
+
 	| parametros_head1
 ;
 parametros_head1::=
@@ -175,33 +231,47 @@ parametros_head2::=
 ;
 
 link::=
-	MENOR_QUE C_LINK  CORCHETE_ABRE href CORCHETE_CIERRA MAYOR_QUE
+	MENOR_QUE C_LINK  CORCHETE_ABRE href:r CORCHETE_CIERRA MAYOR_QUE
 	MENOR_QUE DIVISION C_LINK MAYOR_QUE
+	{: System.out.println(r.toString()); Link link= new Link(); link.setHref(r.toString()); head.getListHead().add(link); :}
+
 	| MENOR_QUE C_LINK  CORCHETE_ABRE  CORCHETE_CIERRA MAYOR_QUE
 	MENOR_QUE DIVISION C_LINK MAYOR_QUE
+	{: Link link= new Link(); head.getListHead().add(link); :}
 ;
 
 titulo::=
-	TI TEXTO:a 	TD  {:System.out.println(" Titulo: "+a.toString()); :}
+	TI TEXTO:a 	TD  
+	{: Title title= new Title(a.toString()); head.getListHead().add(title);         System.out.println(" Titulo: "+a.toString()); :}
+	
 	| TI TD
+	{: Title title= new Title(); head.getListHead().add(title);         :}
 ;
 
 href::=
-	HREF IGUAL COMILLA TEXTO:linkk COMILLA	{:System.out.println(" LINK "+linkk.toString());:} 	
+	HREF IGUAL COMILLA TEXTO:linkk COMILLA	{: RESULT=linkk.toString(); System.out.println(" LINK "+linkk.toString());:} 	
 ;
 
 body::=
 	MENOR_QUE C_BODY CORCHETE_ABRE background CORCHETE_CIERRA MAYOR_QUE
 	parametros_body
 	MENOR_QUE DIVISION C_BODY MAYOR_QUE
+	{: listHtml.add(body); :}
+
 	| MENOR_QUE C_BODY CORCHETE_ABRE CORCHETE_CIERRA MAYOR_QUE
 	parametros_body
 	MENOR_QUE DIVISION C_BODY MAYOR_QUE
+	{: listHtml.add(body); :}
 ;
+
 background::=
-	BACKGROUND IGUAL COMILLA RGB_COLOR:back COMILLA		{: System.out.println(" BACKGROUND RGB "+back.toString());:}
-	| BACKGROUND IGUAL COMILLA CTE_COLOR:ba COMILLA		{: System.out.println(" BACKGROUND constante de color: "+ba.toString());:}
+	BACKGROUND IGUAL COMILLA RGB_COLOR:back COMILLA		
+	{: body.setBackground(back.toString()); System.out.println(" BACKGROUND RGB "+back.toString()); :}
+
+	| BACKGROUND IGUAL COMILLA CTE_COLOR:ba COMILLA		
+	{: body.setBackground(ba.toString()); System.out.println(" BACKGROUND CTE COLOR "+ba.toString()); :}
 ;
+
 //AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 //AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 parametros_body::=
@@ -231,13 +301,15 @@ parametros_body::=
 
 etiquetas_h1::=
 	ABRE_C_H1 parametros_h1 MAYOR_QUE TEXTO:txt CIERRA_C_H1
-	{: System.out.println(" TEXTO EN H1:  "+txt.toString());:}
+	{: h1.setTexto(txt.toString()); if(banderaDiv==false){body.getListBody().add(h1);}else{div.getListDiv().add(h1);} h1= new H1(); System.out.println(" TEXTO EN H1:  "+txt.toString());:}
 
 	| ABRE_C_H1 parametros_h1 MAYOR_QUE  CIERRA_C_H1 
+	{: if(banderaDiv==false){body.getListBody().add(h1);}else{div.getListDiv().add(h1);} h1= new H1();:}
 
 	| ABRE_C_H1  MAYOR_QUE TEXTO:txt CIERRA_C_H1
-	{: System.out.println(" TEXTO EN H1:  "+txt.toString());:}
+	{:h1.setTexto(txt.toString()); if(banderaDiv==false){body.getListBody().add(h1);}else{div.getListDiv().add(h1);} h1= new H1(); System.out.println(" TEXTO EN H1:  "+txt.toString());:}
 	| ABRE_C_H1  MAYOR_QUE  CIERRA_C_H1
+	{: if(banderaDiv==false){body.getListBody().add(h1);}else{div.getListDiv().add(h1);} h1= new H1(); :}
 	
 ;
 parametros_h1::=
@@ -255,36 +327,38 @@ parametros_h1::=
 	
 ;
 font_size_h1::=
-	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 		{: System.out.println(" FONT SIZE H1 "+s.toString());:}
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 					{: h1.setSize(s.toString()); System.out.println(" FONT SIZE H1 "+s.toString());:}
 ;
 font_family_h1::=
-	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY H1 "+s.toString());:}
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: h1.setLetra(s.toString()); System.out.println(" FONT FAMILY H1 "+s.toString());:}
 ;
 text_align_h1::=
-	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 		{: System.out.println(" TEXT ALIGN H1 "+s.toString());:}	
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 			{: h1.setAlign(s.toString()); System.out.println(" TEXT ALIGN H1 "+s.toString());:}	
 ;
 id_h1::=
-	ID IGUAL COMILLA TEXTO_ID:s COMILLA 		{: System.out.println(" ID H1 "+s.toString());:}	
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: h1.setId(s.toString()); System.out.println(" ID H1 "+s.toString());:}	
 ;
 color_h1::=
-	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 		{: System.out.println(" CTE Color H1 "+s.toString());:}
-	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 		{: System.out.println(" RGB H1 "+s.toString());:}
+	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 				{: h1.setColor(s.toString()); System.out.println(" CTE Color H1 "+s.toString());:}
+	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 				{: h1.setColor(s.toString()); System.out.println(" RGB H1 "+s.toString());:}
 ;
 br::=
-	MENOR_QUE C_BR MAYOR_QUE {:System.out.println(" BR Salto de Linea \n");:}
+	MENOR_QUE C_BR MAYOR_QUE {: if(banderaDiv==false){body.getListBody().add(br);}else{div.getListDiv().add(br);} br= new Br();   System.out.println(" BR Salto de Linea \n");:}
 ;
 
 //PARAMETROS DE LA ETIQUETA SPAM
 etiquetas_spam::=
 	ABRE_C_SPAM parametros_spam MAYOR_QUE TEXTO:txt CIERRA_C_SPAM
-	{: System.out.println(" TEXTO EN SPAM:  "+txt.toString());:}
-
+	{: spam.setTexto(txt.toString());   if(banderaDiv==false){body.getListBody().add(spam);}else{div.getListDiv().add(spam);}   spam= new Spam(); System.out.println(" TEXTO EN SPAM:  "+txt.toString()); :}
+	
 	| ABRE_C_SPAM parametros_spam MAYOR_QUE  CIERRA_C_SPAM 
+	{:if(banderaDiv==false){body.getListBody().add(spam);}else{div.getListDiv().add(spam);}  spam= new Spam(); :}
 
 	| ABRE_C_SPAM  MAYOR_QUE TEXTO:txt CIERRA_C_SPAM
-	{: System.out.println(" TEXTO EN SPAM:  "+txt.toString());:}
+	{: spam.setTexto(txt.toString()); if(banderaDiv==false){body.getListBody().add(spam);}else{div.getListDiv().add(spam);} spam= new Spam(); System.out.println(" TEXTO EN SPAM:  "+txt.toString()); :}
 
 	| ABRE_C_SPAM  MAYOR_QUE  CIERRA_C_SPAM
+	{:if(banderaDiv==false){body.getListBody().add(spam);}else{div.getListDiv().add(spam);} spam= new Spam(); :}
 	
 ;
 parametros_spam::=
@@ -302,34 +376,36 @@ parametros_spam::=
 	
 ;
 font_size_spam::=
-	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 		{: System.out.println(" FONT SIZE SPAM "+s.toString());:}
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 					{: spam.setSize(s.toString()); System.out.println(" FONT SIZE SPAM "+s.toString());:}
 ;
 font_family_spam::=
-	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY SPAM "+s.toString());:}
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: spam.setLetra(s.toString());  System.out.println(" FONT FAMILY SPAM "+s.toString());:}
 ;
 text_align_spam::=
-	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 		{: System.out.println(" TEXT ALIGN SPAM "+s.toString());:}	
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 			{: spam.setAlineacion(s.toString()); System.out.println(" TEXT ALIGN SPAM "+s.toString());:}	
 ;
 id_spam::=
-	ID IGUAL COMILLA TEXTO_ID:s COMILLA 		{: System.out.println(" ID SPAM "+s.toString());:}	
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: spam.setId(s.toString());    System.out.println(" ID SPAM "+s.toString());:}	
 ;
 color_spam::=
-	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 		{: System.out.println(" CTE Color SPAM "+s.toString());:}
-	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 		{: System.out.println(" RGB SPAM "+s.toString());:}
+	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 				{: spam.setColor(s.toString());  System.out.println(" CTE Color SPAM "+s.toString());:}
+	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 				{: spam.setColor(s.toString()); System.out.println(" RGB SPAM "+s.toString());:}
 ;
 
 //PARAMETROS DE LA ETIQUETA C_P
 etiquetas_cp::=
 	ABRE_C_P parametros_cp MAYOR_QUE TEXTO:txt CIERRA_C_P
-	{: System.out.println(" TEXTO EN CP:  "+txt.toString());:}
+	{: p.setTexto(txt.toString()); if(banderaDiv==false){body.getListBody().add(p);}else{div.getListDiv().add(p);} p= new P(); System.out.println(" TEXTO EN CP:  "+txt.toString());:}
 	| ABRE_C_P parametros_cp MAYOR_QUE  CIERRA_C_P 
+	{: if(banderaDiv==false){body.getListBody().add(p);}else{div.getListDiv().add(p);} p= new P(); :}
 	| ABRE_C_P  MAYOR_QUE TEXTO:txt CIERRA_C_P
-	{: System.out.println(" TEXTO EN CP:  "+txt.toString());:}
+	{: p.setTexto(txt.toString()); if(banderaDiv==false){body.getListBody().add(p);}else{div.getListDiv().add(p);} p= new P(); System.out.println(" TEXTO EN CP:  "+txt.toString());:}
 	| ABRE_C_P  MAYOR_QUE  CIERRA_C_P
+	{:  if(banderaDiv==false){body.getListBody().add(p);}else{div.getListDiv().add(p);} p= new P();:}
 ;
 
 parametros_cp::=
-	CORCHETE_ABRE id_cp CORCHETE_CIERRA parametros_cp
+	 CORCHETE_ABRE id_cp CORCHETE_CIERRA parametros_cp
 	| CORCHETE_ABRE color_cp CORCHETE_CIERRA parametros_cp
 	| CORCHETE_ABRE font_size_cp CORCHETE_CIERRA parametros_cp
 	| CORCHETE_ABRE font_family_cp CORCHETE_CIERRA parametros_cp
@@ -361,14 +437,16 @@ color_cp::=
 //PARAMETROS DE LA ETIQUETA INPUT
 etiquetas_input::=
 	ABRE_INPUT parametros_input MAYOR_QUE TEXTO:txt CIERRA_INPUT
-	{: System.out.println(" TEXTO EN INPUT:  "+txt.toString());:}
+	{: input.setTexto(txt.toString()); if(banderaDiv==false){body.getListBody().add(input);}else{div.getListDiv().add(input);}  input= new Input(); System.out.println(" TEXTO EN INPUT:  "+txt.toString());:}
 
 	| ABRE_INPUT parametros_input MAYOR_QUE  CIERRA_INPUT
+	{: if(banderaDiv==false){body.getListBody().add(input);}else{div.getListDiv().add(input);}  input= new Input();  input= new Input(); :}
 
 	| ABRE_INPUT  MAYOR_QUE TEXTO:txt CIERRA_INPUT
-	{: System.out.println(" TEXTO EN INPUT:  "+txt.toString());:}
+	{: input.setTexto(txt.toString()); if(banderaDiv==false){body.getListBody().add(input);}else{div.getListDiv().add(input);}  input= new Input(); System.out.println(" TEXTO EN INPUT:  "+txt.toString());:}
 
 	| ABRE_INPUT  MAYOR_QUE  CIERRA_INPUT
+	{: if(banderaDiv==false){body.getListBody().add(input);}else{div.getListDiv().add(input);}  input= new Input(); :}
 ;
 
 
@@ -389,36 +467,37 @@ parametros_input::=
 ;
 
 font_size_input::=
-	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 					{: System.out.println(" FONT SIZE INPUT "+s.toString());:}
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 					{: input.setSize(s.toString() ); System.out.println(" FONT SIZE INPUT "+s.toString());:}
 ;
 font_family_input::=
-	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY INPUT "+s.toString());:}
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: input.setLetra(s.toString() ); System.out.println(" FONT FAMILY INPUT "+s.toString());:}
 ;
 text_align_input::=
-	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 			{: System.out.println(" TEXT ALIGN INPUT "+s.toString());:}	
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 			{: input.setAlign(s.toString() ); System.out.println(" TEXT ALIGN INPUT "+s.toString());:}	
 ;
 id_input::=
-	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: System.out.println(" ID INPUT "+s.toString());:}	
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: input.setId(s.toString() ); System.out.println(" ID INPUT "+s.toString());:}	
 ;
 color_input::=
-	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 				{: System.out.println(" CTE Color INPUT "+s.toString());:}
-	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 				{: System.out.println(" RGB INPUT "+s.toString());:}
+	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 				{: input.setColor(s.toString() ); System.out.println(" CTE Color INPUT "+s.toString());:}
+	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 				{: input.setColor(s.toString() ); System.out.println(" RGB INPUT "+s.toString());:}
 ;
 tipos_input::=
-	TYPE IGUAL COMILLA TIPOS_DE_INPUT:input COMILLA			{: System.out.println(" TIPOS DE INPUT "+input.toString());:}
+	TYPE IGUAL COMILLA TIPOS_DE_INPUT:s COMILLA			{: input.setTipo(s.toString() ); System.out.println(" TIPOS DE INPUT "+s.toString());:}
 ;
 //PARAMETROS DEL TEXT AREA 
 etiquetas_area::=
 	ABRE_TEXT_AREA parametros_area MAYOR_QUE TEXTO:txt CIERRA_TEXT_AREA
-	{: System.out.println(" TEXTO EN TEXT AREA:  "+txt.toString());:}
+	{: area.setTexto(txt.toString()); if(banderaDiv==false){body.getListBody().add(area);}else{div.getListDiv().add(area);} area= new TextArea(); System.out.println(" TEXTO EN TEXT AREA:  "+txt.toString());:}
 
 	| ABRE_TEXT_AREA parametros_area MAYOR_QUE  CIERRA_TEXT_AREA
+	{:  if(banderaDiv==false){body.getListBody().add(area);}else{div.getListDiv().add(area);} area= new TextArea(); :}
 
 	| ABRE_TEXT_AREA  MAYOR_QUE TEXTO:txt CIERRA_TEXT_AREA
-	{: System.out.println(" TEXTO EN TEXT AREA:  "+txt.toString());:}
+	{:  if(banderaDiv==false){body.getListBody().add(area);}else{div.getListDiv().add(area);} area= new TextArea(); System.out.println(" TEXTO EN TEXT AREA:  "+txt.toString());:}
 
 	| ABRE_TEXT_AREA  MAYOR_QUE  CIERRA_TEXT_AREA
-	
+	{:  if(banderaDiv==false){body.getListBody().add(area);}else{div.getListDiv().add(area);} area= new TextArea(); :}
 ;
 
 
@@ -440,34 +519,36 @@ parametros_area::=
 ;
 
 font_size_area::=
-	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 					{: System.out.println(" FONT SIZE TEXT  AREA: "+s.toString());:}
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 					{: area.setSize(s.toString()); System.out.println(" FONT SIZE TEXT  AREA: "+s.toString());:}
 ;
 font_family_area::=
-	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY TEXT AREA: "+s.toString());:}
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: area.setLetra(s.toString()); System.out.println(" FONT FAMILY TEXT AREA: "+s.toString());:}
 ;
 text_align_area::=
-	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 			{: System.out.println(" TEXT ALIGN TEXT AREA: "+s.toString());:}	
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 			{: area.setAlign(s.toString()); System.out.println(" TEXT ALIGN TEXT AREA: "+s.toString());:}	
 ;
 id_area::=
-	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: System.out.println(" ID TEXT AREA: "+s.toString());:}	
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: area.setId(s.toString()); System.out.println(" ID TEXT AREA: "+s.toString());:}	
 ;
 cols_area::=
-	COLS IGUAL COMILLA NUMERO_ENTERO:s COMILLA 					{: System.out.println(" NUMERO COLS TEXT AREA "+s.toString());:}	
+	COLS IGUAL COMILLA NUMERO_ENTERO:s COMILLA 					{: area.setCols(s.toString()); System.out.println(" NUMERO COLS TEXT AREA "+s.toString());:}	
 ;
 rows_area::=
-	ROWS IGUAL COMILLA NUMERO_ENTERO:s COMILLA 					{: System.out.println(" NUMERO ROWS TEXT AREA "+s.toString());:}	
+	ROWS IGUAL COMILLA NUMERO_ENTERO:s COMILLA 					{: area.setRows(s.toString()); System.out.println(" NUMERO ROWS TEXT AREA "+s.toString());:}	
 ;
 //PARAMETROS DEL BUTTON
 etiquetas_button::=
 	ABRE_BUTTON parametros_button MAYOR_QUE TEXTO:txt CIERRA_BUTTON
-	{: System.out.println(" TEXTO EN BUTTON:  "+txt.toString());:}
+	{: button.setTexto(txt.toString()); if(banderaDiv==false){body.getListBody().add(button);}else{div.getListDiv().add(button);} button= new Button();  System.out.println(" TEXTO EN BUTTON:  "+txt.toString());:}
 
 	| ABRE_BUTTON parametros_button MAYOR_QUE  CIERRA_BUTTON
+	{: if(banderaDiv==false){body.getListBody().add(button);}else{div.getListDiv().add(button);} button= new Button(); :}
 
 	| ABRE_BUTTON  MAYOR_QUE TEXTO:txt CIERRA_BUTTON
-	{: System.out.println(" TEXTO EN BUTTON:  "+txt.toString());:}
+	{: button.setTexto(txt.toString()); if(banderaDiv==false){body.getListBody().add(button);}else{div.getListDiv().add(button);} button= new Button(); System.out.println(" TEXTO EN BUTTON:  "+txt.toString());:}
 
 	| ABRE_BUTTON  MAYOR_QUE  CIERRA_BUTTON
+	{:  if(banderaDiv==false){body.getListBody().add(button);}else{div.getListDiv().add(button);} button= new Button(); :}
 	
 ;
 parametros_button::=
@@ -491,40 +572,42 @@ parametros_button::=
 ;
 
 font_size_button::=
-	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 					{: System.out.println(" FONT SIZE BUTTON : "+s.toString());:}
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 					{: button.setSize(s.toString()); System.out.println(" FONT SIZE BUTTON : "+s.toString());:}
 ;
 font_family_button::=
-	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY BUTTON: "+s.toString());:}
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: button.setLetra(s.toString()); System.out.println(" FONT FAMILY BUTTON: "+s.toString());:}
 ;
 text_align_button::=
-	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 			{: System.out.println(" TEXT ALIGN BUTTON: "+s.toString());:}	
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 			{: button.setAlign(s.toString()); System.out.println(" TEXT ALIGN BUTTON: "+s.toString());:}	
 ;
 id_button::=
-	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: System.out.println(" ID BUTTON: "+s.toString());:}	
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: button.setId(s.toString()); System.out.println(" ID BUTTON: "+s.toString());:}	
 ;
 color_button::=
-	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 				{: System.out.println(" CTE Color BUTTON "+s.toString());:}
-	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 				{: System.out.println(" RGB BUTTON "+s.toString());:}
+	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 				{: button.setColor(s.toString()); System.out.println(" CTE Color BUTTON "+s.toString());:}
+	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 				{: button.setColor(s.toString()); System.out.println(" RGB BUTTON "+s.toString());:}
 ;
 background_button::=
-	BACKGROUND IGUAL COMILLA RGB_COLOR:back COMILLA		{: System.out.println(" BACKGROUND RGB BUTTON: "+back.toString());:}
-	| BACKGROUND IGUAL COMILLA CTE_COLOR:ba COMILLA		{: System.out.println(" BACKGROUND constante de color BUTTON: "+ba.toString());:}
+	BACKGROUND IGUAL COMILLA RGB_COLOR:s COMILLA		{: button.setBackground(s.toString()); System.out.println(" BACKGROUND RGB BUTTON: "+s.toString());:}
+	| BACKGROUND IGUAL COMILLA CTE_COLOR:s COMILLA		{: button.setBackground(s.toString()); System.out.println(" BACKGROUND constante de color BUTTON: "+s.toString());:}
 ;
 onclick_button::=
-	ONCLICK IGUAL COMILLA NOMBRE_METODO:a COMILLA		{: System.out.println(" METODO DEL BUTTON: "+a.toString());:}
+	ONCLICK IGUAL COMILLA NOMBRE_METODO:s COMILLA		{:  button.setOnclick(s.toString()); System.out.println(" METODO DEL BUTTON: "+s.toString());:}
 ;
 
 //parametros IMAGENES
 etiquetas_img::=
 	ABRE_IMG parametros_img MAYOR_QUE TEXTO:txt CIERRA_IMG
-	{: System.out.println(" TEXTO EN IMAGEN:  "+txt.toString());:}
+	{: img.setTexto(txt.toString()); if(banderaDiv==false){body.getListBody().add(img);}else{div.getListDiv().add(img);} img= new Img(); System.out.println(" TEXTO EN IMAGEN:  "+txt.toString());:}
 
 	| ABRE_IMG parametros_img MAYOR_QUE  CIERRA_IMG
+	{:  if(banderaDiv==false){body.getListBody().add(img);}else{div.getListDiv().add(img);} img= new Img(); :}
 
 	| ABRE_IMG  MAYOR_QUE TEXTO:txt CIERRA_IMG
-	{: System.out.println(" TEXTO EN IMAGEN:  "+txt.toString());:}
+	{:img.setTexto(txt.toString()); if(banderaDiv==false){body.getListBody().add(img);}else{div.getListDiv().add(img);} img= new Img(); System.out.println(" TEXTO EN IMAGEN:  "+txt.toString());:}
 
 	| ABRE_IMG  MAYOR_QUE  CIERRA_IMG
+	{:  if(banderaDiv==false){body.getListBody().add(img);}else{div.getListDiv().add(img);} img= new Img();  :}
 	
 ;
 
@@ -545,28 +628,31 @@ parametros_img::=
 ;
 
 src_img::=
-	SRC IGUAL COMILLA TEXTO:s COMILLA 					{: System.out.println("SRC: IMG : "+s.toString());:}
+	SRC IGUAL COMILLA TEXTO:s COMILLA 					{: img.setSrc(s.toString()); System.out.println("SRC: IMG : "+s.toString());:}
 ;
 width_img::=
-	WIDTH IGUAL COMILLA SIZE:s COMILLA 		{: System.out.println(" WIDHT IMG: "+s.toString());:}
+	WIDTH IGUAL COMILLA SIZE:s COMILLA 					{: img.setWidth(s.toString()); System.out.println(" WIDHT IMG: "+s.toString());:}
 ;
 height_img::=
-	HEIGHT IGUAL COMILLA SIZE:s COMILLA 			{: System.out.println(" HEIGHT IMG: : "+s.toString());:}	
+	HEIGHT IGUAL COMILLA SIZE:s COMILLA 				{: img.setHeight(s.toString()); System.out.println(" HEIGHT IMG: : "+s.toString());:}	
 ;
 id_img::=
-	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: System.out.println(" ID IMG: "+s.toString());:}	
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 				{: img.setId(s.toString()); System.out.println(" ID IMG: "+s.toString());:}	
 ;
 alt_img::=
-	ALT IGUAL COMILLA TEXTO:s COMILLA 				{: System.out.println(" ALT DE IMG "+s.toString());:}
+	ALT IGUAL COMILLA TEXTO:s COMILLA 					{: img.setAlt(s.toString()); System.out.println(" ALT DE IMG "+s.toString());:}
 
 ;
 //PARAMETROS DE SELECT 
 etiquetas_select::=
-	ABRE_C_SELECT parametros_select MAYOR_QUE etiquetas_option CIERRA_C_SELECT
+	ABRE_C_SELECT parametros_select MAYOR_QUE etiquetas_option:av CIERRA_C_SELECT
+	{: select.setOpciones(av.toString());   if(banderaDiv==false){body.getListBody().add(select);}else{div.getListDiv().add(select);} select= new Select(); :}
 
 	| ABRE_C_SELECT parametros_select MAYOR_QUE  CIERRA_C_SELECT 
+	{:  if(banderaDiv==false){body.getListBody().add(select);}else{div.getListDiv().add(select);} select= new Select();  :}
 
 	| ABRE_C_SELECT  MAYOR_QUE  CIERRA_C_SELECT
+	{:  if(banderaDiv==false){body.getListBody().add(select);}else{div.getListDiv().add(select);} select= new Select(); :}
 	
 ;
 parametros_select::=
@@ -584,36 +670,51 @@ parametros_select::=
 	
 ;
 font_size_select::=
-	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 		{: System.out.println(" FONT SIZE SELECT "+s.toString());:}
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 					{: select.setSize(s.toString()); System.out.println(" FONT SIZE SELECT "+s.toString());:}
 ;
 font_family_select::=
-	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY SELECT "+s.toString());:}
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: select.setLetra(s.toString()); System.out.println(" FONT FAMILY SELECT "+s.toString());:}
 ;
 text_align_select::=
-	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 		{: System.out.println(" TEXT ALIGN SELECT "+s.toString());:}	
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 			{: select.setAlign(s.toString()); System.out.println(" TEXT ALIGN SELECT "+s.toString());:}	
 ;
 id_select::=
-	ID IGUAL COMILLA TEXTO_ID:s COMILLA 		{: System.out.println(" ID SELECT "+s.toString());:}	
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 					{: select.setId(s.toString()); System.out.println(" ID SELECT "+s.toString());:}	
 ;
 color_select::=
-	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 		{: System.out.println(" CTE Color SELECT "+s.toString());:}
-	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 		{: System.out.println(" RGB SELECT "+s.toString());:}
+	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 				{: select.setColor(s.toString()); System.out.println(" CTE Color SELECT "+s.toString());:}
+	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 				{: select.setColor(s.toString()); System.out.println(" RGB SELECT "+s.toString());:}
 ;
 etiquetas_option::=
-	 ABRE_C_OPTION   TEXTO:opt CIERRA_C_OPTION  etiquetas_option
-	{: System.out.println(" OPCIONES EN SELECT.: "+opt.toString());:}
+	 ABRE_C_OPTION   TEXTO:opt CIERRA_C_OPTION  etiquetas_option:opt2 
+	{: RESULT = opt2.toString()+""+opt.toString()+","; System.out.println(" OPCIONES EN SELECT.: "+opt.toString());:}
+	
 	| ABRE_C_OPTION   TEXTO:opt CIERRA_C_OPTION 
-	{: System.out.println(" OPCIONES EN SELECT "+opt.toString());:}
+	{: RESULT = opt.toString()+","; System.out.println(" OPCIONES EN SELECT "+opt.toString());:}
 ;
 //PARAMETROS DIV
-//MENOR_QUE
 etiquetas_div::=
-	  ABRE_C_DIV parametros_div MAYOR_QUE parametros_body CIERRA_C_DIV
+	  abre_div parametros_div mayor parametros_body cierra_div
+	  
+	| abre_div parametros_div mayor  cierra_div 
 
-	| ABRE_C_DIV parametros_div MAYOR_QUE  CIERRA_C_DIV 
+	| abre_div  mayor parametros_body cierra_div
 
-	| ABRE_C_DIV  MAYOR_QUE  CIERRA_C_DIV	
+	| abre_div  mayor cierra_div
+
 ;
+abre_div::=
+	ABRE_C_DIV {:    System.out.println("@@@@@@@@@@@@@@@@@@@@@@ABRE-DIV@@@@@@@@@@@@@@@@@@@@@@@@"); :}
+	
+;
+mayor::=
+	MAYOR_QUE
+	{: body.getListBody().add(div);  div= new Div(); :}
+;
+cierra_div::=
+	CIERRA_C_DIV {:  body.getListBody().add(divc);  divc= new DivC();  System.out.println("######################CIERRA_DIV####################"); :}
+;
+
 parametros_div::=
 	CORCHETE_ABRE id_div CORCHETE_CIERRA parametros_div
 	| CORCHETE_ABRE color_div CORCHETE_CIERRA parametros_div
@@ -633,27 +734,27 @@ parametros_div::=
 	
 ;
 font_size_div::=
-	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 		{: System.out.println(" FONT SIZE DIV "+s.toString());:}
+	FONT_SIZE IGUAL COMILLA SIZE:s COMILLA 					{: div.setSize(s.toString()); System.out.println(" FONT SIZE DIV "+s.toString());:}
 ;
 font_family_div::=
-	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: System.out.println(" FONT FAMILY DIV "+s.toString());:}
+	FONT_FAMILY IGUAL COMILLA TIPOS_LETRA:s COMILLA 		{: div.setLetra(s.toString()); System.out.println(" FONT FAMILY DIV "+s.toString());:}
 ;
 text_align_div::=
-	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 		{: System.out.println(" TEXT ALIGN DIV "+s.toString());:}	
+	TEXT_ALIGN IGUAL COMILLA ALINEACION:s COMILLA 		{: div.setAlign(s.toString()); System.out.println(" TEXT ALIGN DIV "+s.toString());:}	
 ;
 id_div::=
-	ID IGUAL COMILLA TEXTO_ID:s COMILLA 				{: System.out.println(" ID DIV "+s.toString());:}	
+	ID IGUAL COMILLA TEXTO_ID:s COMILLA 				{: div.setId(s.toString()); System.out.println(" ID DIV "+s.toString());:}	
 ;
 background_div::=
-	BACKGROUND IGUAL COMILLA RGB_COLOR:back COMILLA		{: System.out.println(" BACKGROUND RGB DIV: "+back.toString());:}
-	| BACKGROUND IGUAL COMILLA CTE_COLOR:ba COMILLA		{: System.out.println(" BACKGROUND constante de color DIV: "+ba.toString());:}
+	BACKGROUND IGUAL COMILLA RGB_COLOR:back COMILLA		{: div.setBackground(back.toString()); System.out.println(" BACKGROUND RGB DIV: "+back.toString());:}
+	| BACKGROUND IGUAL COMILLA CTE_COLOR:ba COMILLA		{: div.setBackground(ba.toString()); System.out.println(" BACKGROUND constante de color DIV: "+ba.toString());:}
 ;
 color_div::=
-	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 			{: System.out.println(" CTE Color DIV "+s.toString());:}
-	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 			{: System.out.println(" RGB DIV "+s.toString());:}
+	COLOR IGUAL COMILLA CTE_COLOR:s COMILLA 			{: div.setColor(s.toString()); System.out.println(" CTE Color DIV "+s.toString());:}
+	| COLOR IGUAL COMILLA RGB_COLOR:s COMILLA 			{: div.setColor(s.toString()); System.out.println(" RGB DIV "+s.toString());:}
 ;
 class_div::=
-	CLASS IGUAL COMILLA TIPOS_CLASE:s COMILLA				{: System.out.println(" Class DIV "+s.toString());:}
+	CLASS IGUAL COMILLA TIPOS_CLASE:s COMILLA				{: div.setClasss(s.toString()); System.out.println(" Class DIV "+s.toString());:}
 
 ;
 etiquetas_scripting::=
@@ -681,6 +782,10 @@ proces::=
 ;
 onload::=
 	ON_LOAD PARENTESIS_ABRE PARENTESIS_CIERRA CORCHETE_ABRE
+	definicion_variables
+	CORCHETE_CIERRA
+	{: System.out.println(" METODO ONLOAD() "); :}
+	| ON_LOAD PARENTESIS_ABRE PARENTESIS_CIERRA CORCHETE_ABRE
 	CORCHETE_CIERRA
 	{: System.out.println(" METODO ONLOAD() "); :}
 
@@ -704,6 +809,12 @@ definicion_variables::=
 	| metodos_especiales
 	| sentencias_control definicion_variables
 	| sentencias_control
+	| repeat definicion_variables
+	| repeat
+	| while definicion_variables
+	| while
+	| insert definicion_variables
+	| insert
 ;
 instruccion::=
 	 integer
@@ -848,8 +959,8 @@ boolean::=
 ;
 valor_boolean::=
 	valor_boolean:s OR_O_AND:o operador_logico_boolean:t									{: RESULT = s.toString()+o.toString()+" "+t.toString(); :}
-	| valor_boolean:s OR_O_AND:o NOMBRE_VARIABLE:t										{: RESULT = s.toString()+o.toString()+" "+t.toString(); :}
-	| operador_logico_boolean:t									    					{: RESULT = t.toString()+""; :}
+	| valor_boolean:s OR_O_AND:o NOMBRE_VARIABLE:t											{: RESULT = s.toString()+o.toString()+" "+t.toString(); :}
+	| operador_logico_boolean:t									    						{: RESULT = t.toString()+""; :}
 	| NOMBRE_VARIABLE:t																		{: RESULT = t.toString()+" "; :}
 
 ;
@@ -857,16 +968,11 @@ operador_logico_boolean::=
 	 NOT TRUE_O_FALSE:t																		{: RESULT = "!"+t.toString()+" "; :}
 	| NOT NOMBRE_VARIABLE:t																	{: RESULT = "!"+t.toString()+" "; :}
 	| TRUE_O_FALSE:t																		{: RESULT = t.toString()+" "; :}
-	//| NOMBRE_VARIABLE:t																		{: RESULT = t.toString()+" "; :}
+	//| NOMBRE_VARIABLE:t																	{: RESULT = t.toString()+" "; :}
 
 
 ;
 
-
-sentencias::=
-	sentencias_control sentencias
-	| sentencias_control
-;
 sentencias_control::=
     //primera forma--------------
    	if
@@ -894,9 +1000,8 @@ sentencias_control::=
 
 ;
 if::=
-	IF PARENTESIS_ABRE  PARENTESIS_CIERRA THEN
+	IF PARENTESIS_ABRE condicionales condicionales2 condicionales PARENTESIS_CIERRA THEN
 ;
-
 pametro_els::=
     ELSE   
     instruccion
@@ -904,26 +1009,49 @@ pametro_els::=
     bloque_INIT_END
 ;
 pametros_elseif::=
-    ELSE IF PARENTESIS_ABRE  PARENTESIS_CIERRA THEN
+    ELSE IF PARENTESIS_ABRE condicionales condicionales2 condicionales  PARENTESIS_CIERRA THEN
     instruccion {:System.out.println("aqui 1");:}
-	| ELSE IF PARENTESIS_ABRE  PARENTESIS_CIERRA THEN
+	| ELSE IF PARENTESIS_ABRE condicionales condicionales2 condicionales PARENTESIS_CIERRA THEN
     bloque_INIT_END {:System.out.println("aqui 1");:}
 
-    | pametros_elseif ELSE IF PARENTESIS_ABRE  PARENTESIS_CIERRA THEN
+    | pametros_elseif ELSE IF PARENTESIS_ABRE condicionales condicionales2 condicionales  PARENTESIS_CIERRA THEN
     instruccion  {:System.out.println("aqui 2");:}
-	| pametros_elseif ELSE IF PARENTESIS_ABRE  PARENTESIS_CIERRA THEN
+	| pametros_elseif ELSE IF PARENTESIS_ABRE condicionales condicionales2 condicionales PARENTESIS_CIERRA THEN
     bloque_INIT_END  {:System.out.println("aqui 2");:}
-
 ;
+
 bloque_INIT_END::=
     INIT ABRE_INIT
     definicion_variables
     CIERRA_INIT END
 	| INIT ABRE_INIT
-    
+
     CIERRA_INIT END
 	
 ;
+repeat::=
+	REPEAT PARENTESIS_ABRE PARENTESIS_CIERRA HUNTIL  PARENTESIS_ABRE PARENTESIS_CIERRA
+	instruccion
+	| REPEAT PARENTESIS_ABRE PARENTESIS_CIERRA HUNTIL  PARENTESIS_ABRE PARENTESIS_CIERRA
+	bloque_INIT_END
+;
+while::=
+	WHILE  PARENTESIS_ABRE PARENTESIS_CIERRA THENWHILE
+	instruccion
+	| WHILE  PARENTESIS_ABRE PARENTESIS_CIERRA THENWHILE
+	bloque_INIT_END
+;
+insert::=
+	INSERT PARENTESIS_ABRE PARENTESIS_CIERRA PUNTO_COMA
+	| INSERT PARENTESIS_ABRE nombre_variables:v PARENTESIS_CIERRA PUNTO_COMA 		{: System.out.println(" INSERTT "+v.toString()); :}
+	| INSERT PARENTESIS_ABRE param_var PARENTESIS_CIERRA PUNTO_COMA
+;
+
+param_var::=
+	COMILLA_SIMPLE TEXTO:t COMILLA_SIMPLE COMA NOMBRE_VARIABLE:v 				{: System.out.println(" INSERTT "+t.toString()+" Variable "+v); :}
+	| COMILLA_SIMPLE TEXTO:t COMILLA_SIMPLE										{: System.out.println(" INSERTT "+t.toString() ); :}
+;
+
 metodos_especiales::=
 	ASC PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA 				{: System.out.println(" ASC "+b); :}
 	| DESC PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA			{: System.out.println(" DESC "+b); :}
@@ -934,10 +1062,73 @@ metodos_especiales::=
 	| NUM_ALEATORIO PARENTESIS_ABRE  PARENTESIS_CIERRA PUNTO_COMA					{: System.out.println(" NUM_ALEATORIO "); :}
 	| ALERT_INFO PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA		{: System.out.println(" DESC "+b); :}
 	| EXIT PARENTESIS_ABRE  PARENTESIS_CIERRA PUNTO_COMA							{: System.out.println(" EXIT "); :}
+	| REDIRECT PARENTESIS_ABRE  PARENTESIS_CIERRA PUNTO_COMA						{: System.out.println(" REDIRECT "); :}
+;
+condicionales::=
+	condicionales:e1 SUMA  condicionales:e2         					{: RESULT = e1.toString()+"+"+e2.toString(); :}
+	| condicionales:e1 RESTA condicionales:e2        					{: RESULT = e1.toString()+"-"+e2.toString(); :}
+    | condicionales:e1 MULTIPLICACION condicionales:e2        			{: RESULT = e1.toString()+"*"+e2.toString() ; :}
+	| condicionales:e1 DIVISION condicionales:e2        				{: RESULT = e1.toString()+"/"+e2.toString() ; :}
+	| RESTA condicionales:e                 							{: RESULT = "-"+e.toString();  :}
+  	%prec UMENOS														
+    | PARENTESIS_ABRE condicionales:e PARENTESIS_CIERRA	         		{: RESULT = "("+e.toString()+")"; :}
+    | NUMERO_ENTERO:n	                      							{: RESULT = n.toString(); :}
+	| NUMERO_DECIMAL:n	                      							{: RESULT = n.toString(); :}
+	| NOMBRE_VARIABLE:n	   					 							{: RESULT = n.toString(); :}
+	//| COMILLA TEXTO:t COMILLA											{: RESULT = t.toString(); :}
+	//| COMILLA_SIMPLE TEXTO:t COMILLA_SIMPLE								{: RESULT = t.toString(); :}
+	//| operador_logico_boolean:t											{: RESULT = t.toString()+""; :}
+;
+cond_str::=
+// "algo"==algo
+// "algo"=="algo"
+// algo=var2
+	condicionales:e1 IGUALDAD condicionales:e2        					{: RESULT = e1.toString()+"=="+e2.toString(); :}
+    | condicionales:e1 NO_IGUAL condicionales:e2        				{: RESULT = e1.toString()+"!="+e2.toString() ; :}
+  	%prec UMENOS														
+    | PARENTESIS_ABRE condicionales:e PARENTESIS_CIERRA	         		{: RESULT = "("+e.toString()+")"; :}
+    | NUMERO_ENTERO:n	                      							{: RESULT = n.toString(); :}
+	| NUMERO_DECIMAL:n	                      							{: RESULT = n.toString(); :}
+	| NOMBRE_VARIABLE:n	   					 							{: RESULT = n.toString(); :}
+	| COMILLA TEXTO:t COMILLA											{: RESULT = t.toString(); :}
+	| COMILLA_SIMPLE TEXTO:t COMILLA_SIMPLE								{: RESULT = t.toString(); :}
+	//| operador_logico_boolean:t											{: RESULT = t.toString()+""; :}
+;
+
+condicionales2::=
+	IGUALDAD:a															{: RESULT= a.toString(); :}
+	| NO_IGUAL:a														{: RESULT= a.toString(); :}
+	| MENOR_QUE:a														{: RESULT= a.toString(); :}
+	| MENOR_IGUAL:a														{: RESULT= a.toString(); :}
+	| MAYOR_QUE:a														{: RESULT= a.toString(); :}
+	| MAYOR_IGUAL:a														{: RESULT= a.toString(); :}
+	| OR:a																{: RESULT= a.toString(); :}
+	| AND:a																{: RESULT= a.toString(); :}
+	| NOT:a																{: RESULT= a.toString(); :}
 
 ;
 
 
 
+
+
+
+
+
+/*
+condicionales2::=
+
+	condicionales:e1 IGUALDAD condicionales:e2        					{: RESULT = e1.toString()+"=="+e2.toString(); :}
+    | condicionales:e1 NO_IGUAL condicionales:e2        				{: RESULT = e1.toString()+"!="+e2.toString() ; :}
+	| condicionales:e1 MENOR_QUE condicionales:e2        				{: RESULT = e1.toString()+"<"+e2.toString() ; :}
+	| condicionales:e1 MENOR_IGUAL condicionales:e2        				{: RESULT = e1.toString()+"<="+e2.toString() ; :}
+	| condicionales:e1 MAYOR_QUE condicionales:e2        				{: RESULT = e1.toString()+">"+e2.toString() ; :}
+	| condicionales:e1 MAYOR_IGUAL condicionales:e2        				{: RESULT = e1.toString()+">="+e2.toString() ; :}
+    | condicionales:e1 OR condicionales:e2        						{: RESULT = e1.toString()+"||"+e2.toString() ; :}
+	| condicionales:e1 AND condicionales:e2        						{: RESULT = e1.toString()+"&&"+e2.toString() ; :}
+	| condicionales:e1 NOT condicionales:e2        						{: RESULT = e1.toString()+"!"+e2.toString() ; :}
+	%prec RMENOS
+;
+*/
 
 /*ALGUN DIA SERE INGE :')*/

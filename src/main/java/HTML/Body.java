@@ -6,17 +6,21 @@
 
 package HTML;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  * 
  * @author James Gramajo 
  */
-public class Body {
+public class Body extends Html implements Serializable {
     private String formato="";
     private String background="";
-
+    private ArrayList<Body> listBody = new ArrayList();
+    
     public Body() {
     }
-
+    
     
     public Body(String background) {
         this.background = background;
@@ -36,7 +40,7 @@ public class Body {
     public String formato_body_CIERRA(){
         ColorR col= new ColorR(background);
         
-            formato="</body>";
+            formato="</body>\n";
         
         
         return formato;
@@ -56,6 +60,14 @@ public class Body {
 
     public void setBackground(String background) {
         this.background = background;
+    }
+
+    public ArrayList<Body> getListBody() {
+        return listBody;
+    }
+
+    public void setListBody(ArrayList<Body> listBody) {
+        this.listBody = listBody;
     }
     
     

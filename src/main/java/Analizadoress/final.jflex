@@ -2,6 +2,7 @@ package Analizadoress;
 
 import static Analizadoress.sym.*;
 import java_cup.runtime.Symbol;
+import java.util.ArrayList;
 %%
 %class LexerCup
 %type java_cup.runtime.Symbol
@@ -39,7 +40,7 @@ import java_cup.runtime.Symbol;
 %state SCRIPTING_STATE, SCRIPTING_TEXTO
 %state ASIGNACION_VALOR, INTEGER_STATE, GET_ELEMENBY_ID, STRING_STATE, STRING_COMILLA, STRING_COMILLA2
 %state CHAR_STATE, CHAR_COMILLA, CHAR_COMILLA2
-%state BOOLEAN_STATE METODO_ESP
+%state BOOLEAN_STATE, METODO_ESP, SIMPLE, IF_STATE
 
 
 //OPERADORES ARITMETICOS
@@ -51,9 +52,10 @@ division=[\/]
 //llega
 
 //https://es.stackoverflow.com/questions/117556/clase-de-caracteres-para-cualquier-letra-incluyendo-todo-tipo-de-acentos
-todo=[ #-;?-}À-ÿ¿\u00f1\u00d1]+
-todo2=[#-;?-}À-ÿ¿\u00f1\u00d1]+
+todo=[ #-;?-}=À-ÿ¿\u00f1\u00d1]+
+todo2=[#-;?-}=À-ÿ¿\u00f1\u00d1]+
 todo3=[ !-&(-}À-ÿ¿\u00f1\u00d1]
+todo4=[ !-&(-}À-ÿ¿\n\t\r\u00f1\u00d1]+
 //get elemnt id
 todoElemen=[!-&(-}À-ÿ¿\u00f1\u00d1]
 metodo=[A-Za-z0-9À-ÿ_$]+
@@ -203,6 +205,7 @@ CARACTER_ALEATORIO= [C][A][R][A][C][T][E][R]{guionBajo}[A][L][E][A][T][O][R][I][
 NUM_ALEATORIO= [N][U][M]{guionBajo}[A][L][E][A][T][O][R][I][O]
 ALERT_INFO= [A][L][E][R][T]{guionBajo}[I][N][F][O]
 EXIT= [E][X][I][T]
+REDIRECT=[R][E][D][I][R][E][C][T]
 MODO=[g][l][o][b][a][l]
 getElemenById= [g][e][t][E][l][e][m][e][n][B][y][I][d]
 
@@ -247,8 +250,10 @@ size2=({numeros}{porcentaje})
 simbolos2=({almuadilla}|{dosPuntos}|{puntoComa}|{porcentaje}|{eli}|{arroba}|{questionC}|{division}|{suma}|{resta}|{multiplicacion}|{questionA}|{punto}|[_])+
 
 %{
-//private ArrayList<ReporteError> reporteError = new ArrayList<>();
-
+ArrayList<String> lexERROR = new ArrayList<String>();
+public ArrayList<String> getLexError() {
+        return lexERROR;
+    }
 
 
 %}
@@ -326,7 +331,7 @@ simbolos2=({almuadilla}|{dosPuntos}|{puntoComa}|{porcentaje}|{eli}|{arroba}|{que
 {C_SCRIPTING} {return new Symbol(sym.C_SCRIPTING,yyline+1, yycolumn+1,yytext());}
 {PROCESS_} {return new Symbol(sym.PROCESS_,yyline+1, yycolumn+1,yytext());}
 {ON_LOAD} {return new Symbol(sym.ON_LOAD,yyline+1, yycolumn+1,yytext());}
-
+//DIFERENCIACION
 {integer} {return new Symbol(sym.INTEGER,yyline+1, yycolumn+1,yytext());}
 {decimal} {return new Symbol(sym.DECIMAL,yyline+1, yycolumn+1,yytext());}
 {boolean} {return new Symbol(sym.BOOLEAN,yyline+1, yycolumn+1,yytext());}
@@ -334,7 +339,7 @@ simbolos2=({almuadilla}|{dosPuntos}|{puntoComa}|{porcentaje}|{eli}|{arroba}|{que
 {char} {return new Symbol(sym.CHAR,yyline+1, yycolumn+1,yytext());}
 {string} {return new Symbol(sym.STRING,yyline+1, yycolumn+1,yytext());}
 {igualdad} {return new Symbol(sym.IGUALDAD,yyline+1, yycolumn+1,yytext());}
-{diferenciacion} {return new Symbol(sym.DIFERENCIACION,yyline+1, yycolumn+1,yytext());}
+{diferenciacion} {return new Symbol(sym.NO_IGUAL,yyline+1, yycolumn+1,yytext());}
 {menor_que} {return new Symbol(sym.MENOR_QUE,yyline+1, yycolumn+1,yytext());}
 {menor_igual} {return new Symbol(sym.MENOR_IGUAL,yyline+1, yycolumn+1,yytext());}
 {mayor_que} {return new Symbol(sym.MAYOR_QUE,yyline+1, yycolumn+1,yytext());}
@@ -1068,15 +1073,16 @@ simbolos2=({almuadilla}|{dosPuntos}|{puntoComa}|{porcentaje}|{eli}|{arroba}|{que
 	{NUM_ALEATORIO} {return new Symbol(sym.NUM_ALEATORIO,yyline+1, yycolumn+1,yytext());}
 	{ALERT_INFO} { yybegin(METODO_ESP); return new Symbol(sym.ALERT_INFO,yyline+1, yycolumn+1,yytext());}
 	{EXIT} {return new Symbol(sym.EXIT,yyline+1, yycolumn+1,yytext());}
+	{REDIRECT} {return new Symbol(sym.EXIT,yyline+1, yycolumn+1,yytext());}
 
 	//sentencias IF
 	//ABRE_INIT
 	//{getElemenById} {return new Symbol(sym.GETELEMENBYID,yyline+1, yycolumn+1,yytext());}
 	{INIT} {return new Symbol(sym.INIT,yyline+1, yycolumn+1,yytext());}
 	{END} {return new Symbol(sym.END,yyline+1, yycolumn+1,yytext());}
-	{IF} {return new Symbol(sym.IF,yyline+1, yycolumn+1,yytext());}
+	{IF} { yybegin(IF_STATE); return new Symbol(sym.IF,yyline+1, yycolumn+1,yytext());}
 	{ELSE} {return new Symbol(sym.ELSE,yyline+1, yycolumn+1,yytext());}
-	{THEN} {return new Symbol(sym.THEN,yyline+1, yycolumn+1,yytext());}
+	
 	{REPEAT} {return new Symbol(sym.REPEAT,yyline+1, yycolumn+1,yytext());}
 	{HUNTIL} {return new Symbol(sym.HUNTIL,yyline+1, yycolumn+1,yytext());}
 	{INSERT} {return new Symbol(sym.INSERT,yyline+1, yycolumn+1,yytext());}
@@ -1084,18 +1090,46 @@ simbolos2=({almuadilla}|{dosPuntos}|{puntoComa}|{porcentaje}|{eli}|{arroba}|{que
 	{THENWHILE} {return new Symbol(sym.THENWHILE,yyline+1, yycolumn+1,yytext());}
 	{ABRE_INIT} {return new Symbol(sym.ABRE_INIT,yyline+1, yycolumn+1,yytext());}
 	{CIERRA_INIT} {return new Symbol(sym.CIERRA_INIT,yyline+1, yycolumn+1,yytext());}
-
+	["\'"] { yybegin(SIMPLE); {return new Symbol(sym.COMILLA_SIMPLE,yyline+1, yycolumn+1,yytext());}  }
+	{puntoComa} { return new Symbol(sym.PUNTO_COMA,yyline+1, yycolumn+1,yytext());}  	
 	//comentarios
 	{comentario} { yybegin(COMENTARIO_SCRIPT);}
 	{abre_comentario_bloque} { yybegin(COMENTARIO_BLOQUE_SCRIPT);}
 
 	{metodo} { yybegin(ASIGNACION_VALOR); return new Symbol(sym.NOMBRE_VARIABLE,yyline+1, yycolumn+1,yytext());  }
-
+	
 
 	{metodo} { return new Symbol(sym.NOMBRE_VARIABLE,yyline+1, yycolumn+1,yytext());  }
 	{menor_que}{esp}{division}{esp}{C_SCRIPTING}{esp}{mayor_que}{esp} { yybegin(YYINITIAL); {return new Symbol(sym.CIERRA_C_SCRIPTING,yyline+1, yycolumn+1,yytext());}  }
 
 	{espacio} { }
+}
+<IF_STATE>{
+	{THEN} { yybegin(SCRIPTING_STATE); return new Symbol(sym.THEN,yyline+1, yycolumn+1,yytext());}
+	{PARENTESIS_ABRE} {return new Symbol(sym.PARENTESIS_ABRE,yyline+1, yycolumn+1,yytext());}
+	{PARENTESIS_CIERRA} {return new Symbol(sym.PARENTESIS_CIERRA,yyline+1, yycolumn+1,yytext());}
+
+	{metodo} { return new Symbol(sym.NOMBRE_VARIABLE,yyline+1, yycolumn+1,yytext());  }
+	{numeros} {return new Symbol(sym.NUMERO_ENTERO,yyline+1, yycolumn+1,yytext());}
+	{numeroDecimal} {return new Symbol(sym.NUMERO_DECIMAL,yyline+1, yycolumn+1,yytext());}
+	({true}|{false}) {return new Symbol(sym.TRUE_O_FALSE,yyline+1, yycolumn+1,yytext());}
+	{igualdad} {return new Symbol(sym.IGUALDAD,yyline+1, yycolumn+1,yytext());}
+	{diferenciacion} {return new Symbol(sym.NO_IGUAL,yyline+1, yycolumn+1,yytext());}
+	{menor_que} {return new Symbol(sym.MENOR_QUE,yyline+1, yycolumn+1,yytext());}
+	{menor_igual} {return new Symbol(sym.MENOR_IGUAL,yyline+1, yycolumn+1,yytext());}
+	{mayor_que} {return new Symbol(sym.MAYOR_QUE,yyline+1, yycolumn+1,yytext());}
+	{mayor_igual} {return new Symbol(sym.MAYOR_IGUAL,yyline+1, yycolumn+1,yytext());}
+	{or} {return new Symbol(sym.OR,yyline+1, yycolumn+1,yytext());}
+	{and} {return new Symbol(sym.AND,yyline+1, yycolumn+1,yytext());}
+	{not} {return new Symbol(sym.NOT,yyline+1, yycolumn+1,yytext());}
+	//NUMERO_ENTERO
+	{espacio} { }
+
+}
+<SIMPLE>{
+	["\'"] { yybegin(SCRIPTING_STATE); {return new Symbol(sym.COMILLA_SIMPLE,yyline+1, yycolumn+1,yytext());}  }
+	{todo4} { return new Symbol(sym.TEXTO,yyline+1, yycolumn+1,yytext()); }
+
 }
 <METODO_ESP>{
 	{PARENTESIS_ABRE} {return new Symbol(sym.PARENTESIS_ABRE,yyline+1, yycolumn+1,yytext());}
@@ -1118,8 +1152,6 @@ simbolos2=({almuadilla}|{dosPuntos}|{puntoComa}|{porcentaje}|{eli}|{arroba}|{que
 	"-->" { yybegin(SCRIPTING_STATE); /*SOLO IGNORA EL COMENTARIO_BLOQUE*/}
 	
 }
-
-
 
 <ASIGNACION_VALOR>{
 

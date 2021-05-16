@@ -4,7 +4,7 @@ package HTML;
  *
  * @author James Gramajo
  */
-public class Title extends Html {
+public class Title extends Head {
     private String title="";
     private String formato="";
 

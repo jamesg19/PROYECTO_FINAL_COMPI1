@@ -1,10 +1,12 @@
 package HTML;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author James Gramajo
  */
-public class Input {
+public class Input extends Body {
 
     private String tipo = "";
     private String size = "";
@@ -13,6 +15,7 @@ public class Input {
     private String id = "";
     private String color = "";
     private String formato = "";
+    private String texto="";
 
     public Input() {
     }
@@ -29,7 +32,7 @@ public class Input {
     public String determina_formato_input() {
         String a = "";
         //verificar nulabilidades
-
+        //JOptionPane.showMessageDialog(null,tipo+" "+letra+" "+align+" "+id+" "+color);
         if (size.isEmpty()) {
             size = "10";
         }
@@ -91,7 +94,7 @@ public class Input {
     private String genera_text_left() {
         formato = "<div class=\"row\">\n"
                 + "<div  class=\"col\">\n"
-                + "<input id=\"" + id + "\" type=\"" + tipo + "\" class=\"form-control\"  placeholder=\"" + tipo + "\" style=\"BORDER: " + color + " 1px solid; COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\">\n"
+                + "<input id=\"" + id+ "\" type=\"" + tipo + "\" class=\"form-control\"  placeholder=\"" + tipo + "\" style=\"BORDER: " + color + " 1px solid; COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\">"+texto+" </input>\n"
                 + "</div>\n"
                 + "<div  class=\"col\"></div>\n"
                 + "<div  class=\"col\"> </div>\n"
@@ -105,7 +108,7 @@ public class Input {
                 + "<div  class=\"col\"></div>\n"
                 + "<div  class=\"col\"> </div>\n"
                 + "<div  class=\"col\">\n"
-                + "<input id=\"" + id + "\" type=\"" + tipo + "\" class=\"form-control\"  placeholder=\"" + tipo + "\" style=\"BORDER: " + color + " 1px solid; COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\">\n"
+                + "<input id=\"" + id+ "\" type=\"" + tipo + "\" class=\"form-control\"  placeholder=\"" + tipo + "\" style=\"BORDER: " + color + " 1px solid; COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\">"+texto+" </input>\n"
                 + "</div>\n"
                 + "<div  class=\"col\"> </div>\n"
                 + "<div  class=\"col\"> </div>\n"
@@ -119,7 +122,7 @@ public class Input {
                 + "<div  class=\"col\"> </div>\n"
                 + "<div  class=\"col\"> </div>\n"
                 + "<div  class=\"col\">\n"
-                + "<input id=\"" + id + "\" type=\"" + tipo + "\" class=\"form-control\"  placeholder=\"" + tipo + "\" style=\"BORDER: " + color + " 1px solid; COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\">\n"
+                + "<input id=\"" + id + "\" type=\"" + tipo + "\" class=\"form-control\"  placeholder=\"" + tipo + "\" style=\"BORDER: " + color + " 1px solid; COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\">"+texto+" </input>\n"
                 + "</div>\n"
                 + "<div  class=\"col\"> </div>\n"
                 + "</div>";
@@ -128,14 +131,14 @@ public class Input {
     }
 
     private String genera_text_justify() {
-        formato = "<input id=\"" + id + "\" type=\"text\" class=\"form-control\"  placeholder=\"Texto\" style=\"BORDER: " + color + " 1px solid; COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\">\n";
+        formato = "<input id=\"" + id + "\" type=\"" + tipo + "\" class=\"form-control\"  placeholder=\""+tipo+"\" style=\"BORDER: " + color + " 1px solid; COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\">"+texto+" </input>\n";
         return formato;
 
     }
 
     private String genera_check() {
         formato = "<div align=\""+align+"\" >\n"
-                + "    <input class=\"form-check-input\" type=\""+tipo+"\" id=\""+id+"\" value=\"true\" style=\"BORDER: " + color + " 1px solid; COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\" >\n"
+                + "    <input class=\"form-check-input\" type=\""+tipo+"\" id=\""+id+"\" value=\"true\" style=\"BORDER: " + color + " 1px solid; COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\" >"+texto+" </input>\n"
                 + "</div>\n";
 
         return formato;
@@ -178,7 +181,7 @@ public class Input {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = id.substring(1);
     }
 
     public String getColor() {
@@ -195,6 +198,14 @@ public class Input {
 
     public void setFormato(String formato) {
         this.formato = formato;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
 
 }

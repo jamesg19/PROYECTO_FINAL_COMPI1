@@ -5,8 +5,10 @@
  */
 package Logica;
 
+import Archivos.GestorArchivo;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,15 +36,27 @@ public class Gestor extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String codigo = request.getParameter("code");
+            String codigo = (String) request.getParameter("area");
+            String info = " ";
             
-            James J= new James();
-            J.mensaje(codigo);
+            byte[] bytes = codigo.getBytes(StandardCharsets.ISO_8859_1);
+            String codigo_codificado = new String(bytes, StandardCharsets.UTF_8);
             
-            request.setAttribute("AREA", codigo);
-            //request.setAttribute("USER", USER);
+            
+//            James J = new James();
+//            J.mensaje(codigo_codificado);
+//            GestorArchivo gst = new GestorArchivo();
+//            gst.GuardarJSP(codigo, "primer_captchaaaJames.txt");
+
+
+            logica logic= new logica();
+            logic.analizar(codigo_codificado);
+            info=logic.getInforme_error();
+            
+            //defino atributos para la pagina :)
+            request.setAttribute("AREA", codigo_codificado);
+            request.setAttribute("INFO", info);
             request.getRequestDispatcher("/Inicio.jsp").forward(request, response);
-            
 
         }
     }

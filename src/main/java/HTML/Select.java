@@ -9,23 +9,17 @@ package HTML;
  *
  * @author James Gramajo
  */
-public class Select extends Html {
+public class Select extends Body {
 
-    private String id="";
-    private String size="";
-    private String letra="";
-    private String align="";
-    private String color="";
-    private String formato="";
-    private String opciones="";
+    private String id = "";
+    private String size = "";
+    private String letra = "";
+    private String align = "";
+    private String color = "";
+    private String formato = "";
+    private String opciones = "";
 
     public Select() {
-    }
-
-    public String genera_select() {
-        formato = "";
-
-        return formato;
     }
 
     public Select(String id, String size, String letra, String align, String color, String opciones) {
@@ -36,7 +30,8 @@ public class Select extends Html {
         this.color = color;
         this.opciones = opciones;
     }
-    public String generar_select(){
+
+    public String generar_select() {
         if (size.isEmpty()) {
             size = "10";
         }
@@ -53,28 +48,27 @@ public class Select extends Html {
             color = c.determina_color();
         }
         //determina la alineacion
-        if(align.trim().equalsIgnoreCase("left")){
-            formato=select_left();
-        } else if(align.trim().equalsIgnoreCase("center")){
-            formato=select_center();
-        } else if(align.trim().equalsIgnoreCase("right")){
-            formato=select_rigth();
-        } else if(align.trim().equalsIgnoreCase("justify")){
-            formato=select_justify();
+        if (align.trim().equalsIgnoreCase("left")) {
+            formato = select_left();
+        } else if (align.trim().equalsIgnoreCase("center")) {
+            formato = select_center();
+        } else if (align.trim().equalsIgnoreCase("right")) {
+            formato = select_rigth();
+        } else if (align.trim().equalsIgnoreCase("justify")) {
+            formato = select_justify();
         }
-        
+
         return formato;
     }
-    
-// <option>1</option>
-        private String select_left() {
-        String a = "<div class=\"row\">\n"
 
+// <option>1</option>
+    private String select_left() {
+        String a = "<div class=\"row\">\n"
                 + "    <div class=\"col\"> \n"
-                + "        <select class=\"form-control\" id=\""+id+"\" style=\" COLOR:"+color+"; FONT-SIZE: "+size+"pt; FONT-FAMILY: "+letra+";\" >\n";
-        
-        a+=separa_opciones();
-        a+=cierra_left();
+                + "        <select class=\"form-control\" id=\"" + id + "\" style=\" COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\" >\n";
+
+        a += separa_opciones();
+        a += cierra_left();
         return a;
     }
 
@@ -87,20 +81,16 @@ public class Select extends Html {
 
         return b;
     }
-    
-    
-    
-    
 
     private String select_rigth() {
         String a = "<div class=\"row\">\n"
                 + "    <div class=\"col\"></div>\n"
                 + "    <div class=\"col\"></div>\n"
                 + "    <div class=\"col\"> \n"
-                + "        <select class=\"form-control\" id=\""+id+"\" style=\" COLOR:"+color+"; FONT-SIZE: "+size+"pt; FONT-FAMILY: "+letra+";\" >\n";
-        
-        a+=separa_opciones();
-        a+=cierra_right();
+                + "        <select class=\"form-control\" id=\"" + id + "\" style=\" COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\" >\n";
+
+        a += separa_opciones();
+        a += cierra_right();
         return a;
     }
 
@@ -112,15 +102,15 @@ public class Select extends Html {
 
         return b;
     }
-    
+
     private String select_center() {
         String a = "<div class=\"row\">\n"
                 + "    <div class=\"col\"></div>"
                 + "    <div class=\"col\"> \n"
-                + "        <select class=\"form-control\" id=\""+id+"\" style=\" COLOR:"+color+"; FONT-SIZE: "+size+"pt; FONT-FAMILY: "+letra+";\" >\n";
-        
-        a+=separa_opciones();
-        a+=cierra_center();
+                + "        <select class=\"form-control\" id=\"" + id + "\" style=\" COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\" >\n";
+
+        a += separa_opciones();
+        a += cierra_center();
         return a;
     }
 
@@ -132,14 +122,15 @@ public class Select extends Html {
 
         return b;
     }
+
     private String select_justify() {
         String a = "<div class=\"row\">\n"
                 + "    <div class=\"col\"></div>"
                 + "    <div class=\"col\"> \n"
-                + "        <select class=\"form-control\" id=\""+id+"\" style=\" COLOR:"+color+"; FONT-SIZE: "+size+"pt; FONT-FAMILY: "+letra+";\" >\n";
-        
-        a+=separa_opciones();
-        a+=cierra_justify();
+                + "        <select class=\"form-control\" id=\"" + id+ "\" style=\" COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\" >\n";
+
+        a += separa_opciones();
+        a += cierra_justify();
         return a;
     }
 
@@ -151,34 +142,31 @@ public class Select extends Html {
 
         return b;
     }
-    
-    
-    
+
     //separa las opciones por coma
-    private String separa_opciones(){
-        String opt =opciones;
+    private String separa_opciones() {
+        String opt = opciones;
         String texto;
         String[] parts = opt.split(",");
-        texto=genera_opctiones(parts);
+        texto = genera_opctiones(parts);
         return texto;
     }
+
     //genera e formato <option> en html
-    private String genera_opctiones(String[] parts){
-        String c="";
-        for(int i=0; i<parts.length;i++){
-            c+=" <option style=\" COLOR:"+color+"; FONT-SIZE: "+size+"pt; FONT-FAMILY: "+letra+";\"  >"+parts[i].toString()+"</option>\n";
+    private String genera_opctiones(String[] parts) {
+        String c = "";
+        for (int i = 0; i < parts.length; i++) {
+            c += " <option style=\" COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\"  >" + parts[i].toString() + "</option>\n";
         }
         return c;
     }
-    
-    
-    
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = id.substring(1);
     }
 
     public String getSize() {
@@ -229,5 +217,4 @@ public class Select extends Html {
         this.opciones = opciones;
     }
 
-    
 }

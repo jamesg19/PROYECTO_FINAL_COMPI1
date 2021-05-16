@@ -10,12 +10,13 @@ package HTML;
  * 
  * @author James Gramajo 
  */
-public class Img extends Html{
+public class Img extends Body{
     private String id;
     private String src;
     private String width;
     private String height;
     private String alt;
+    private String texto="";
     private String formato="";
     
     public Img() {
@@ -30,7 +31,10 @@ public class Img extends Html{
     }
     
     public String generar_img(){
-        formato="<img class=\"img-thumbnail\" id=\""+id+"\" alt=\""+alt+"\" src=\""+src+" width=\""+width+"\" height=\""+height+"\"  >";
+        formato="<figure>\n"
+                + "<img class=\"img-thumbnail\" id=\""+id.substring(1)+"\" alt=\""+alt+"\" src=\""+src+"\" width=\""+width+"\" height=\""+height+"\"  >"+"\n"
+                + "<figcaption>"+alt+"</figcaption>"
+                + "</figure>\n";
 
         return formato;
     }
@@ -41,7 +45,7 @@ public class Img extends Html{
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = id.substring(1);
     }
 
     public String getSrc() {
@@ -82,6 +86,14 @@ public class Img extends Html{
 
     public void setFormato(String formato) {
         this.formato = formato;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
     
     

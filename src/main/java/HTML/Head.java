@@ -6,15 +6,24 @@
 
 package HTML;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  * 
  * @author James Gramajo 
  */
-public class Head extends Html {
+public class Head extends Html implements Serializable {
     private String formato;
+    ArrayList<Head> listHead = new ArrayList();
 
     public Head() {
     }
+
+    public Head(String a) {
+        super(a);
+    }
+    
     public String formato_head_ABRE(){
         formato="";
         formato="<head>\n";
@@ -35,6 +44,16 @@ public class Head extends Html {
     public void setFormato(String formato) {
         this.formato = formato;
     }
+
+    public ArrayList<Head> getListHead() {
+        return listHead;
+    }
+
+    public void setListHead(ArrayList<Head> listHead) {
+        this.listHead = listHead;
+    }
+
+
     
     
     

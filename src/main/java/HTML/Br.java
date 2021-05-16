@@ -10,7 +10,7 @@ package HTML;
  * 
  * @author James Gramajo 
  */
-public class Br {
+public class Br extends Body {
     private String formato="<br>\n";
 
     public Br() {

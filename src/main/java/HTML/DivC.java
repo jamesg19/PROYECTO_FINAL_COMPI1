@@ -7,13 +7,12 @@
 package HTML;
 
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 /**
  * 
  * @author James Gramajo 
  */
-public class Div extends Body {
+public class DivC extends Body {
     private String id="";
     private String size="";
     private String letra="";
@@ -25,10 +24,10 @@ public class Div extends Body {
     private ArrayList<Body> listDiv = new ArrayList();
     
     
-    public Div() {
+    public DivC() {
     }
 
-    public Div(String id, String size, String letra, String align, String color, String background, String classs) {
+    public DivC(String id, String size, String letra, String align, String color, String background, String classs) {
         this.id = id;
         this.size = size;
         this.letra = letra;
@@ -57,17 +56,14 @@ public class Div extends Body {
             background = "#ffffff";
         }else{
             ColorR c= new ColorR(background);
-            c.determina_color();
             background=c.determina_color();
             System.out.println("llega");
             System.out.println(background);
         }
         if (color.isEmpty()) {
-            color = "#3E3A39;";
+            color = "COLOR:#3E3A39;";
         }else{
             ColorHexa c= new ColorHexa(color);
-            
-            c.determina_color();
             color=c.determina_color();
             
         }
@@ -79,11 +75,11 @@ public class Div extends Body {
     }
     
     public String genera_abre_div(){
-        formato="<div id=\""+id+"\" "+classs+" align=\""+align+"\" "+background+" style=\" COLOR:"+color+" FONT-SIZE:"+size+"; FONT-FAMILY:"+letra+"; \" >\n";
+        formato="<div id=\""+id+"\" "+classs+" align=\""+align+"\" "+background+" style=\" "+color+" FONT-SIZE:"+size+"; FONT-FAMILY:"+letra+"; \" >\n";
         return formato;
     }
     public String genera_cierra_div(){
-        formato="</div>";
+        formato="</div>\n";
         
         return formato;
     }
@@ -93,7 +89,7 @@ public class Div extends Body {
     }
 
     public void setId(String id) {
-        this.id = id.substring(1);
+        this.id = id;
     }
 
     public String getSize() {

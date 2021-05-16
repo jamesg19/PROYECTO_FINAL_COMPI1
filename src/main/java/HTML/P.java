@@ -10,7 +10,7 @@ package HTML;
  * 
  * @author James Gramajo 
  */
-public class P extends Html {
+public class P extends Body {
     //ont-size, font-family, text-align, id, color.
     private String id="";
     private String size="";
@@ -46,16 +46,19 @@ public class P extends Html {
             id="";
         }
         if(letra.trim().isEmpty()){
-            letra="";
+            letra="Verdana";
+        }
+        if(size.trim().isEmpty()){
+            size="12";
         }
         if(align.trim().isEmpty()){
-            align="";
+            align="center";
         }
         if(texto.trim().isEmpty()){
-            texto="";
+            texto=" ";
         }
         if(color.trim().isEmpty()){
-            color="";
+            color="#3E3A39";
         } else{
             ColorHexa c= new ColorHexa(color);
             color=c.determina_color();
@@ -63,7 +66,7 @@ public class P extends Html {
         
         
         
-        formato="<p id=\""+id+"\" style=\" COLOR:"+color+"; TEXT-ALIGN: "+align+"; FONT-SIZE:"+size+"; FONT-FAMILY:"+letra+"; \" >"+texto+"</p>";
+        formato="<p id=\""+id+"\" style=\" COLOR:"+color+"; TEXT-ALIGN: "+align+"; FONT-SIZE:"+size+"; FONT-FAMILY:"+letra+"; \" >"+texto+"</p>\n";
         
         
         return formato;
@@ -74,7 +77,7 @@ public class P extends Html {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = id.substring(1);
     }
 
     public String getLetra() {

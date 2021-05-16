@@ -6,12 +6,13 @@
 package HTML;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  *
  * @author James Gramajo
  */
-public class Spam extends Html {
+public class Spam extends Body {
 
     private String formato="";
     private String alineacion="";
@@ -19,6 +20,7 @@ public class Spam extends Html {
     private String size="";
     private String color="";
     private String id="";
+    ArrayList<Body> lstBody = new ArrayList();
 
     private String texto="";
 
@@ -32,6 +34,7 @@ public class Spam extends Html {
         this.color = color;
         this.id = id;
         this.texto = texto;
+       
     }
 
     
@@ -39,7 +42,7 @@ public class Spam extends Html {
     
     public void genera_spam() {
         //valores por defecto
-        if (alineacion.isEmpty()) {
+        if (alineacion.isBlank()) {
             alineacion = "center";
         }  
         if (letra.isEmpty()) {
@@ -117,7 +120,7 @@ public class Spam extends Html {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = id.substring(1);
     }
     
 

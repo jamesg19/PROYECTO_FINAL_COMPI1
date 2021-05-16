@@ -9,7 +9,7 @@ package HTML;
  *
  * @author James Gramajo
  */
-public class Button {
+public class Button extends Body {
 
     //font-size, font-family, text-align, id, color, backround, onclick().
     private String id = "";
@@ -78,7 +78,7 @@ public class Button {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = id.substring(1);
     }
 
     public String getSize() {

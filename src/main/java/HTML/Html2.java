@@ -11,24 +11,28 @@ import java.io.Serializable;
  *
  * @author James Gramajo
  */
-public class Html implements Serializable{
+public class Html2 extends Html implements Serializable{
 
     private String id="";
     private String name="";
     private String formato="";
     String a;
-    public Html() {
+    public Html2() {
     }
 
-    public Html(String a) {
+    public Html2(String a) {
         this.a = a;
     }
     
     public String formato_html_ABRE(){
         if(id.isEmpty()&& !name.isEmpty()){
             formato="<html name=\""+name+"\" >\n";
-        }else if(!id.isEmpty()&& !name.isEmpty()){
-             formato="<html id=\""+id+"\" name=\""+name+"\" >\n";
+        } 
+        else if(!id.isEmpty()&& name.isEmpty()){
+             formato="<html id=\""+id.substring(1)+"\" >\n";
+        }
+        else if(!id.isEmpty()&& !name.isEmpty()){
+             formato="<html id=\""+id.substring(1)+"\" name=\""+name+"\" >\n";
         } else if(id.isEmpty()&& name.isEmpty()){
              formato="<html >\n";
         }

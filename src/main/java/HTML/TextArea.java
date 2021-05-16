@@ -9,7 +9,7 @@ package HTML;
  *
  * @author James Gramajo
  */
-public class TextArea extends Html {
+public class TextArea extends Body {
 
     private String id="";
     private String size="";
@@ -19,6 +19,7 @@ public class TextArea extends Html {
     private String formato;
     private String cols="";
     private String rows="";
+    private String texto="";
 
     public TextArea() {
     }
@@ -33,9 +34,9 @@ public class TextArea extends Html {
         this.rows = rows;
     }
 
-    private String generatext() {
+    public String generatext() {
         if (size.isEmpty()) {
-            size = "10";
+            size = "10px";
         }
         if (letra.isEmpty()) {
             letra = "Arial";
@@ -89,7 +90,7 @@ public class TextArea extends Html {
         String a;
         a = "<div class=\"row\">\n"
                 + "    <div class=\"col\"> \n"
-                + "    <textarea  class=\"form-control\" id=\"" + id + "\" cols=\"" + cols + "\" rows=\"" + rows + "\" style=\" COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\" >\n"
+                + "    <textarea  class=\"form-control\" id=\"" + id + "\" cols=\"" + cols + "\" rows=\"" + rows + "\" style=\" COLOR:" + color + "; FONT-SIZE: " + size + "; FONT-FAMILY: " + letra + ";\" >\n"
                 + "    </textarea>\n"
                 + "    </div>\n"
                 + "    <div class=\"col\"></div>\n"
@@ -102,7 +103,7 @@ public class TextArea extends Html {
         a = "<div class=\"row\">\n"
                 + "    <div class=\"col\"></div>\n"
                 + "    <div class=\"col\"> \n"
-                + "    <textarea  class=\"form-control\" id=\"" + id + "\" cols=\"" + cols + "\" rows=\"" + rows + "\" style=\" COLOR:" + color + "; FONT-SIZE: " + size + "pt; FONT-FAMILY: " + letra + ";\" >\n"
+                + "    <textarea  class=\"form-control\" id=\"" + id+ "\" cols=\"" + cols + "\" rows=\"" + rows + "\" style=\" COLOR:" + color + "; FONT-SIZE: " + size + "; FONT-FAMILY: " + letra + ";\" >\n"
                 + "    </textarea>\n"
                 + "    </div>\n"
                 + "    <div class=\"col\"></div>\n"
@@ -137,7 +138,7 @@ public class TextArea extends Html {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = id.substring(1);
     }
 
     public String getSize() {
@@ -196,4 +197,12 @@ public class TextArea extends Html {
         this.rows = rows;
     }
 
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+    
 }

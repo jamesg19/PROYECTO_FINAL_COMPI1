@@ -10,14 +10,17 @@ package HTML;
  * 
  * @author James Gramajo 
  */
-public class Link extends Html {
+public class Link extends Head {
     private String href="";
     private String formato="";
-
+    
     
     public Link(String href) {
         this.href=href;
 
+    }
+
+    public Link() {
     }
     
     public String formato_link(){
