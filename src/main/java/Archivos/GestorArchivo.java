@@ -9,6 +9,7 @@ package Archivos;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import javax.swing.JOptionPane;
 
 /**
  * 
@@ -45,6 +46,12 @@ public class GestorArchivo {
 
         }
         return bandera;
+    }
+    
+    public void eliminarCaptcha(String fichero) {
+        File fichero_del = new File(PathFijo+fichero);
+        fichero_del.delete();
+        
     }
 
 

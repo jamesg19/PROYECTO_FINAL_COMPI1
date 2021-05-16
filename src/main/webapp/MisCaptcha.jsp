@@ -55,7 +55,7 @@
                                     <%
                                         try {
                                             if (!listaJSP.isEmpty()) {
-                                                for (int i = 0; i < listaJSP.size(); i++) {%>
+                                                for (int i = 0; i < listaJSP.size(); i++) { %>
                                     <tr>
                                         <td><%=listaJSP.get(i)%></td>
                                         <td>http://localhost/FInalCompi1/CaptchaPage/<%=listaJSP.get(i)%></td>
@@ -65,17 +65,21 @@
                                             </a>
                                             <a class="btn btn-success" role="button" style="background: rgb(11,171,56);margin: 2px;">
                                                 <i class="fas fa-pencil-alt"></i></a>
-                                            <a class="btn btn-danger" role="button" style="margin: 2px;">
+                                                <form action="MisCaptchaDELETE" method="POST" > 
+                                                    <input type="text" class="form-control" id="fichero" name="fichero" value="<%=listaJSP.get(i)%>" style="display: none;" >
+                                            
+                                                <button   type="submit" class="btn btn-danger">Eliminar</button>
                                                 <i class="fas fa-trash"></i>
-                                            </a>
+                                           
+                                                    </form>
                                         </td>
                                     </tr>
                                     <% }
-                                    } else {%>
+                                    } else { %>
 
 
 
-                                    <%}
+                                    <% }
                                         } catch (Exception e) {
 
                                         }%>

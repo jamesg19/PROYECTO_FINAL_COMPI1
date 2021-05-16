@@ -7,7 +7,7 @@
 <title> Mi primer Captcha Matemático#$%^&*()-_,.?' 145.3 </title> 
 </head>
 <body style="background-color:#e5e6ea;">
- <h1 id="title_1"  style="COLOR:#7eff33; TEXT-ALIGN: center; FONT-SIZE: 10; FONT-FAMILY: Verdana; " >Mi primer Captcha Matemático</h1><div align=" center" >
+ <h1 id="title_1"  style="COLOR:#7eff33; TEXT-ALIGN: center; FONT-SIZE:14; FONT-FAMILY: Verdana; " >Mi primer Captcha Matemático</h1><div align=" center" >
 <span id="mostrar_1" ><font size ="" face="8" color="style="background-color:#3366ff;"" >¿ Qué resultado genera la operación siguiente: 5+5 ?</font></span>
 </div>
 <br>

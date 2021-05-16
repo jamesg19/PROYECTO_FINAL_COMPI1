@@ -1,6 +1,8 @@
 package Logica;
 
 import HTML.*;
+import Script.Script;
+import Script.Script2;
 
 import java.util.ArrayList;
 
@@ -10,6 +12,8 @@ import java.util.ArrayList;
  */
 public class GeneraHtml {
     ArrayList<Html> listaDatos = new ArrayList<>();
+    ArrayList<String> listaID = new ArrayList<>();
+    ArrayList<String> ID_duplicado = new ArrayList<>();
     private String FORMATO="";
     public GeneraHtml() {
     }
@@ -64,17 +68,20 @@ public class GeneraHtml {
                 Spam spam = (Spam) listaDato.getListBody().get(i);
                 spam.genera_spam();
                 FORMATO+=spam.getFormato();
+                validar_id(spam.getId());
             }
             // Div
             else if(listaDato.getListBody().get(i) instanceof Div){
                 Div div = (Div) listaDato.getListBody().get(i);
                 div.genera_div();
                 FORMATO+=div.genera_abre_div();
+                validar_id(div.getId());
             } 
             // Div
             else if(listaDato.getListBody().get(i) instanceof DivC){
                 DivC div = (DivC) listaDato.getListBody().get(i);
                 FORMATO+=div.genera_cierra_div();
+                validar_id(div.getId());
             } 
             //BR
             else if(listaDato.getListBody().get(i) instanceof Br){
@@ -86,12 +93,14 @@ public class GeneraHtml {
                 H1 h1 = (H1) listaDato.getListBody().get(i);
                 h1.genera_h1();
                 FORMATO+=h1.getFormato();
+                validar_id(h1.getId());
             } 
             //P
             else  if(listaDato.getListBody().get(i) instanceof P){
                 P p = (P) listaDato.getListBody().get(i);
                 p.genera_p();
                 FORMATO+=p.getFormato();
+                validar_id(p.getId());
             }
             //input
             else  if(listaDato.getListBody().get(i) instanceof Input){
@@ -99,30 +108,51 @@ public class GeneraHtml {
                 Input in = (Input) listaDato.getListBody().get(i);
                 in.determina_formato_input();
                 FORMATO+=in.determina_formato_input();
+                validar_id(in.getId());
             }
             else  if(listaDato.getListBody().get(i) instanceof TextArea){
                 
                 TextArea area = (TextArea) listaDato.getListBody().get(i);
                 //area.generatext();
                 FORMATO+=area.generatext();
+                validar_id(area.getId());
             } else  if(listaDato.getListBody().get(i) instanceof Button){
                 
                 Button button= (Button) listaDato.getListBody().get(i);
                 
                 FORMATO+=button.genera_button();
+                validar_id(button.getId());
             }
             else  if(listaDato.getListBody().get(i) instanceof Img){
                 
                 Img img= (Img) listaDato.getListBody().get(i);
                 
                 FORMATO+=img.generar_img();
+                validar_id(img.getId());
             } 
             else if(listaDato.getListBody().get(i) instanceof Select){
                 
                 Select select= (Select) listaDato.getListBody().get(i);
                 
                 FORMATO+=select.generar_select();
+                validar_id(select.getId());
             }
+            //abre script
+            else if(listaDato.getListBody().get(i) instanceof Script){
+                
+                Script script= (Script) listaDato.getListBody().get(i);
+                
+                FORMATO+=script.getFORMATO();
+            }
+            //cierra Script
+            else if(listaDato.getListBody().get(i) instanceof Script2){
+                
+                Script2 script= (Script2) listaDato.getListBody().get(i);
+                
+                FORMATO+=script.getFORMATO();
+            }
+            
+            
             
         }
         
@@ -131,10 +161,24 @@ public class GeneraHtml {
         
     }
     
+    public void validar_id(String id){
+        if(listaID.contains(id)){
+            ID_duplicado.add("No se pueden tener ID duplicados el siguiente ID ( "+id+" ) ya esta definido");
+        }else{
+            listaID.add(id);
+        }
+    }
+    
+    
+    
+    public void imprime_Script(){
+        
+    }
     
     
     
     
+
     
     
     
@@ -153,6 +197,22 @@ public class GeneraHtml {
 
     public void setFORMATO(String FORMATO) {
         this.FORMATO = FORMATO;
+    }
+
+    public ArrayList<String> getListaID() {
+        return listaID;
+    }
+
+    public void setListaID(ArrayList<String> listaID) {
+        this.listaID = listaID;
+    }
+
+    public ArrayList<String> getID_duplicado() {
+        return ID_duplicado;
+    }
+
+    public void setID_duplicado(ArrayList<String> ID_duplicado) {
+        this.ID_duplicado = ID_duplicado;
     }
     
     

@@ -48,11 +48,13 @@ public class Gestor extends HttpServlet {
 //            GestorArchivo gst = new GestorArchivo();
 //            gst.GuardarJSP(codigo, "primer_captchaaaJames.txt");
 
-
+            try{
             logica logic= new logica();
             logic.analizar(codigo_codificado);
             info=logic.getInforme_error();
-            
+            } catch(Exception e){
+                System.out.println("ERROR al analizar el codigo: \n"+e);
+            }
             //defino atributos para la pagina :)
             request.setAttribute("AREA", codigo_codificado);
             request.setAttribute("INFO", info);

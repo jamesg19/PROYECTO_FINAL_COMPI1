@@ -5,6 +5,7 @@
  */
 package Logica;
 
+import Archivos.GestorArchivo;
 import Archivos.LectorArchivoss;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author James Gramajo
  */
-@WebServlet(name = "MisCaptchas", urlPatterns = {"/MisCaptchas"})
-public class MisCaptchas extends HttpServlet {
+@WebServlet(name = "MisCaptchaDELETE", urlPatterns = {"/MisCaptchaDELETE"})
+public class MisCaptchaDELETE extends HttpServlet {
 ArrayList<String> listaJSP = new ArrayList<>();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,18 +36,18 @@ ArrayList<String> listaJSP = new ArrayList<>();
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             
-            LectorArchivoss lector= new LectorArchivoss();
+            String fichero = (String) request.getParameter("fichero");
+            
+            GestorArchivo gst= new GestorArchivo();
+            gst.eliminarCaptcha(fichero);
+            
+             LectorArchivoss lector= new LectorArchivoss();
             lector.leer();
             listaJSP=lector.getListaJSP();
             request.setAttribute("LISTA", listaJSP);
             request.getRequestDispatcher("/MisCaptcha.jsp").forward(request, response);
-            //request.getRequestDispatcher("/MisCaptchas").forward(request, response);
-            
-            //eliminarCaptcha("s");
-            
-            
-            
         }
     }
 

@@ -190,9 +190,11 @@ parametro_c_gcic::=
 	
 	| CORCHETE_ABRE id:ts CORCHETE_CIERRA
 	{:  html.setId(ts.toString()); html= new Html2();  listHtml.add(html); :}
+
 ;
 id::=
-	 ID IGUAL COMILLA TEXTO_ID:ts COMILLA 		{: RESULT=ts.toString(); System.out.println(" ID "+ts.toString());:}	
+	 ID IGUAL COMILLA TEXTO_ID:ts COMILLA 		{: RESULT=ts.toString(); System.out.println(" ID "+ts.toString());:}
+	 | error {: sintaxERROR.add(" Se esperaba la definicion de un ID  c_gcic ");  System.out.println("*/*/*/*/*/*/*/*/*/*/*/ID"); :}	
 ;
 
 name::=
