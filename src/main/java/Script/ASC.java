@@ -9,7 +9,7 @@ package Script;
  *
  * @author James Gramajo
  */
-public class ASC extends Script {
+public class ASC extends Metodo {
 
     private String FORMATO = "function ASC(palabra){\n"
             + "//metodo ASC\n"

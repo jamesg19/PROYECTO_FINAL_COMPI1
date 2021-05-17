@@ -9,7 +9,7 @@ package Script;
  *
  * @author James Gramajo
  */
-public class DESC extends Script {
+public class DESC extends Metodo {
 
     private String FORMATO = "function DESC(palabra){\n"
             + "//metodo DESC\n"

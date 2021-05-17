@@ -6,13 +6,17 @@
 
 package Script;
 
+import HTML.Body;
+import java.util.ArrayList;
+
 /**
  * 
  * @author James Gramajo 
  */
-public class Onload extends Script {
+public class Onload extends Metodo {
     private String FORMATO="";
     private String nombre="";
+    private ArrayList<Metodo> lstOnload = new ArrayList();
 
     public Onload() {
         
@@ -36,6 +40,14 @@ public class Onload extends Script {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public ArrayList<Metodo> getLstOnload() {
+        return lstOnload;
+    }
+
+    public void setLstOnload(ArrayList<Metodo> lstOnload) {
+        this.lstOnload = lstOnload;
     }
     
     

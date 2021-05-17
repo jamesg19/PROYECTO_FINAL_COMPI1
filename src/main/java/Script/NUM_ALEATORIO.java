@@ -9,7 +9,7 @@ package Script;
  *
  * @author James Gramajo
  */
-public class NUM_ALEATORIO extends Script {
+public class NUM_ALEATORIO extends Metodo {
 
     private String FORMATO = "function NUM_ALEATORIO(){\n"
             + "    //Math.floor(Math.random() * (max - min)) + min;\n"

@@ -9,7 +9,7 @@ package Script;
  *
  * @author James Gramajo
  */
-public class REDIRECT extends Script {
+public class REDIRECT extends Metodo {
 
     private String FORMATO = "return;";
 

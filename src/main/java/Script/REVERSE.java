@@ -9,7 +9,7 @@ package Script;
  *
  * @author James Gramajo
  */
-public class REVERSE extends Script {
+public class REVERSE extends Metodo {
 
     private String FORMATO = "function REVERSE(b){\n"
             + "//metodo REVERSE\n"

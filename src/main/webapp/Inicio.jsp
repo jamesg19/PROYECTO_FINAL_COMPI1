@@ -29,7 +29,7 @@
                 areas = "Escribe tu codigo ";
             }
             //<link rel="stylesheet" href="Resources/JSS/area.css">    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-        %>
+%>
         <%@ include file = "/nav.jsp" %>
         <form action="Gestor" method="POST" >
 
@@ -48,12 +48,12 @@
 
 
             <div align="center" >
-                <textarea class="rownr" rows="20" cols="3" value="1" readonly></textarea>
+                <textarea class="rownr" rows="15" cols="3" value="1" readonly></textarea>
                 <span>
-                    <textarea id="area"  name="area" class="txt" rows="20" cols="110" nowrap="nowrap" wrap="off"
+                    <textarea id="area"  name="area" class="txt" rows="15" cols="110" nowrap="nowrap" wrap="off"
                               autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                        onclick="selectionchanged(this)" onkeyup="keyup(this, event)" oninput="input_changed(this)" onscroll="scroll_changed(this)"><%=areas%></textarea>
-                        <br/><br/>
+                              onclick="selectionchanged(this)" onkeyup="keyup(this, event)" oninput="input_changed(this)" onscroll="scroll_changed(this)"><%=areas%></textarea>
+                    <br/><br/>
                     <label>Posicion del Cursor: </label>
                     <input id="sel_in" style="border-style:none" readonly>
                 </span>
@@ -96,10 +96,7 @@
                     <button align="left" type="button" onclick="limpiar()" class="btn btn-info">Limpiar</button>
                     <button align="right"  type="submit"  class="btn btn-info">Compilar</button>
                 </div>
-
-
             </div>   
-
             <br>
             <div  align="center" >
                 <textarea align="center" id="info" height="10" weight="10"   id="info" name="info" cols="160"  rows="15" disabled ><%=info%></textarea>

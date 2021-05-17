@@ -9,7 +9,7 @@ package Script;
  *
  * @author James Gramajo
  */
-public class EXIT extends Script {
+public class EXIT extends Metodo {
 
     private String FORMATO = "return;";
 

@@ -6,11 +6,14 @@
 
 package Variables;
 
+import Script.Metodo;
+import Script.Script;
+
 /**
  * 
  * @author James Gramajo 
  */
-public class StringV  extends Variable{
+public class StringV  extends Metodo{
     private String constante="";
     private boolean global=false;
     private String valor="";

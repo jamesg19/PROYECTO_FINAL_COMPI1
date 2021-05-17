@@ -6,13 +6,16 @@
 
 package Script;
 
+import java.util.ArrayList;
+
 /**
  * 
  * @author James Gramajo 
  */
-public class Proceso extends Script {
+public class Proceso extends Metodo {
     private String FORMATO="";
     private String nombre="";
+    private ArrayList<Metodo> lstProcess = new ArrayList();
 
     public Proceso() {
         
@@ -37,6 +40,14 @@ public class Proceso extends Script {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public ArrayList<Metodo> getLstProcess() {
+        return lstProcess;
+    }
+
+    public void setLstProcess(ArrayList<Metodo> lstProcess) {
+        this.lstProcess = lstProcess;
     }
     
     

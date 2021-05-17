@@ -9,7 +9,7 @@ package Script;
  *
  * @author James Gramajo
  */
-public class LETPAR_NUM extends Script {
+public class LETPAR_NUM extends Metodo {
 
     private String FORMATO = "function LETPAR_NUM(palabra){\n"
             + "    //RETORNA EL CODIGO ASCII DE LAS LETRAS PARES DE LA PALABRA\n"

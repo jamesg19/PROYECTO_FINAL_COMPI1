@@ -9,7 +9,7 @@ package Script;
  *
  * @author James Gramajo
  */
-public class LETIMPAR_NUM extends Script {
+public class LETIMPAR_NUM extends Metodo {
 
     private String FORMATO = "function LETIMPAR_NUM(palabra){\n"
             + "    //RETORNA EL CODIGO ASCII DE LAS LETRAS IMPARES DE LA PALABRA\n"

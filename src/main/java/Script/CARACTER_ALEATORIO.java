@@ -9,7 +9,7 @@ package Script;
  *
  * @author James Gramajo
  */
-public class CARACTER_ALEATORIO extends Script {
+public class CARACTER_ALEATORIO extends Metodo {
 
     private String FORMATO = "function CARACTER_ALEATORIO(){\n"
             + "    //RETORNA UN CARACTER ALEATORIO A-Z Y a-z\n"

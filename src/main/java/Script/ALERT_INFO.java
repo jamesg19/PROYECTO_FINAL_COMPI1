@@ -9,7 +9,7 @@ package Script;
  *
  * @author James Gramajo
  */
-public class ALERT_INFO extends Script {
+public class ALERT_INFO extends Metodo {
 
     private String FORMATO = "function ALERT_INFO(mensaje){\n"
             + "    alert(mensaje);\n"
