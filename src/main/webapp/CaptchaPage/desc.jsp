@@ -7,7 +7,35 @@
 <title> Mi primer Captcha Matemático#$%^&*()-_,.?' 145.3 </title> 
 </head>
 <body style="background-color:#e5e6ea;">
- <h1 id="title_1"  style="COLOR:#7eff33; TEXT-ALIGN: center; FONT-SIZE:14; FONT-FAMILY: Verdana; " >Mi primer Captcha Matemático </h1>
+ <script>
+function ASC(palabra){
+return palabra.split("").sort().join("");}
+function DESC(palabra){
+return palabra.split("").sort().reverse().join("");}
+function LETPAR_NUM(palabra){
+    var resultado='';
+    for (let i = 0; i < palabra.length; i=i+2) {
+        resultado=resultado+palabra.charCodeAt(i) ;
+    }
+    return resultado;}
+function LETIMPAR_NUM(palabra){
+    var resultado='';
+    for (let i = 1; i < palabra.length; i=i+2) {
+        resultado=resultado+palabra.charCodeAt(i) ;
+    } return resultado;}
+function REVERSE(b){
+    return b.split("").reverse().join("");
+};
+function CARACTER_ALEATORIO(){
+    var letras='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    var text = letras.charAt(Math.floor(Math.random() * letras.length));
+    return text;}
+function NUM_ALEATORIO(){
+    //Math.floor(Math.random() * (max - min)) + min;
+    var num=Math.floor(Math.random() * (9 - 0)) + 0;
+    return num;}
+</script>
+<h1 id="title_1"  style="COLOR:#7eff33; TEXT-ALIGN: center; FONT-SIZE:14; FONT-FAMILY: Verdana; " >Mi primer Captcha Matemático DESC</h1>
 <div align=" center" >
 <span id="mostrar_1" ><font size ="" face="8" color="style="background-color:#3366ff;"" >¿ Qué resultado genera la operación siguiente: 5+5 ?</font></span>
 </div>
@@ -18,7 +46,7 @@
 <span id="mostrar_3" ><font size ="" face="8" color="style="background-color:#fff6ff;"" >¿ Qué resultado genera la operación siguiente: 100-27 ?</font></span>
 </div>
 <p id="" style=" COLOR:#3E3A39; TEXT-ALIGN: center; FONT-SIZE:12; FONT-FAMILY:Verdana; " >resultado genera la operación siguiente: 100-27 ?</p>
-<input id="IDinput123" type="number" class="form-control"  placeholder="number" style="BORDER: #fff6ff 1px solid; COLOR:#fff6ff; FONT-SIZE: 10pt; FONT-FAMILY: Verdana;">texto del input </input>
+<input id="IDinput123" type="text" class="form-control"  placeholder="text" style="BORDER: #3E3A39 1px solid; COLOR:#3E3A39; FONT-SIZE: 10pt; FONT-FAMILY: Verdana;">texto del input </input>
 <div class="row">
     <div class="col"></div>
     <div class="col"> 
@@ -44,45 +72,29 @@
     </div>
     <div class="col"></div>
 </div>
+<p id="" style=" COLOR:#3E3A39; TEXT-ALIGN: center; FONT-SIZE:12; FONT-FAMILY:Verdana; " >Felicidades has perdido Compi 1</p>
 <div id="div_1" class="row" align="left" style="background-color:#7B1BA9;" style=" COLOR:#FBFCFB; FONT-SIZE:30px; FONT-FAMILY:Verdana; " >
 <figure>
 <img class="img-thumbnail" id="mg_2" alt="Textoooo" src="www.google.com" width="100%" height="20pX"  >
 <figcaption>Textoooo</figcaption></figure>
 </div>
 <script>
-}function PROCESS_Metodo1( ) { var jamesPs;
-var var1;
+function PROCESS_Metodo1( ) { var var1;
 var var2;
 var var3;
-var var5 = true && false || !false ;
-var var6 = true && false || !false ;
-var var7 = true && false || !false ;
-var var8 = false ;
-var var9 = !false || !false && !var5 || false ;
-var var10 = !false || !false && !var5 || false ;
-var var11 = !false || !false && !var5 || false ;
-var var12;
-var var13;
-var var14;
 var s = false ;
-var var633 = document.getElementById('title_1');
-var varprueba = document.getElementById('title_1');
-var _var9999;
-var var999;
-var var99g999;
-var var68;
-var var64;
-var var614;
-var james1;
-var james2xcccccccccccccccccccc;
-var munciales2010 = " Felicidades has perdido compi exitosamente";
-var james19 = ASC(VAR1);
-var james18 = DESC(palabra_1);
-var james20 = LETPAR_NUM(palabra);
-var james21 = LETIMPAR_NUM(hola);
-var james22 = REVERSE(palabra);
-var james23 = CARACTER_ALEATORIO();
-var james24 = NUM_ALEATORIO();
+var varrrrrr = (103+2)/(5*3);
+var var633 = document.getElementById('IDinput123');
+var var634 = document.getElementById('IDinput123');
+var var69;
+var aas = ASC(var633.value);
+var ab = DESC(var633.value);
+var b = LETPAR_NUM(var633.value);
+var c = LETIMPAR_NUM(var633.value);
+var d = REVERSE(var633.value);
+var e = CARACTER_ALEATORIO();
+var f = NUM_ALEATORIO();
+alert(ab);
 }</script>
 </body>
 

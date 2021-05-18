@@ -1160,7 +1160,7 @@ metodos_especiales::=
 	| NUM_ALEATORIO PARENTESIS_ABRE  PARENTESIS_CIERRA 					{: RESULT= "NUM_ALEATORIO();"; System.out.println(" NUM_ALEATORIO "); :}
 ;
 metodos_especiales2::=
-	 ALERT_INFO PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA		{: alert= new ALERT_INFO(b.toString()); lstMetodos.add(alert);   System.out.println(" DESC "+b); :}
+	 ALERT_INFO PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA		{: alert= new ALERT_INFO(b.toString());   System.out.println(" DESC "+b); :}
 	| EXIT PARENTESIS_ABRE  PARENTESIS_CIERRA PUNTO_COMA							{: System.out.println(" EXIT "); :}
 	| REDIRECT PARENTESIS_ABRE  PARENTESIS_CIERRA PUNTO_COMA						{: System.out.println(" REDIRECT "); :}
 ;

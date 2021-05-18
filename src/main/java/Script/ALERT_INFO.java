@@ -21,8 +21,7 @@ public class ALERT_INFO extends Metodo {
     }
     
     public String generar_alert(){
-        FORMATO="alert(\""+mensaje+"\");\n";
-        
+        FORMATO="alert("+mensaje+");\n";
         return FORMATO;
     }
 

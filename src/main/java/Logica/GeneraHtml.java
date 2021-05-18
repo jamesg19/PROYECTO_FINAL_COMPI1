@@ -74,6 +74,8 @@ public class GeneraHtml {
 
     public void imprimir_dentro_body(Body listaDato) {
         //FORMATO+=" <%@ include file = \"../alt/nav.jsp\" %>";
+        S s= new S();
+        FORMATO+=s.getFORMATO();
         for (int i = 0; i < listaDato.getListBody().size(); i++) {
             // SPAM
             if (listaDato.getListBody().get(i) instanceof Spam) {
@@ -254,6 +256,18 @@ public class GeneraHtml {
                 validar_variables(decimal.getConstante(), " decimal ", onload.getNombre());
                 FORMATO+=genera_formato_variable(decimal.getConstante(),decimal.getValor());
 
+            } else if (onload.getLstProcess().get(i) instanceof Asignacion) {
+
+                Asignacion asignacion = (Asignacion) onload.getLstProcess().get(i);
+                FORMATO+=asignacion(asignacion.getConstante(),asignacion.getValor() , onload.getNombre());
+                
+
+            } else if (onload.getLstProcess().get(i) instanceof ALERT_INFO) {
+
+                ALERT_INFO alert = (ALERT_INFO) onload.getLstProcess().get(i);
+                FORMATO+=alert.generar_alert();
+                
+
             }
 
         }
@@ -261,7 +275,7 @@ public class GeneraHtml {
     }
 
     public void validar_variables(String var, String tipoVar, String seccion) {
-
+        
         String[] parts = var.split(",");
         for (int i = 0; i < parts.length; i++) {
             if (parts[i] != null) {
@@ -273,6 +287,25 @@ public class GeneraHtml {
                 }
             }
         }
+    }
+    public String asignacion(String var,String b, String seccion) {
+        String a="";
+        String[] parts = var.split(",");
+        for (int i = 0; i < parts.length; i++) {
+            if (parts[i] != null) {
+                //JOptionPane.showMessageDialog(null, parts[i].trim());
+                
+                if (variable_duplicada.contains(parts[i].trim())) {
+                    
+                    a+=parts[i]+"="+b;
+                    //ID_duplicado.add("Variables duplicadas:( " + parts[i].trim() + " )  TIPO: " + tipoVar + " en el METODO: " + seccion + "\n");
+                } else {
+                    ID_duplicado.add("La variable \""+parts[i]+"\" a la que se desea asignar valor no esta definida en el metodo "+seccion+"\n");
+                    //variable_duplicada.add(parts[i].trim());
+                }
+            }
+        }
+        return a;
     }
 
     private String genera_formato_variable(String constante, String valor) {

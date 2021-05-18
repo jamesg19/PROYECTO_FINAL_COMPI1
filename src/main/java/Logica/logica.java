@@ -25,7 +25,7 @@ public class logica {
     ArrayList<String> sintaxERROR = new ArrayList<String>();
     ArrayList<String> semantico = new ArrayList<String>();
     GeneraHtml gg;
-
+    int valorEntero = (int) Math.floor(Math.random()*(1000-0+1)+0);
     private String informe_error = "";
 
     public logica() {
@@ -78,8 +78,7 @@ public class logica {
 
     public void generarCaptcha(GeneraHtml g) {
         String formato = g.getFORMATO();
-        generarArchivo(formato, "captcha.jsp");
-
+        generarArchivo(formato, "captcha"+valorEntero+".jsp");
     }
 
     public void generarArchivo(String formato, String nombre) {

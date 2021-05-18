@@ -1595,6 +1595,7 @@ public class parser extends java_cup.runtime.lr_parser {
 	Onload only= new Onload();
 	CierraCorchete close= new CierraCorchete();
 
+	IF iff= new IF();
 
 	//METODOS ESPECIALES
 	ASC asc= new ASC();
@@ -4368,7 +4369,7 @@ class CUP$parser$actions {
           case 266: // onload ::= ON_LOAD PARENTESIS_ABRE PARENTESIS_CIERRA CORCHETE_ABRE definicion_variables CORCHETE_CIERRA 
             {
               Object RESULT =null;
-		 only.setLstOnload(lstMetodos);   script.getListScript().add(only);  script.getListScript().add(close); lstMetodos = new ArrayList(); System.out.println(" METODO ONLOAD() "); 
+		 only.setLstOnload(lstMetodos);   script.getListScript().add(only);  /*script.getListScript().add(close);*/ lstMetodos = new ArrayList(); System.out.println(" METODO ONLOAD() "); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("onload",95, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -4377,7 +4378,7 @@ class CUP$parser$actions {
           case 267: // onload ::= ON_LOAD PARENTESIS_ABRE PARENTESIS_CIERRA CORCHETE_ABRE CORCHETE_CIERRA 
             {
               Object RESULT =null;
-		 only.setLstOnload(lstMetodos); script.getListScript().add(only); script.getListScript().add(close); lstMetodos = new ArrayList(); System.out.println(" METODO ONLOAD() "); 
+		 only.setLstOnload(lstMetodos); script.getListScript().add(only); /*script.getListScript().add(close);*/ lstMetodos = new ArrayList(); System.out.println(" METODO ONLOAD() "); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("onload",95, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5742,7 +5743,16 @@ class CUP$parser$actions {
           case 378: // if ::= IF PARENTESIS_ABRE condicionales condicionales2 condicionales PARENTESIS_CIERRA THEN 
             {
               Object RESULT =null;
-
+		int aleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).right;
+		Object a = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
+		Object b = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
+		int cleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
+		Object c = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		 iff= new IF(a.toString()+b.toString()+c.toString()); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("if",104, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5946,7 +5956,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object b = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 RESULT= "ASC("+b.toString()+");"; System.out.println(" ASC "+b); 
+		 RESULT= "ASC("+b.toString()+".value);"; System.out.println(" ASC "+b); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("metodos_especiales",97, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5958,7 +5968,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object b = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 RESULT= "DESC("+b.toString()+");"; System.out.println(" DESC "+b); 
+		 RESULT= "DESC("+b.toString()+".value);"; System.out.println(" DESC "+b); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("metodos_especiales",97, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5970,7 +5980,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object b = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 RESULT= "LETPAR_NUM("+b.toString()+");"; System.out.println(" LETPAR_NUM "+b); 
+		 RESULT= "LETPAR_NUM("+b.toString()+".value);"; System.out.println(" LETPAR_NUM "+b); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("metodos_especiales",97, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5982,7 +5992,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object b = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 RESULT= "LETIMPAR_NUM("+b.toString()+");"; System.out.println(" LETIMPAR_NUM "+b); 
+		 RESULT= "LETIMPAR_NUM("+b.toString()+".value);"; System.out.println(" LETIMPAR_NUM "+b); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("metodos_especiales",97, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -5994,7 +6004,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object b = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 RESULT= "REVERSE("+b.toString()+");"; System.out.println(" REVERSE "+b); 
+		 RESULT= "REVERSE("+b.toString()+".value);"; System.out.println(" REVERSE "+b); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("metodos_especiales",97, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -6024,7 +6034,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
 		Object b = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		 System.out.println(" DESC "+b); 
+		 alert= new ALERT_INFO(b.toString()); lstMetodos.add(alert);   System.out.println(" DESC "+b); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("metodos_especiales2",98, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
