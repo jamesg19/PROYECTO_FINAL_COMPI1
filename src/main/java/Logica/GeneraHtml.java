@@ -16,10 +16,16 @@ public class GeneraHtml {
 
     ArrayList<Html> listaDatos = new ArrayList<>();
     ArrayList<String> listaID = new ArrayList<>();
-    ArrayList<String> ID_duplicado = new ArrayList<>();
     ArrayList<String> variable_duplicada = new ArrayList<>();
+    //para informacion al usuario
+    ArrayList<String> ID_duplicado = new ArrayList<>();
+    
     private String FORMATO = "";
-
+    
+    
+    
+    
+    
     public GeneraHtml() {
     }
 
@@ -140,9 +146,8 @@ public class GeneraHtml {
 
                 FORMATO += script.getFORMATO();
                 //crear un nuevo objeto para cada script
-                variable_duplicada = new ArrayList<>();
                 analiza_script(script);
-                
+
             } //cierra Script
             else if (listaDato.getListBody().get(i) instanceof Script2) {
 
@@ -162,72 +167,167 @@ public class GeneraHtml {
             }
         }
     }
+
     /**
      * RECIBE UN OBJETO SCRIPT Y BUSCA SU CONTENIDO
-     * @param listaDatos 
+     *
+     * @param listaDatos
      */
-    public void analiza_script(Script listaDatos){
-        
-        for (int i = 0; i < listaDatos.getListScript().size(); i++) {
-            //string
-            if (listaDatos.getListScript().get(i) instanceof Onload) {
+    public void analiza_script(Script script) {
 
-                Onload onload = (Onload) listaDatos.getListScript().get(i);
-                JOptionPane.showMessageDialog(null, " Hay Onload ");
+        for (int i = 0; i < script.getListScript().size(); i++) {
+            //string
+            if (script.getListScript().get(i) instanceof Onload) {
+
+                Onload onload = (Onload) script.getListScript().get(i);
+                variable_duplicada = new ArrayList<>();
+
                 //validar_variables(onload.getId(),"String");
-                analiza_dentro_metodos(onload);
-            } else if (listaDatos.getListScript().get(i) instanceof IntegerV) {
+                //analiza_dentro_metodos(onload);
+            } else if (script.getListScript().get(i) instanceof Proceso) {
+                Proceso proceso = (Proceso) script.getListScript().get(i);
 
-                IntegerV integ = (IntegerV) listaDatos.getListScript().get(i);
+                variable_duplicada = new ArrayList<>();
+                FORMATO+=proceso.genera_proces_A();
+                analiza_dentro_metodos(proceso);
 
-            } 
+            } else if (script.getListScript().get(i) instanceof CierraCorchete) {
+                CierraCorchete close = (CierraCorchete) script.getListScript().get(i);
+
+                
+                FORMATO+=close.getFORMATO();
+                
+
+            }
         }
-        
-        
+
     }
-    
-    
-    public void analiza_dentro_metodos(Onload onload){
-        
-        
-        for (int i = 0; i < onload.getLstOnload().size(); i++) {
+
+    /**
+     * ANALIZACOMPONENTES DENTRO DE UN METODO
+     *
+     * @param onload
+     */
+    public void analiza_dentro_metodos(Proceso onload) {
+
+        for (int i = 0; i < onload.getLstProcess().size(); i++) {
+
             //string
-            if (onload.getLstOnload().get(i) instanceof StringV) {
-                JOptionPane.showMessageDialog(null, " String dentro de onload");
-                StringV string = (StringV) onload.getLstOnload().get(i);
-                validar_variables(string.getId(),"String");
+            if (onload.getLstProcess().get(i) instanceof StringV) {
 
-            } else if (onload.getLstOnload().get(i) instanceof IntegerV) {
+                StringV string = (StringV) onload.getLstProcess().get(i);
+                validar_variables(string.getConstante(), " string ", onload.getNombre());
+                //JOptionPane.showMessageDialog(null, " aaaaa "+string.getConstante()+" d "+string.getValor());
+                if(string.getElement()!=null){
+                    FORMATO+=generaGetElement(string.getConstante(),string.getElement(),onload.getNombre());
+                } else if(string.getMETODO()!=null){
+                    FORMATO+=genera_formato_variableM(string.getConstante(),string.getMETODO());
+                }
+                
+                else {
+                    FORMATO+=genera_formato_variable(string.getConstante(),string.getValor());
+                }
+                
+                
+            } else if (onload.getLstProcess().get(i) instanceof IntegerV) {
 
-                IntegerV integ = (IntegerV) onload.getLstOnload().get(i);
+                IntegerV integ = (IntegerV) onload.getLstProcess().get(i);
+                validar_variables(integ.getConstante(), " integer ", onload.getNombre());
+                FORMATO+=genera_formato_variable(integ.getConstante(),integ.getValor());
 
-            } else if (onload.getLstOnload().get(i) instanceof BooleanV) {
+            } else if (onload.getLstProcess().get(i) instanceof BooleanV) {
 
-                BooleanV bool = (BooleanV) onload.getLstOnload().get(i);
+                BooleanV bool = (BooleanV) onload.getLstProcess().get(i);
+                //JOptionPane.showMessageDialog(null, bool.getConstante());
+                validar_variables(bool.getConstante(), " boolean ", onload.getNombre());
+                FORMATO+=genera_formato_variable(bool.getConstante(),bool.getValor());
 
-            } else if (onload.getLstOnload().get(i) instanceof CharV) {
+            } else if (onload.getLstProcess().get(i) instanceof CharV) {
 
-                CharV chart = (CharV) onload.getLstOnload().get(i);
+                CharV chart = (CharV) onload.getLstProcess().get(i);
+                validar_variables(chart.getConstante(), " char ", onload.getNombre());
+                FORMATO+=genera_formato_variable(chart.getConstante(),chart.getValor());
 
-            } else if (onload.getLstOnload().get(i) instanceof DecimalV) {
+            } else if (onload.getLstProcess().get(i) instanceof DecimalV) {
 
-                DecimalV decimal = (DecimalV) onload.getLstOnload().get(i);
+                DecimalV decimal = (DecimalV) onload.getLstProcess().get(i);
+                validar_variables(decimal.getConstante(), " decimal ", onload.getNombre());
+                FORMATO+=genera_formato_variable(decimal.getConstante(),decimal.getValor());
 
             }
+
         }
-        
-        
+
     }
-    
 
-    public void validar_variables(String id, String seccion) {
-        if (!id.isEmpty() || id.equalsIgnoreCase(" ")) {
-            if (listaID.contains(id.trim())) {
-                ID_duplicado.add("No se pueden tener ID DUPLICADOS el siguiente ID ( " + id + " ) ya esta definido en: " + seccion + "\n");
-            } else {
-                listaID.add(id.trim());
+    public void validar_variables(String var, String tipoVar, String seccion) {
+
+        String[] parts = var.split(",");
+        for (int i = 0; i < parts.length; i++) {
+            if (parts[i] != null) {
+                //JOptionPane.showMessageDialog(null, parts[i].trim());
+                if (variable_duplicada.contains(parts[i].trim())) {
+                    ID_duplicado.add("Variables duplicadas:( " + parts[i].trim() + " )  TIPO: " + tipoVar + " en el METODO: " + seccion + "\n");
+                } else {
+                    variable_duplicada.add(parts[i].trim());
+                }
             }
         }
+    }
+
+    private String genera_formato_variable(String constante, String valor) {
+        String a="";
+        String[] parts = constante.split(",");
+        for (int i = 0; i < parts.length; i++) {
+            //que la constante  no sea nula
+            
+            if (parts[i] != null) {
+                if(valor!=null){
+                     a+="var "+parts[i]+" = "+valor+";\n";
+                     
+                } else{
+                    a+="var "+parts[i]+";\n";
+                }
+            }
+        }
+        return a;
+
+    }
+    private String genera_formato_variableM(String constante, String metodo) {
+        String a="";
+        String[] parts = constante.split(",");
+        for (int i = 0; i < parts.length; i++) {
+            //que la constante  no sea nula
+            
+            if (parts[i] != null) {
+                if(metodo!=null){
+                     a+="var "+parts[i]+" = "+metodo+"\n";
+                     
+                } else{
+                    a+="var "+parts[i]+";\n";
+                }
+            }
+        }
+        return a;
+
+    }
+    private String generaGetElement(String constante, String VAR, String metodo){
+        String a="";
+        String[] parts = constante.split(",");
+        for (int i = 0; i < parts.length; i++) {
+            if(parts[i] != null){
+                if(listaID.contains(VAR.substring(1).trim()) ){
+                    a+="var "+parts[i]+" = document.getElementById('"+VAR.substring(1)+"');\n"; 
+                }else{
+                    ID_duplicado.add("EL ID ESPECIFICADO: \""+VAR.substring(1)+"\" dentro de getElementById No Existe en una etiqueta G_CIC en metodo"+metodo+"\n");
+                    return a;
+                }
+                
+            }
+            
+        }
+        
+        return a;
     }
 
     public ArrayList<Html> getListaDatos() {

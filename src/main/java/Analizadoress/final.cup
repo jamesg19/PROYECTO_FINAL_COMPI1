@@ -56,6 +56,19 @@ parser code
 	CierraCorchete close= new CierraCorchete();
 
 
+	//METODOS ESPECIALES
+	ASC asc= new ASC();
+	DESC desc= new DESC();
+	EXIT exit= new EXIT();
+	LETIMPAR_NUM impar= new LETIMPAR_NUM();
+	LETPAR_NUM par = new LETPAR_NUM();
+	ALERT_INFO alert= new ALERT_INFO();
+	CARACTER_ALEATORIO caracter= new CARACTER_ALEATORIO();
+	NUM_ALEATORIO numero= new NUM_ALEATORIO();
+	REVERSE reverse= new REVERSE();
+	REDIRECT redirect= new REDIRECT();
+	Asignacion asignacion= new Asignacion();
+
 
 
 	//constructor
@@ -158,7 +171,7 @@ non terminal parametros_div, etiquetas_div, id_div, color_div, background_div, f
 
 
 non terminal etiquetas_scripting, abre_script, cierra_script, parametros_proces,parametros_scripting, proces, process_ini, onload;
-non terminal estado_inicial, metodos_especiales, bloque_INIT_END, instruccion, sentencias_control, pametros_elseif, pametro_els, if;
+non terminal estado_inicial, metodos_especiales, metodos_especiales2, bloque_INIT_END, instruccion, sentencias_control, pametros_elseif, pametro_els, if;
 non terminal  repeat, while, insert, param_var, condicionales, condicionales2, cond_str;
 //NO TERMINALES DE VARIABLES EN SCRIPTING 
 non terminal definicion_variables,integer ,nombre_variables,valor_integer, valor_decimal;
@@ -816,19 +829,19 @@ parametros_proces::=
 proces::=
 	process_ini:method  CORCHETE_ABRE 
 	definicion_variables
-	CORCHETE_CIERRA 											{: proceso.setLstProcess(lstMetodos); script.getListScript().add(proceso); lstMetodos = new ArrayList(); System.out.println(" METODO PROCESS_() "+method.toString()+"-------------------------------"); :}
+	CORCHETE_CIERRA 											{: proceso.setNombre(method.toString()); proceso.setLstProcess(lstMetodos); script.getListScript().add(proceso); script.getListScript().add(close);  lstMetodos = new ArrayList(); System.out.println(" METODO PROCESS_() "+method.toString()+"-------------------------------"); :}
 
 	| process_ini:method  CORCHETE_ABRE
-	CORCHETE_CIERRA												{: proceso.setLstProcess(lstMetodos); script.getListScript().add(proceso); lstMetodos = new ArrayList(); System.out.println(" METODO PROCESS_() "+method.toString()+"-------------------------------"); :}
+	CORCHETE_CIERRA												{: proceso.setLstProcess(lstMetodos); script.getListScript().add(proceso); script.getListScript().add(close); lstMetodos = new ArrayList(); System.out.println(" METODO PROCESS_() "+method.toString()+"-------------------------------"); :}
 ;
 onload::=
 	ON_LOAD  PARENTESIS_ABRE PARENTESIS_CIERRA CORCHETE_ABRE
 	definicion_variables
 	CORCHETE_CIERRA
-																{: only.setLstOnload(lstMetodos);   script.getListScript().add(only);  lstMetodos = new ArrayList(); System.out.println(" METODO ONLOAD() "); :}
+																{: only.setLstOnload(lstMetodos);   script.getListScript().add(only);  script.getListScript().add(close); lstMetodos = new ArrayList(); System.out.println(" METODO ONLOAD() "); :}
 	| ON_LOAD PARENTESIS_ABRE PARENTESIS_CIERRA CORCHETE_ABRE
 	CORCHETE_CIERRA
-																{: only.setLstOnload(lstMetodos); script.getListScript().add(only); lstMetodos = new ArrayList(); System.out.println(" METODO ONLOAD() "); :}
+																{: only.setLstOnload(lstMetodos); script.getListScript().add(only); script.getListScript().add(close); lstMetodos = new ArrayList(); System.out.println(" METODO ONLOAD() "); :}
 
 ;
 process_ini::=
@@ -850,8 +863,8 @@ definicion_variables::=
 	| asig 
 	| boolean definicion_variables
 	| boolean
-	| metodos_especiales definicion_variables
-	| metodos_especiales
+	| metodos_especiales2 definicion_variables
+	| metodos_especiales2
 	| sentencias_control definicion_variables
 	| sentencias_control
 	| repeat definicion_variables
@@ -861,6 +874,7 @@ definicion_variables::=
 	| insert definicion_variables
 	| insert
 ;
+
 instruccion::=
 	 integer
 	| string
@@ -874,8 +888,11 @@ instruccion::=
 
 asig::=
 	NOMBRE_VARIABLE:var1 IGUAL asig2:val PUNTO_COMA  
-																			{: System.out.println("----- ASIGNACION INTEGER:   "+var1+" Valores: "+val); :}
+																		{: asignacion= new Asignacion(var1.toString(),val.toString()+";");  lstMetodos.add(asignacion);  System.out.println("----- ASIGNACION INTEGER:   "+var1+" Valores: "+val); :}
+	| NOMBRE_VARIABLE:var1 IGUAL metodos_especiales:val PUNTO_COMA
+	{: asignacion= new Asignacion(var1.toString(),val.toString());  lstMetodos.add(asignacion);  :}
 ;
+
 asig2::=
 	asig2:e1 SUMA  asig2:e2         									{: RESULT = e1.toString()+"+"+e2.toString(); :}
 	| asig2:e1 RESTA asig2:e2        									{: RESULT = e1.toString()+"-"+e2.toString(); :}
@@ -901,13 +918,13 @@ get_element::=
 //DEFINIR UNA VARIABLE TIPO INTEGER
 integer::=
 	INTEGER GLOBAL nombre_variables:vars PUNTO_COMA									
-	{: integ = new IntegerV(vars.toString(),true,""); lstMetodos.add(integ); System.out.println(" VARIABLES:  G "+vars); :}
+	{: integ = new IntegerV(vars.toString(),true,null); lstMetodos.add(integ); System.out.println(" VARIABLES:  G "+vars); :}
 	
 	| INTEGER GLOBAL nombre_variables:vars IGUAL valor_integer:val PUNTO_COMA 		
 	{: integ = new IntegerV(vars.toString(),true,val.toString()); lstMetodos.add(integ); System.out.println(" VARIABLES:  G "+vars+" Valores: "+val); :}
 	
 	| INTEGER nombre_variables:vars PUNTO_COMA										
-	{: integ = new IntegerV(vars.toString(),false,""); lstMetodos.add(integ); System.out.println(" VARIABLES:   "+vars); :}
+	{: integ = new IntegerV(vars.toString(),false,null); lstMetodos.add(integ); System.out.println(" VARIABLES:   "+vars); :}
 	
 	| INTEGER nombre_variables:vars IGUAL valor_integer:val PUNTO_COMA				
 	{: integ = new IntegerV(vars.toString(),false,val.toString()); lstMetodos.add(integ); System.out.println(" VARIABLES:   "+vars+" Valores: "+val); :}
@@ -932,40 +949,46 @@ valor_integer::=
 
 string::=
 	 STRING GLOBAL nombre_variables:vars IGUAL get_element:id PUNTO_COMA				
-	 {: string = new StringV(vars.toString(),true,"",id.toString()); lstMetodos.add(string); System.out.println(" GETELEMENT BY ID "+vars+" ID: "+id); :}
+	 {: string = new StringV(vars.toString(),true,null,id.toString()); lstMetodos.add(string); System.out.println(" GETELEMENT BY ID "+vars+" ID: "+id); :}
 
 	| STRING  nombre_variables:vars IGUAL get_element:id PUNTO_COMA					
-	{: string = new StringV(vars.toString(),false,"",id.toString()); lstMetodos.add(string); System.out.println(" GETELEMENT BY ID "+vars+" ID: "+id); :}
+	{: string = new StringV(vars.toString(),false,null,id.toString()); lstMetodos.add(string); System.out.println(" GETELEMENT BY ID "+vars+" ID: "+id); :}
 	
 	| STRING GLOBAL nombre_variables:vars PUNTO_COMA									
-	{: string = new StringV(vars.toString(),true,"",""); lstMetodos.add(string);  System.out.println(" VARIABLES: STRING  G "+vars); :}
+	{: string = new StringV(vars.toString(),true,null,null); lstMetodos.add(string);  System.out.println(" VARIABLES: STRING  G "+vars); :}
 	
 	| STRING GLOBAL nombre_variables:vars IGUAL valor_string:val PUNTO_COMA 		
-	{: string = new StringV(vars.toString(),true,val.toString(),""); lstMetodos.add(string); System.out.println(" VARIABLES: STRING G "+vars+" Valores: "+val); :}
+	{: string = new StringV(vars.toString(),true,val.toString(),null); lstMetodos.add(string); System.out.println(" VARIABLES: STRING G "+vars+" Valores: "+val); :}
 	
 	| STRING nombre_variables:vars PUNTO_COMA										
-	{: string = new StringV(vars.toString(),false,"",""); lstMetodos.add(string);  System.out.println(" VARIABLES: STRING "+vars); :}
+	{: string = new StringV(vars.toString(),false,null,null); lstMetodos.add(string);  System.out.println(" VARIABLES: STRING "+vars); :}
 
 	| STRING nombre_variables:vars IGUAL valor_string:val PUNTO_COMA				
-	{: string = new StringV(vars.toString(),false,val.toString(),""); lstMetodos.add(string); System.out.println(" VARIABLES: STRING "+vars+" Valores: "+val); :}
+	{: string = new StringV(vars.toString(),false,val.toString(),null); lstMetodos.add(string); System.out.println(" VARIABLES: STRING "+vars+" Valores: "+val); :}
+	
+	| STRING nombre_variables:vars IGUAL metodos_especiales:r PUNTO_COMA
+	{: string = new StringV(vars.toString(),false,null,null,r.toString()); lstMetodos.add(string); System.out.println(" VARIABLES: STRING "+vars); :}
+
+	| STRING GLOBAL nombre_variables:vars IGUAL metodos_especiales:r PUNTO_COMA
+	{: string = new StringV(vars.toString(),true,null,null,r.toString()); lstMetodos.add(string); System.out.println(" VARIABLES: STRING "+vars); :}
 	
 ;
 valor_string::=
 
-	valor_string:s SUMA COMILLA TEXTO:t COMILLA										{: RESULT = s.toString()+t.toString()+","; :}
-	| valor_string:s SUMA NOMBRE_VARIABLE:t											{: RESULT = s.toString()+t.toString()+","; :}
-	| COMILLA TEXTO:t COMILLA														{: RESULT = t.toString()+","; :}
-	| NOMBRE_VARIABLE:t																{: RESULT = t.toString()+","; :}
+	valor_string:s SUMA COMILLA TEXTO:t COMILLA										{: RESULT = s.toString()+"+\""+t.toString()+"\""; :}
+	| valor_string:s SUMA NOMBRE_VARIABLE:t											{: RESULT = s.toString()+"+"+t.toString()+","; :}
+	| COMILLA TEXTO:t COMILLA														{: RESULT = "\""+t.toString()+"\""; :}
+	| NOMBRE_VARIABLE:t																{: RESULT = t.toString()+""; :}
 ;
 char::=
 	CHAR GLOBAL nombre_variables:vars PUNTO_COMA									
-	{:  cha = new CharV(vars.toString(),true,""); lstMetodos.add(cha);  System.out.println(" VARIABLES: CHAR  G "+vars); :}
+	{:  cha = new CharV(vars.toString(),true,null); lstMetodos.add(cha);  System.out.println(" VARIABLES: CHAR  G "+vars); :}
 
 	| CHAR GLOBAL nombre_variables:vars IGUAL valor_char:val PUNTO_COMA 		
 	{: cha = new CharV(vars.toString(),true,val.toString()); lstMetodos.add(cha);  System.out.println(" VARIABLES: CHAR G "+vars+" Valores: "+val); :}
 	
 	| CHAR nombre_variables:vars PUNTO_COMA										
-	{: cha = new CharV(vars.toString(),false,""); lstMetodos.add(cha); System.out.println(" VARIABLES: CHAR "+vars); :}
+	{: cha = new CharV(vars.toString(),false,null); lstMetodos.add(cha); System.out.println(" VARIABLES: CHAR "+vars); :}
 
 	| CHAR nombre_variables:vars IGUAL valor_char:val PUNTO_COMA				
 	{: cha = new CharV(vars.toString(),false,val.toString()); lstMetodos.add(cha); System.out.println(" VARIABLES: CHAR "+vars+" Valores: "+val); :}
@@ -983,13 +1006,13 @@ valor_char::=
 //DEFINIR UNA VARIABLE TIPO INTEGER
 decimal::=
 	DECIMAL GLOBAL nombre_variables:vars PUNTO_COMA									
-	{: decimal = new DecimalV(vars.toString(),true,"");  lstMetodos.add(decimal); System.out.println(" VARIABLES: DECIMAL  G "+vars); :}
+	{: decimal = new DecimalV(vars.toString(),true,null);  lstMetodos.add(decimal); System.out.println(" VARIABLES: DECIMAL  G "+vars); :}
 
 	| DECIMAL GLOBAL nombre_variables:vars IGUAL valor_decimal:val PUNTO_COMA 		
 	{: decimal = new DecimalV(vars.toString(),true,val.toString()); lstMetodos.add(decimal); System.out.println(" VARIABLES: DECIMAL G "+vars+" Valores: "+val); :}
 
 	| DECIMAL nombre_variables:vars PUNTO_COMA										
-	{: decimal = new DecimalV(vars.toString(),false,""); lstMetodos.add(decimal); System.out.println(" VARIABLES: DECIMAL  "+vars); :}
+	{: decimal = new DecimalV(vars.toString(),false,null); lstMetodos.add(decimal); System.out.println(" VARIABLES: DECIMAL  "+vars); :}
 
 	| DECIMAL nombre_variables:vars IGUAL valor_decimal:val PUNTO_COMA				
 	{: decimal = new DecimalV(vars.toString(),false,val.toString()); lstMetodos.add(decimal); System.out.println(" VARIABLES: DECIMAL  "+vars+" Valores: "+val); :}
@@ -1009,13 +1032,13 @@ valor_decimal::=
 boolean::=
 	 //TRUE_O_FALSE
 	BOOLEAN GLOBAL nombre_variables:vars PUNTO_COMA									
-	{: bool = new BooleanV(vars.toString(),true,""); lstMetodos.add(bool);  System.out.println(" VARIABLES: BOOLEAN  G "+vars); :}
+	{: bool = new BooleanV(vars.toString(),true,null); lstMetodos.add(bool);  System.out.println(" VARIABLES: BOOLEAN  G "+vars); :}
 
 	| BOOLEAN GLOBAL nombre_variables:vars IGUAL valor_boolean:val PUNTO_COMA 		
 	{: bool = new BooleanV(vars.toString(),true,val.toString());  lstMetodos.add(bool); System.out.println(" VARIABLES: BOOLEAN G "+vars+" Valores: "+val); :}
 
 	| BOOLEAN nombre_variables:vars PUNTO_COMA										
-	{: bool = new BooleanV(vars.toString(),false,"");  lstMetodos.add(bool); System.out.println(" VARIABLES: BOOLEAN  "+vars); :}
+	{: bool = new BooleanV(vars.toString(),false,null);  lstMetodos.add(bool); System.out.println(" VARIABLES: BOOLEAN  "+vars); :}
 
 	| BOOLEAN nombre_variables:vars IGUAL valor_boolean:val PUNTO_COMA				
 	{: bool = new BooleanV(vars.toString(),false,val.toString()); lstMetodos.add(bool); System.out.println(" VARIABLES: BOOLEAN  "+vars+" Valores: "+val); :}
@@ -1064,6 +1087,7 @@ sentencias_control::=
 ;
 if::=
 	IF PARENTESIS_ABRE condicionales condicionales2 condicionales PARENTESIS_CIERRA THEN
+	| IF PARENTESIS_ABRE condicionales PARENTESIS_CIERRA THEN
 ;
 pametro_els::=
     ELSE   
@@ -1074,11 +1098,18 @@ pametro_els::=
 pametros_elseif::=
     ELSE IF PARENTESIS_ABRE condicionales condicionales2 condicionales  PARENTESIS_CIERRA THEN
     instruccion {:System.out.println("aqui 1");:}
+	| ELSE IF PARENTESIS_ABRE condicionales  PARENTESIS_CIERRA THEN
+    instruccion {:System.out.println("aqui 2");:}
+
 	| ELSE IF PARENTESIS_ABRE condicionales condicionales2 condicionales PARENTESIS_CIERRA THEN
+    bloque_INIT_END {:System.out.println("aqui 1");:}
+
+	| ELSE IF PARENTESIS_ABRE condicionales PARENTESIS_CIERRA THEN
     bloque_INIT_END {:System.out.println("aqui 1");:}
 
     | pametros_elseif ELSE IF PARENTESIS_ABRE condicionales condicionales2 condicionales  PARENTESIS_CIERRA THEN
     instruccion  {:System.out.println("aqui 2");:}
+
 	| pametros_elseif ELSE IF PARENTESIS_ABRE condicionales condicionales2 condicionales PARENTESIS_CIERRA THEN
     bloque_INIT_END  {:System.out.println("aqui 2");:}
 ;
@@ -1116,14 +1147,16 @@ param_var::=
 ;
 
 metodos_especiales::=
-	ASC PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA 				{: System.out.println(" ASC "+b); :}
-	| DESC PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA			{: System.out.println(" DESC "+b); :}
-	| LETPAR_NUM PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA		{: System.out.println(" LETPAR_NUM "+b); :}
-	| LETIMPAR_NUM PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA	{: System.out.println(" LETIMPAR_NUM "+b); :}
-	| REVERSE PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA		{: System.out.println(" REVERSE "+b); :}
-	| CARACTER_ALEATORIO PARENTESIS_ABRE  PARENTESIS_CIERRA PUNTO_COMA				{: System.out.println(" CARACTER_ALEATORIO "); :}
-	| NUM_ALEATORIO PARENTESIS_ABRE  PARENTESIS_CIERRA PUNTO_COMA					{: System.out.println(" NUM_ALEATORIO "); :}
-	| ALERT_INFO PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA		{: System.out.println(" DESC "+b); :}
+	 ASC PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA  			{: RESULT= "ASC("+b.toString()+");"; System.out.println(" ASC "+b); :}
+	| DESC PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA 			{: RESULT= "DESC("+b.toString()+");"; System.out.println(" DESC "+b); :}
+	| LETPAR_NUM PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA 		{: RESULT= "LETPAR_NUM("+b.toString()+");"; System.out.println(" LETPAR_NUM "+b); :}
+	| LETIMPAR_NUM PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA 	{: RESULT= "LETIMPAR_NUM("+b.toString()+");"; System.out.println(" LETIMPAR_NUM "+b); :}
+	| REVERSE PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA 		{: RESULT= "REVERSE("+b.toString()+");"; System.out.println(" REVERSE "+b); :}
+	| CARACTER_ALEATORIO PARENTESIS_ABRE  PARENTESIS_CIERRA 				{: RESULT= "CARACTER_ALEATORIO();"; System.out.println(" CARACTER_ALEATORIO "); :}
+	| NUM_ALEATORIO PARENTESIS_ABRE  PARENTESIS_CIERRA 					{: RESULT= "NUM_ALEATORIO();"; System.out.println(" NUM_ALEATORIO "); :}
+;
+metodos_especiales2::=
+	 ALERT_INFO PARENTESIS_ABRE NOMBRE_VARIABLE:b PARENTESIS_CIERRA PUNTO_COMA		{: System.out.println(" DESC "+b); :}
 	| EXIT PARENTESIS_ABRE  PARENTESIS_CIERRA PUNTO_COMA							{: System.out.println(" EXIT "); :}
 	| REDIRECT PARENTESIS_ABRE  PARENTESIS_CIERRA PUNTO_COMA						{: System.out.println(" REDIRECT "); :}
 ;
@@ -1143,9 +1176,7 @@ condicionales::=
 	//| operador_logico_boolean:t											{: RESULT = t.toString()+""; :}
 ;
 cond_str::=
-// "algo"==algo
-// "algo"=="algo"
-// algo=var2
+
 	condicionales:e1 IGUALDAD condicionales:e2        					{: RESULT = e1.toString()+"=="+e2.toString(); :}
     | condicionales:e1 NO_IGUAL condicionales:e2        				{: RESULT = e1.toString()+"!="+e2.toString() ; :}
   	%prec UMENOS														

@@ -7,7 +7,7 @@
 <title> Mi primer Captcha Matemático#$%^&*()-_,.?' 145.3 </title> 
 </head>
 <body style="background-color:#e5e6ea;">
- <h1 id="title_1"  style="COLOR:#7eff33; TEXT-ALIGN: center; FONT-SIZE:14; FONT-FAMILY: Verdana; " >Mi primer Captcha Matemático</h1>
+ <h1 id="title_1"  style="COLOR:#7eff33; TEXT-ALIGN: center; FONT-SIZE:14; FONT-FAMILY: Verdana; " >Mi primer Captcha Matemático </h1>
 <div align=" center" >
 <span id="mostrar_1" ><font size ="" face="8" color="style="background-color:#3366ff;"" >¿ Qué resultado genera la operación siguiente: 5+5 ?</font></span>
 </div>
@@ -27,7 +27,7 @@
     </div>
 </div>
 <div align="right" >
-<button id="boton_1" onclick="PROCESS_metodosJames1()"  class="btn" type="button" style="background-color:#4DA538;" style=" COLOR:#FFF123; TEXT-ALIGN: left; FONT-SIZE:18px; FONT-FAMILY:Verdana; "> Procesar...</button>
+<button id="boton_1" onclick="PROCESS_Metodo1()"  class="btn" type="button" style="background-color:#4DA538;" style=" COLOR:#FFF123; TEXT-ALIGN: left; FONT-SIZE:18px; FONT-FAMILY:Verdana; "> Procesar...</button>
 </div>
 <figure>
 <img class="img-thumbnail" id="mg_3" alt="Textoooo" src="https://static.coindesk.com/wp-content/uploads/2021/04/dogecoin-710x458.jpg?format=webp" width="20%" height="20pX"  >
@@ -50,7 +50,40 @@
 <figcaption>Textoooo</figcaption></figure>
 </div>
 <script>
-</script>
+}function PROCESS_Metodo1( ) { var jamesPs;
+var var1;
+var var2;
+var var3;
+var var5 = true && false || !false ;
+var var6 = true && false || !false ;
+var var7 = true && false || !false ;
+var var8 = false ;
+var var9 = !false || !false && !var5 || false ;
+var var10 = !false || !false && !var5 || false ;
+var var11 = !false || !false && !var5 || false ;
+var var12;
+var var13;
+var var14;
+var s = false ;
+var var633 = document.getElementById('title_1');
+var varprueba = document.getElementById('title_1');
+var _var9999;
+var var999;
+var var99g999;
+var var68;
+var var64;
+var var614;
+var james1;
+var james2xcccccccccccccccccccc;
+var munciales2010 = " Felicidades has perdido compi exitosamente";
+var james19 = ASC(VAR1);
+var james18 = DESC(palabra_1);
+var james20 = LETPAR_NUM(palabra);
+var james21 = LETIMPAR_NUM(hola);
+var james22 = REVERSE(palabra);
+var james23 = CARACTER_ALEATORIO();
+var james24 = NUM_ALEATORIO();
+}</script>
 </body>
 
 </html>

@@ -99,7 +99,7 @@
             </div>   
             <br>
             <div  align="center" >
-                <textarea align="center" id="info" height="10" weight="10"   id="info" name="info" cols="160"  rows="15" disabled ><%=info%></textarea>
+                <textarea align="center" id="info" name="info" height="10" weight="10"   id="info" name="info" cols="160"  rows="15" disabled ><%=info%></textarea>
             </div>
 
             <br>

@@ -40,7 +40,7 @@ import java.util.ArrayList;
 %state SCRIPTING_STATE, SCRIPTING_TEXTO
 %state ASIGNACION_VALOR, INTEGER_STATE, GET_ELEMENBY_ID, STRING_STATE, STRING_COMILLA, STRING_COMILLA2
 %state CHAR_STATE, CHAR_COMILLA, CHAR_COMILLA2
-%state BOOLEAN_STATE, METODO_ESP, SIMPLE, IF_STATE
+%state BOOLEAN_STATE, METODO_ESP, METODO_ESP2, SIMPLE, IF_STATE
 
 
 //OPERADORES ARITMETICOS
@@ -1172,10 +1172,19 @@ public ArrayList<String> getLexError() {
 	({or}|{and}) {return new Symbol(sym.OR_O_AND,yyline+1, yycolumn+1,yytext());}
 	{numeroDecimal} {return new Symbol(sym.NUMERO_DECIMAL,yyline+1, yycolumn+1,yytext());}
 
+	{ASC} { return new Symbol(sym.ASC,yyline+1, yycolumn+1,yytext());}
+	{DESC} {  return new Symbol(sym.DESC,yyline+1, yycolumn+1,yytext());}
+	{LETPAR_NUM} { return new Symbol(sym.LETPAR_NUM,yyline+1, yycolumn+1,yytext());}
+	{LETIMPAR_NUM} {  return new Symbol(sym.LETIMPAR_NUM,yyline+1, yycolumn+1,yytext());}
+	{REVERSE} {  return new Symbol(sym.REVERSE,yyline+1, yycolumn+1,yytext());}
+	{CARACTER_ALEATORIO} { return new Symbol(sym.CARACTER_ALEATORIO,yyline+1, yycolumn+1,yytext());}
+	{NUM_ALEATORIO} {  return new Symbol(sym.NUM_ALEATORIO,yyline+1, yycolumn+1,yytext());}
+
 	{coma} { return new Symbol(sym.COMA,yyline+1, yycolumn+1,yytext());  }
 	{igual} {return new Symbol(sym.IGUAL,yyline+1, yycolumn+1,yytext());}
 	
 	{not} {return new Symbol(sym.NOT,yyline+1, yycolumn+1,yytext());}
+	{metodo} {  return new Symbol(sym.NOMBRE_VARIABLE,yyline+1, yycolumn+1,yytext());  }
 	{espacio} { }
 
 }
@@ -1227,11 +1236,34 @@ public ArrayList<String> getLexError() {
 	{global} {return new Symbol(sym.GLOBAL,yyline+1, yycolumn+1,yytext());}
 	{igual} {return new Symbol(sym.IGUAL,yyline+1, yycolumn+1,yytext());}
 
+
+	//metodos especiales 
+	{ASC} { yybegin(METODO_ESP2); return new Symbol(sym.ASC,yyline+1, yycolumn+1,yytext());}
+	{DESC} { yybegin(METODO_ESP2); return new Symbol(sym.DESC,yyline+1, yycolumn+1,yytext());}
+	{LETPAR_NUM} { yybegin(METODO_ESP2); return new Symbol(sym.LETPAR_NUM,yyline+1, yycolumn+1,yytext());}
+	{LETIMPAR_NUM} { yybegin(METODO_ESP2); return new Symbol(sym.LETIMPAR_NUM,yyline+1, yycolumn+1,yytext());}
+	{REVERSE} { yybegin(METODO_ESP2); return new Symbol(sym.REVERSE,yyline+1, yycolumn+1,yytext());}
+	{CARACTER_ALEATORIO} { yybegin(METODO_ESP2); return new Symbol(sym.CARACTER_ALEATORIO,yyline+1, yycolumn+1,yytext());}
+	{NUM_ALEATORIO} { yybegin(METODO_ESP2); return new Symbol(sym.NUM_ALEATORIO,yyline+1, yycolumn+1,yytext());}
+	{ALERT_INFO} {  yybegin(METODO_ESP2); return new Symbol(sym.ALERT_INFO,yyline+1, yycolumn+1,yytext());}
+	{EXIT} {return new Symbol(sym.EXIT,yyline+1, yycolumn+1,yytext());}
+	{REDIRECT} {return new Symbol(sym.EXIT,yyline+1, yycolumn+1,yytext());}
+
+
 	{getElemenById} {yybegin(GET_ELEMENBY_ID); return new Symbol(sym.GETELEMENBYID,yyline+1, yycolumn+1,yytext());}
 
 	{metodo} { return new Symbol(sym.NOMBRE_VARIABLE,yyline+1, yycolumn+1,yytext());  }
 	{puntoComa} { { yybegin(SCRIPTING_STATE); {return new Symbol(sym.PUNTO_COMA,yyline+1, yycolumn+1,yytext());}  }  }
 	{espacio} { }
+}
+<METODO_ESP2>{
+	{PARENTESIS_ABRE} {return new Symbol(sym.PARENTESIS_ABRE,yyline+1, yycolumn+1,yytext());}
+	{PARENTESIS_CIERRA} {  yybegin(STRING_STATE); return new Symbol(sym.PARENTESIS_CIERRA,yyline+1, yycolumn+1,yytext());}
+	{metodo} { return new Symbol(sym.NOMBRE_VARIABLE,yyline+1, yycolumn+1,yytext());  }
+	
+	//{puntoComa} { yybegin(STRING_STATE); return new Symbol(sym.PUNTO_COMA,yyline+1, yycolumn+1,yytext());}  	
+	{espacio} { }
+
 }
 <GET_ELEMENBY_ID>{
 	{PARENTESIS_CIERRA} { yybegin(STRING_STATE); return new Symbol(sym.PARENTESIS_CIERRA,yyline+1, yycolumn+1,yytext());}
@@ -1291,8 +1323,10 @@ public ArrayList<String> getLexError() {
 	columna+=c;
 	linea+=c;
 	if(yytext().toString().equals(" ")){
+		lexERROR.add("Error lexico no debe llevar espacio  linea: "+linea+" columna: "+columna+"\n");
 		System.out.println("Error lexico no debe llevar espacio  linea: "+linea+" columna: "+columna);
 	}else{
+		lexERROR.add("Error tipo lexico "+yytext()+" LINEA :"+linea+" columna: "+columna+"\n");
 	System.out.println("Error tipo lexico "+yytext()+" LINEA :"+linea+" columna: "+columna);
 	}
 

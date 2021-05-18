@@ -10,12 +10,20 @@ package Script;
  * @author James Gramajo
  */
 public class ALERT_INFO extends Metodo {
+    private String mensaje="";
+    private String FORMATO =" ";
 
-    private String FORMATO = "function ALERT_INFO(mensaje){\n"
-            + "    alert(mensaje);\n"
-            + "}\n";
+    public ALERT_INFO(String mensaje) {
+        this.mensaje=mensaje;
+    }
 
     public ALERT_INFO() {
+    }
+    
+    public String generar_alert(){
+        FORMATO="alert(\""+mensaje+"\");\n";
+        
+        return FORMATO;
     }
 
     public String getFORMATO() {
@@ -24,6 +32,14 @@ public class ALERT_INFO extends Metodo {
 
     public void setFORMATO(String FORMATO) {
         this.FORMATO = FORMATO;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
     }
 
 }

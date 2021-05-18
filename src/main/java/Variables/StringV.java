@@ -18,6 +18,7 @@ public class StringV  extends Metodo{
     private boolean global=false;
     private String valor="";
     private String element="";
+    private String METODO=null;
     //document.getElementById("intro");
 
     public StringV(String constante, boolean global, String valor, String element) {
@@ -25,6 +26,13 @@ public class StringV  extends Metodo{
         this.global = global;
         this.valor = valor;
         this.element = element;
+    }
+    public StringV(String constante, boolean global, String valor, String element, String METODO) {
+        this.constante = constante;
+        this.global = global;
+        this.valor = valor;
+        this.element = element;
+        this.METODO=METODO;
     }
 
     public StringV() {
@@ -64,10 +72,13 @@ public class StringV  extends Metodo{
     public void setElement(String element) {
         this.element = element;
     }
-    
-    
-    
-    
-    
 
+    public String getMETODO() {
+        return METODO;
+    }
+
+    public void setMETODO(String METODO) {
+        this.METODO = METODO;
+    }
+    
 }

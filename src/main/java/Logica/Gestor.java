@@ -57,11 +57,9 @@ public class Gestor extends HttpServlet {
             for(int i=0;i<logic.semantico.size();i++){
                 info+=logic.semantico.get(i);
             }
-            
-            
-            
-            
-            
+            if(logic.semantico==null){
+                info+="SE HA GENERADO EXITOSAMENTE EL CAPTCHA";
+            }
             } catch(Exception e){
                 System.out.println("ERROR al analizar el codigo: \n"+e);
             }
